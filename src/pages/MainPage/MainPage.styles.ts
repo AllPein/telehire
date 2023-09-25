@@ -11,7 +11,7 @@ export const HeadingWrapper = styled.div`
   flex-direction: column;
   justify-content: end;
   align-items: center;
-  height: 50%;
+  height: 40%;
 `;
 
 export const ButtonsWrapper = styled.div`
@@ -19,7 +19,7 @@ export const ButtonsWrapper = styled.div`
   flex-direction: column;
   justify-content: end;
   align-items: center;
-  height: 50%;
+  height: 60%;
 
   width: 100%;
 `;
