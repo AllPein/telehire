@@ -11,6 +11,10 @@ export class AxiosClient {
     this.baseUrl = baseUrl;
   }
 
+  constructor(baseUrl: string) {
+    this.baseUrl = baseUrl;
+  }
+
   public async get<T>(
     url: string,
     params?: object,

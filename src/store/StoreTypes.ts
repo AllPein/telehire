@@ -1,11 +1,19 @@
+import { IApiService, ISupabaseService } from '@/services/types';
+import { AuthStore } from '@/store/auth/AuthActions';
+import { RouterState } from 'connected-react-router';
 import { History } from 'history';
 import { AnyAction, Dispatch } from 'redux';
 
-export interface RootState {}
+export interface RootState {
+  auth: AuthStore;
+  router: RouterState;
+}
 
 export type StoreDependencies = {
   history: History;
   dispatch: Dispatch<AnyAction>;
+  supabaseService: ISupabaseService;
+  apiService: IApiService;
 };
 
 export type Wallet = {

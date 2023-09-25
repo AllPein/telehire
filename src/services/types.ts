@@ -4,6 +4,14 @@ import {
   RawAxiosRequestHeaders,
 } from 'axios';
 
+export interface IApiService {
+  getToken: () => Promise<AxiosResponse<string, any>>;
+}
+
+export interface ISupabaseService {
+  init: (token: string) => void;
+}
+
 export interface AxiosClient {
   init: (baseUrl: string) => void;
   get: <T>(

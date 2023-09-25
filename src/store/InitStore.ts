@@ -15,6 +15,8 @@ import actionCreatorFactory, { AnyAction } from 'typescript-fsa';
 import rootEpic from '@/store/RootEpic';
 import { history } from '@/utils/history';
 
+import { apiService } from '@/services/ApiService';
+import { supabaseService } from '@/services/SupabaseService';
 import appReducer from './Reducers';
 import { RootState, StoreDependencies } from './StoreTypes';
 
@@ -28,11 +30,13 @@ const configureStore = (): Store<CombinedState<RootState>, AnyAction> => {
   const epicMiddleware = createEpicMiddleware<
     AnyAction,
     AnyAction,
-    void,
+    RootState,
     StoreDependencies
   >({
     dependencies: {
       history,
+      supabaseService,
+      apiService,
 
       get dispatch(): Dispatch<AnyAction> {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
