@@ -3,13 +3,11 @@ import { CreateCompanyPage } from '@/pages/CreateCompanyPage/CreateCompanyPage';
 import { MainPage } from '@/pages/MainPage/MainPage';
 import { VacancyListPage } from '@/pages/VacancyListPage/VacancyListPage';
 import { Suspense } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
-
-const REDIRECT_PATH = '/main';
+import { Route, Switch } from 'react-router-dom';
 
 const routes = [
   {
-    path: '/main',
+    path: '/',
     children: <MainPage />,
   },
   {
@@ -29,9 +27,10 @@ const routes = [
 const Root = () => {
   const renderRoot = () => (
     <Switch>
-      <Redirect exact from="/" to={REDIRECT_PATH} />
       {routes.map((route) => (
-        <Route key={route.path} exact {...route} />
+        <Route key={route.path} exact {...route}>
+          {route.children}
+        </Route>
       ))}
     </Switch>
   );

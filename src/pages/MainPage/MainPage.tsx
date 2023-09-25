@@ -1,5 +1,6 @@
 import { Button } from '@/components/Button/Button';
 import { Heading1 } from '@/components/Typography/Typography.styles';
+import { history } from '@/utils/history';
 import {
   AppContainer,
   ButtonWrapper,
@@ -15,10 +16,14 @@ const MainPage = () => {
       </HeadingWrapper>
       <ButtonsWrapper>
         <ButtonWrapper>
-          <Button block>Employer</Button>
+          <Button onClick={() => history.push('/create-company')} block>
+            Employer
+          </Button>
         </ButtonWrapper>
         <ButtonWrapper>
-          <Button block>Applicant</Button>
+          <Button onClick={() => history.push('/vacancies')} block>
+            Applicant
+          </Button>
         </ButtonWrapper>
       </ButtonsWrapper>
     </AppContainer>
