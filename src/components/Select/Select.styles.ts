@@ -9,6 +9,7 @@ export const SelectWrapper = styled.select`
   background-image: none;
   cursor: pointer;
   border-radius: 8px;
+  font-size: 15px;
   padding: 16px;
   width: 100%;
 

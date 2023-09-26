@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const AppContainer = styled.div`
-  padding: 36px;
+  padding: 16px;
   color: #fff;
   display: flex;
   flex-direction: column;

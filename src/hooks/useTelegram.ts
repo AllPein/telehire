@@ -1,4 +1,4 @@
-const tg = window.Telegram.WebApp;
+const tg = (window as any).Telegram.WebApp;
 tg.MainButton.setText('Create');
 
 export function useTelegram() {

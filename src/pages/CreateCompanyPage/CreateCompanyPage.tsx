@@ -48,13 +48,17 @@ const CreateCompanyPage = () => {
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = event.target;
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-    const hasValues = Object.values(formData).every((item) => item);
-    if (hasValues) {
-      onShowButton();
-    } else {
-      onCloseButton();
-    }
+    setFormData((prevFormData) => {
+      const newFormData = { ...prevFormData, [name]: value };
+      const hideButton = Object.values(newFormData).some((item) => !item);
+
+      if (!hideButton) {
+        onShowButton();
+      } else {
+        onCloseButton();
+      }
+      return newFormData;
+    });
   };
 
   return (
