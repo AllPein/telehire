@@ -1,9 +1,9 @@
-import { Button } from '@/components/Button/Button';
 import { Input } from '@/components/Input/Input';
 import { Select } from '@/components/Select/Select';
 import { TextArea } from '@/components/TextArea/TextArea';
 import { Body, Heading6 } from '@/components/Typography/Typography.styles';
 import { CompanyVolumeEnum, CompanyVolumeToLabel } from '@/enums/Company';
+import { useTelegram } from '@/hooks/useTelegram';
 import { ChangeEvent, useState } from 'react';
 import {
   AppContainer,
@@ -37,16 +37,22 @@ const options = [
 
 const CreateCompanyPage = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
+    name: null,
+    description: null,
     volume: 'default',
   });
+
+  const { onToggleButton } = useTelegram();
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+    const hasValues = Object.values(formData).every((item) => item);
+    if (hasValues) {
+      onToggleButton();
+    }
   };
 
   return (
@@ -59,7 +65,7 @@ const CreateCompanyPage = () => {
         <InputWrapper>
           <Input
             name="name"
-            value={formData.name}
+            value={formData.name ?? ''}
             onChange={handleChange}
             placeholder="Company name"
           />
@@ -70,7 +76,7 @@ const CreateCompanyPage = () => {
         <InputWrapper>
           <TextArea
             name="description"
-            value={formData.description}
+            value={formData.description ?? ''}
             onChange={handleChange}
             placeholder="Description"
           />
@@ -87,7 +93,6 @@ const CreateCompanyPage = () => {
           />
         </InputWrapper>
       </div>
-      <Button block>Create</Button>
     </AppContainer>
   );
 };

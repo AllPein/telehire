@@ -15,7 +15,6 @@ class ApiService implements IApiService {
   }
 
   async getToken(): Promise<AxiosResponse<string>> {
-
     try {
       const hash = window.location.hash.slice(1);
       const params = new URLSearchParams(hash);

@@ -12,7 +12,6 @@ type Props = {
 const AuthProvider: FC<Props> = ({ children }) => {
   const dispatch = useDispatch();
   useMount(() => {
-    console.log('auth');
     const axiosClient = new AxiosClient(import.meta.env.VITE_BASE_API_URL);
 
     apiService.init(axiosClient);
