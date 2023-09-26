@@ -42,7 +42,7 @@ const CreateCompanyPage = () => {
     volume: 'default',
   });
 
-  const { onToggleButton } = useTelegram();
+  const { onShowButton, onCloseButton } = useTelegram();
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -51,7 +51,9 @@ const CreateCompanyPage = () => {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
     const hasValues = Object.values(formData).every((item) => item);
     if (hasValues) {
-      onToggleButton();
+      onShowButton();
+    } else {
+      onCloseButton();
     }
   };
 
