@@ -3,8 +3,10 @@ import { Select } from '@/components/Select/Select';
 import { TextArea } from '@/components/TextArea/TextArea';
 import { Body, Heading6 } from '@/components/Typography/Typography.styles';
 import { CompanyVolumeEnum, CompanyVolumeToLabel } from '@/enums/Company';
-import { useTelegram } from '@/hooks/useTelegram';
-import { ChangeEvent, useState } from 'react';
+import { useBackButton } from '@/hooks/useBackButton';
+import { useMainButton } from '@/hooks/useMainButton';
+import { history } from '@/utils/history';
+import { ChangeEvent, useCallback, useState } from 'react';
 import {
   AppContainer,
   HeadingWrapper,
@@ -37,12 +39,27 @@ const options = [
 
 const CreateCompanyPage = () => {
   const [formData, setFormData] = useState({
-    name: null,
-    description: null,
+    name: '',
+    description: '',
     volume: 'default',
   });
 
-  const { onShowButton, onCloseButton } = useTelegram();
+  const handleCreateClick = useCallback(() => {
+    console.log(formData);
+  }, [formData]);
+
+  const handleBackClick = () => {
+    history.push('/');
+  };
+
+  const { onShowButton, onCloseButton } = useMainButton({
+    onClick: handleBackClick,
+    text: 'Create',
+  });
+
+  useBackButton({
+    onClick: handleBackClick,
+  });
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -50,7 +67,12 @@ const CreateCompanyPage = () => {
     const { name, value } = event.target;
     setFormData((prevFormData) => {
       const newFormData = { ...prevFormData, [name]: value };
-      const hideButton = Object.values(newFormData).some((item) => !item);
+      const hideButton = Object.entries(newFormData).some(([key, value]) => {
+        if (key === 'volume' && value === 'default') {
+          return true;
+        }
+        return !value;
+      });
 
       if (!hideButton) {
         onShowButton();
@@ -71,7 +93,7 @@ const CreateCompanyPage = () => {
         <InputWrapper>
           <Input
             name="name"
-            value={formData.name ?? ''}
+            value={formData.name}
             onChange={handleChange}
             placeholder="Company name"
           />
@@ -82,7 +104,7 @@ const CreateCompanyPage = () => {
         <InputWrapper>
           <TextArea
             name="description"
-            value={formData.description ?? ''}
+            value={formData.description}
             onChange={handleChange}
             placeholder="Description"
           />

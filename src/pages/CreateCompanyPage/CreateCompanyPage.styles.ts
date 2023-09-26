@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const AppContainer = styled.div`
   padding: 16px;
-  color: #fff;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -14,7 +13,6 @@ export const HeadingWrapper = styled.div`
   flex-direction: column;
   justify-content: end;
   align-items: center;
-  color: #fff;
   margin-bottom: 36px;
 `;
 

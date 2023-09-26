@@ -1,9 +1,16 @@
 import styled from 'styled-components';
 
 export const FormGroup = styled.div`
-  position: relative;
-  padding: 15px 0 0;
-  margin-top: 10px;
+  display: flex;
+  background: var(--tg-theme-bg-secondary);
+  border-radius: 16px;
+  padding-left: 10px;
+  width: 100%;
+  align-items: center;
+
+  img {
+    height: 24px;
+  }
 `;
 
 export const FormInput = styled.input`
@@ -13,6 +20,7 @@ export const FormInput = styled.input`
   padding: 16px;
   font-size: 16px;
   color: #fff;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
   background: var(--tg-theme-bg-secondary);
-  border-radius: 16px;
 `;
