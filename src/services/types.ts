@@ -1,15 +1,23 @@
+import { Company } from '@/components/models/Company';
 import {
   AxiosRequestConfig,
   AxiosResponse,
   RawAxiosRequestHeaders,
 } from 'axios';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 export interface IApiService {
-  getToken: () => Promise<AxiosResponse<string, any>>;
+  getToken: () => Promise<string>;
+}
+
+export interface ICompanyService {
+  createCompany: (company: Partial<Company>) => Promise<Company>;
 }
 
 export interface ISupabaseService {
   init: (token: string) => void;
+
+  get client(): SupabaseClient;
 }
 
 export interface AxiosClient {

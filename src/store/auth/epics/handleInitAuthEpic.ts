@@ -12,13 +12,13 @@ export const handleInitAuth: Epic<
   AnyAction,
   RootState,
   StoreDependencies
-> = (action$, state$, { apiService, dispatch }) =>
+> = (action$, state$, { apiService, supabaseService, dispatch }) =>
   action$.pipe(
     ofType(AuthAction.initAuth),
     switchMap(() =>
       from(apiService.getToken()).pipe(
         tap((token: string) => {
-          console.log(token);
+          supabaseService.init(token);
         }),
       ),
     ),

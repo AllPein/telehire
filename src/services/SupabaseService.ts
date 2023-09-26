@@ -5,14 +5,18 @@ class SupabaseService implements ISupabaseService {
   // @ts-ignore
   #supabaseClient: SupabaseClient;
 
+  public get client(): SupabaseClient {
+    return this.#supabaseClient;
+  }
+
   get axiosClient() {
     return this.#supabaseClient as SupabaseClient;
   }
 
   init(token: string) {
     this.#supabaseClient = createClient(
-      import.meta.env.REACT_APP_SUPABASE_URL,
-      import.meta.env.REACT_APP_SUPABASE_ANON_KEY,
+      import.meta.env.VITE_SUPABASE_URL,
+      import.meta.env.VITE_SUPABASE_ANON_KEY,
       {
         global: { headers: { Authorization: `Bearer ${token}` } },
       },
