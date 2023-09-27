@@ -36,7 +36,7 @@ const vacancy = {
 };
 
 const VacancyInfo = () => {
-  const { tg } = useMainButton({
+  const { tg, onShowButton } = useMainButton({
     text: 'Apply',
   });
 
@@ -45,6 +45,7 @@ const VacancyInfo = () => {
   }, []);
 
   useMount(() => {
+    onShowButton();
     tg.onEvent('mainButtonClicked', handleApply);
 
     return () => {
