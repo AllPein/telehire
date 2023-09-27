@@ -1,5 +1,3 @@
-import { AxiosResponse } from 'axios';
-
 import { AxiosClient, IApiService } from '@/services/types';
 
 class ApiService implements IApiService {
@@ -14,7 +12,7 @@ class ApiService implements IApiService {
     this.#axiosClient = axiosClient;
   }
 
-  async getToken(): Promise<AxiosResponse<string>> {
+  async getToken(): Promise<string> {
     try {
       const hash = window.location.hash.slice(1);
       const params = new URLSearchParams(hash);
@@ -29,7 +27,7 @@ class ApiService implements IApiService {
         },
       );
 
-      return res;
+      return res as unknown as string;
     } catch (err: any) {
       return err;
     }

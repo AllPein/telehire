@@ -1,9 +1,9 @@
-/* eslint-disable import/no-cycle */
-import { Epic, ofType } from 'redux-observable';
+import { Epic } from 'redux-observable';
 import { from } from 'rxjs';
 import { ignoreElements, switchMap, tap } from 'rxjs/operators';
 import { AnyAction } from 'typescript-fsa';
 
+import { ofAction } from '@/operators/ofAction';
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
 import { AuthAction } from '@/store/auth/AuthActions';
 
@@ -14,7 +14,7 @@ export const handleInitAuth: Epic<
   StoreDependencies
 > = (action$, state$, { apiService, supabaseService, dispatch }) =>
   action$.pipe(
-    ofType(AuthAction.initAuth),
+    ofAction(AuthAction.initAuth),
     switchMap(() =>
       from(apiService.getToken()).pipe(
         tap((token: string) => {
