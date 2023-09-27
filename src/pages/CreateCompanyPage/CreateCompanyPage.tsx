@@ -8,7 +8,7 @@ import { useBackButton } from '@/hooks/useBackButton';
 import { useMainButton } from '@/hooks/useMainButton';
 import { CompanyAction } from '@/store/company/CompanyActions';
 import { history } from '@/utils/history';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   AppContainer,
@@ -50,10 +50,10 @@ const CreateCompanyPage = () => {
     volume: undefined as unknown as CompanyVolumeEnum,
   });
 
-  const handleCreateClick = () => {
+  const handleCreateClick = useCallback(() => {
     dispatch(CompanyAction.createCompany(formData));
     onHideButton();
-  };
+  }, [formData]);
 
   const handleBackClick = () => {
     history.push('/');

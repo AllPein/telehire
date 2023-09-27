@@ -1,5 +1,5 @@
-import { useMount } from '@/hooks/useMount';
 import { useTelegram } from '@/hooks/useTelegram';
+import { useEffect } from 'react';
 
 type Props = {
   text?: string;
@@ -9,7 +9,7 @@ type Props = {
 export function useMainButton({ onClick, text }: Props) {
   const { tg } = useTelegram();
 
-  useMount(() => {
+  useEffect(() => {
     tg.onEvent('mainButtonClicked', onClick);
 
     if (text) {
@@ -19,7 +19,7 @@ export function useMainButton({ onClick, text }: Props) {
     return () => {
       tg.offEvent('mainButtonClicked', onClick);
     };
-  });
+  }, [onClick]);
 
   const onShowButton = () => {
     if (!tg.MainButton.isVisible) {
