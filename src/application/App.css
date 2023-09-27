@@ -3,7 +3,10 @@
   padding: 0;
   font-family: 'Roboto', sans-serif;
   resize: none;
-  overflow-x: hidden;
+}
+
+.main {
+  margin-bottom: 60px;
 }
 
 :root {

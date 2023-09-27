@@ -6,6 +6,10 @@ import {
   Heading6,
 } from '@/components/Typography/Typography.styles';
 import { ExperienceEnum } from '@/enums/Vacancy';
+import { useMainButton } from '@/hooks/useMainButton';
+import { useMount } from '@/hooks/useMount';
+import { history } from '@/utils/history';
+import { useCallback } from 'react';
 import {
   BigWrapper,
   CountryWrapper,
@@ -32,6 +36,21 @@ const vacancy = {
 };
 
 const VacancyInfo = () => {
+  const { tg } = useMainButton({
+    text: 'Apply',
+  });
+
+  const handleApply = useCallback(() => {
+    history.push('/');
+  }, []);
+
+  useMount(() => {
+    tg.onEvent('mainButtonClicked', handleApply);
+
+    return () => {
+      tg.offEvent('mainButtonClicked', handleApply);
+    };
+  });
   return (
     <Wrapper>
       <Avatar src={vacancy.photoUrl} />

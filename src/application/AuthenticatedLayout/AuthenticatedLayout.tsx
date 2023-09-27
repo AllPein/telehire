@@ -1,5 +1,6 @@
 import { BottomNavigation } from '@/components/BottomNavigation/BottomNavigation';
 import { FC, ReactNode } from 'react';
+import { Wrapper } from './AuthenticatedLayout.styles';
 
 type Props = {
   children: ReactNode;
@@ -8,7 +9,7 @@ type Props = {
 const AuthenticatedLayout: FC<Props> = ({ children }) => {
   return (
     <>
-      {children}
+      <Wrapper>{children}</Wrapper>
       <BottomNavigation />
     </>
   );

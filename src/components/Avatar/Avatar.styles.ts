@@ -5,4 +5,6 @@ export const AvatarWrapper = styled.img`
   height: 60px;
   width: 60px;
   background-repeat: no-repeat;
+  background-size: cover;
+  border: 1px solid var(--tg-theme-button-color);
 `;

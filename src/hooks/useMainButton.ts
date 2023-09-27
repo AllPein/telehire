@@ -7,36 +7,35 @@ type Props = {
 };
 
 export function useMainButton({ onClick, text }: Props) {
-  const {
-    tg: { MainButton },
-  } = useTelegram();
+  const { tg } = useTelegram();
 
   useMount(() => {
-    MainButton.onClick = onClick;
+    tg.MainButton.onClick = onClick;
 
     if (text) {
-      MainButton.setText(text);
+      tg.MainButton.setText(text);
     }
 
     return () => {
-      MainButton.offClick(onClick);
+      tg.MainButton.offClick(onClick);
     };
   });
 
   const onShowButton = () => {
-    if (!MainButton.isVisible) {
-      MainButton.show();
+    if (!tg.MainButton.isVisible) {
+      tg.MainButton.show();
     }
   };
 
   const onCloseButton = () => {
-    if (MainButton.isVisible) {
-      MainButton.hide();
+    if (tg.MainButton.isVisible) {
+      tg.MainButton.hide();
     }
   };
 
   return {
     onShowButton,
     onCloseButton,
+    tg,
   };
 }
