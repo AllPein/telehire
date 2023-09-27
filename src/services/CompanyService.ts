@@ -2,9 +2,10 @@ import { Company } from '@/components/models/Company';
 import { ICompanyService, ISupabaseService } from './types';
 
 class CompanyService implements ICompanyService {
+  // @ts-ignore
   #supabase: ISupabaseService;
 
-  constructor(supabase: ISupabaseService) {
+  init(supabase: ISupabaseService) {
     this.#supabase = supabase;
   }
 
@@ -21,3 +22,5 @@ class CompanyService implements ICompanyService {
     return data![0];
   }
 }
+
+export const companyService = new CompanyService();
