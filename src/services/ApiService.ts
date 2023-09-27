@@ -17,7 +17,7 @@ class ApiService implements IApiService {
       const hash = window.location.hash.slice(1);
       const params = new URLSearchParams(hash);
       const initData = params.get('tgWebAppData');
-      const res = await this.axiosClient.get<string>(
+      const res = await this.axiosClient.get<{ token: string }>(
         '/authenticate',
         {},
         {
@@ -27,7 +27,7 @@ class ApiService implements IApiService {
         },
       );
 
-      return res.data['token'];
+      return res.data.token as string;
     } catch (err: any) {
       return err;
     }
