@@ -27,7 +27,7 @@ export function useMainButton({ onClick, text }: Props) {
     }
   };
 
-  const onCloseButton = () => {
+  const onHideButton = () => {
     if (tg.MainButton.isVisible) {
       tg.MainButton.hide();
     }
@@ -35,7 +35,7 @@ export function useMainButton({ onClick, text }: Props) {
 
   return {
     onShowButton,
-    onCloseButton,
+    onHideButton,
     tg,
   };
 }

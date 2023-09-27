@@ -10,7 +10,6 @@ import { useBackButton } from '@/hooks/useBackButton';
 import { useMainButton } from '@/hooks/useMainButton';
 import { useMount } from '@/hooks/useMount';
 import { history } from '@/utils/history';
-import { useCallback } from 'react';
 import {
   BigWrapper,
   CountryWrapper,
@@ -37,11 +36,12 @@ const vacancy = {
 };
 
 const VacancyInfo = () => {
-  const handleApply = useCallback(() => {
+  const handleApply = () => {
     history.push('/');
-  }, []);
+    onHideButton();
+  };
 
-  const { tg, onShowButton } = useMainButton({
+  const { onShowButton, onHideButton } = useMainButton({
     text: 'Apply',
     onClick: handleApply,
   });
@@ -52,12 +52,8 @@ const VacancyInfo = () => {
 
   useMount(() => {
     onShowButton();
-    // tg.onEvent('mainButtonClicked', handleApply);
-
-    // return () => {
-    //   tg.offEvent('mainButtonClicked', handleApply);
-    // };
   });
+
   return (
     <Wrapper>
       <Avatar src={vacancy.photoUrl} />

@@ -2,11 +2,14 @@ import { Input } from '@/components/Input/Input';
 import { Select } from '@/components/Select/Select';
 import { TextArea } from '@/components/TextArea/TextArea';
 import { Body, Heading6 } from '@/components/Typography/Typography.styles';
+import { Company } from '@/components/models/Company';
 import { CompanyVolumeEnum, CompanyVolumeToLabel } from '@/enums/Company';
 import { useBackButton } from '@/hooks/useBackButton';
 import { useMainButton } from '@/hooks/useMainButton';
+import { CompanyAction } from '@/store/company/CompanyActions';
 import { history } from '@/utils/history';
 import { ChangeEvent, useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   AppContainer,
   HeadingWrapper,
@@ -38,22 +41,25 @@ const options = [
 ];
 
 const CreateCompanyPage = () => {
-  const [formData, setFormData] = useState({
+  const dispatch = useDispatch();
+  const [formData, setFormData] = useState<
+    Pick<Company, 'name' | 'description' | 'volume'>
+  >({
     name: '',
     description: '',
-    volume: 'default',
+    volume: 'default' as CompanyVolumeEnum,
   });
 
   const handleCreateClick = useCallback(() => {
-    console.log(formData);
+    dispatch(CompanyAction.createCompany(formData));
   }, [formData]);
 
   const handleBackClick = () => {
     history.push('/');
   };
 
-  const { onShowButton, onCloseButton } = useMainButton({
-    onClick: handleBackClick,
+  const { onShowButton, onHideButton } = useMainButton({
+    onClick: handleCreateClick,
     text: 'Create',
   });
 
@@ -77,7 +83,7 @@ const CreateCompanyPage = () => {
       if (!hideButton) {
         onShowButton();
       } else {
-        onCloseButton();
+        onHideButton();
       }
       return newFormData;
     });

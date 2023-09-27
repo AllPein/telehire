@@ -1,12 +1,12 @@
 import { Epic } from 'redux-observable';
 import { from } from 'rxjs';
-import { ignoreElements, switchMap } from 'rxjs/operators';
+import { ignoreElements, switchMap, tap } from 'rxjs/operators';
 import { AnyAction } from 'typescript-fsa';
 
 import { ofAction } from '@/operators/ofAction';
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
+import { history } from '@/utils/history';
 import { CompanyAction } from '../CompanyActions';
-import { ofAction } from '@/operators/ofAction';
 
 export const handleCreateCompany: Epic<
   AnyAction,
@@ -17,7 +17,11 @@ export const handleCreateCompany: Epic<
   action$.pipe(
     ofAction(CompanyAction.createCompany),
     switchMap(({ payload: company }) =>
-      from(companyService.createCompany(company)),
+      from(companyService.createCompany(company)).pipe(
+        tap(() => {
+          history.push('/vacancies');
+        }),
+      ),
     ),
     ignoreElements(),
   );
