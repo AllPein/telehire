@@ -6,14 +6,16 @@ type ItemProps = {
 
 export const Wrapper = styled.div`
   background-color: var(--tg-theme-bg-secondary);
-  margin: 16px;
+  margin: 8px;
   border-radius: 8px;
+  width: 100%;
   color: #fff;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   padding: 16px;
   letter-spacing: 0.035px;
+  transition: 0.3s opacity;
 
   &:hover {
     opacity: 0.8;

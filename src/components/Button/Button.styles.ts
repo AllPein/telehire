@@ -17,7 +17,13 @@ export const ButtonWrapper = styled.button<ButtonProps>`
   font-weight: 400;
   color: #fff;
   outline: none;
+  cursor: pointer;
   padding: 0 16px;
   border: none;
   width: ${(props) => (props.block ? '100%' : 'auto')};
+  transition: 0.3s opacity;
+
+  &:hover {
+    opacity: 0.9;
+  }
 `;
