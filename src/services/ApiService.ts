@@ -27,7 +27,7 @@ class ApiService implements IApiService {
         },
       );
 
-      return res as unknown as string;
+      return res.data['token'];
     } catch (err: any) {
       return err;
     }

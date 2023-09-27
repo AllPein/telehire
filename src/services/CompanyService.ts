@@ -11,7 +11,7 @@ class CompanyService implements ICompanyService {
 
   async createCompany(company: Partial<Company>): Promise<Company> {
     const { data, error } = await this.#supabase.client
-      .from('companies')
+      .from('company')
       .upsert(company)
       .select();
 
