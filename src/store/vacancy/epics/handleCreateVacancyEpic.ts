@@ -1,23 +1,23 @@
 /* eslint-disable import/no-cycle */
-import { Epic, ofType } from 'redux-observable';
+import { Epic } from 'redux-observable';
 import { from } from 'rxjs';
 import { ignoreElements, switchMap, tap } from 'rxjs/operators';
 import { AnyAction } from 'typescript-fsa';
 
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
-import { CompanyAction } from '../CompanyActions';
+import { VacancyAction } from '../VacancyActions';
 import { ofAction } from '@/operators/ofAction';
 
-export const handleCreateCompany: Epic<
+export const handleCreateVacancy: Epic<
   AnyAction,
   AnyAction,
   RootState,
   StoreDependencies
-> = (action$, state$, { companyService, dispatch }) =>
+> = (action$, state$, { vacancyService, dispatch }) =>
   action$.pipe(
-    ofAction(CompanyAction.createCompany),
-    switchMap(({ payload: company }) =>
-      from(companyService.createCompany(company)),
+    ofAction(VacancyAction.createVacancy),
+    switchMap(({ payload: vacancy }) =>
+      from(vacancyService.createVacancy(vacancy)),
     ),
     ignoreElements(),
   );

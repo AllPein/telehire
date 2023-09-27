@@ -5,6 +5,7 @@ import {
   RawAxiosRequestHeaders,
 } from 'axios';
 import { SupabaseClient } from '@supabase/supabase-js';
+import { Vacancy } from '@/components/models/Vacancy';
 
 export interface IApiService {
   getToken: () => Promise<string>;
@@ -12,6 +13,10 @@ export interface IApiService {
 
 export interface ICompanyService {
   createCompany: (company: Partial<Company>) => Promise<Company>;
+}
+
+export interface IVacancyService {
+  createVacancy: (vacancy: Partial<Vacancy>) => Promise<Vacancy>;
 }
 
 export interface ISupabaseService {

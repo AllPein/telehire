@@ -20,6 +20,7 @@ import { supabaseService } from '@/services/SupabaseService';
 import appReducer from './Reducers';
 import { RootState, StoreDependencies } from './StoreTypes';
 import { companyService } from '@/services/CompanyService';
+import { vacancyService } from '@/services/VacancyService';
 
 const factory = actionCreatorFactory('root');
 
@@ -38,6 +39,7 @@ const configureStore = (): Store<CombinedState<RootState>, AnyAction> => {
       history,
       supabaseService,
       apiService,
+      vacancyService,
       companyService,
       get dispatch(): Dispatch<AnyAction> {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define

@@ -2,6 +2,7 @@ import {
   IApiService,
   ICompanyService,
   ISupabaseService,
+  IVacancyService,
 } from '@/services/types';
 import { AuthStore } from '@/store/auth/AuthActions';
 import { RouterState } from 'connected-react-router';
@@ -20,33 +21,6 @@ export type StoreDependencies = {
   dispatch: Dispatch<AnyAction>;
   supabaseService: ISupabaseService;
   companyService: ICompanyService;
+  vacancyService: IVacancyService;
   apiService: IApiService;
-};
-
-export type Wallet = {
-  classicAdress: string;
-  privateKey: string;
-  publicKey: string;
-  seed: string;
-  adress: string;
-};
-
-export type XummWallet = {
-  sub: string;
-  picture: string;
-  account: string;
-  name?: string;
-  domain?: string;
-  blocked: boolean;
-  source: string;
-  kycApproved: boolean;
-  proSubscription: boolean;
-};
-
-export type AccountInfo = {
-  token: string;
-  address: string;
-  imageUrl: string;
-  name: string;
-  bio?: string;
 };
