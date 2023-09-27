@@ -36,21 +36,22 @@ const vacancy = {
 };
 
 const VacancyInfo = () => {
-  const { tg, onShowButton } = useMainButton({
-    text: 'Apply',
-  });
-
   const handleApply = useCallback(() => {
     history.push('/');
   }, []);
 
+  const { tg, onShowButton } = useMainButton({
+    text: 'Apply',
+    onClick: handleApply,
+  });
+
   useMount(() => {
     onShowButton();
-    tg.onEvent('mainButtonClicked', handleApply);
+    // tg.onEvent('mainButtonClicked', handleApply);
 
-    return () => {
-      tg.offEvent('mainButtonClicked', handleApply);
-    };
+    // return () => {
+    //   tg.offEvent('mainButtonClicked', handleApply);
+    // };
   });
   return (
     <Wrapper>
