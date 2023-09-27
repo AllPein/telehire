@@ -16,7 +16,7 @@ type Props = {
 const Select: FC<Props> = ({ options, onChange, name, value }) => {
   return (
     <SelectWrapper name={name} onChange={onChange} value={value}>
-      <option value="default" disabled hidden>
+      <option value={undefined} disabled hidden>
         Choose company volume
       </option>
       {options?.map((option) => (

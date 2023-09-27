@@ -47,7 +47,7 @@ const CreateCompanyPage = () => {
   >({
     name: '',
     description: '',
-    volume: 'default' as CompanyVolumeEnum,
+    volume: undefined as unknown as CompanyVolumeEnum,
   });
 
   const handleCreateClick = useCallback(() => {
@@ -73,12 +73,7 @@ const CreateCompanyPage = () => {
     const { name, value } = event.target;
     setFormData((prevFormData) => {
       const newFormData = { ...prevFormData, [name]: value };
-      const hideButton = Object.entries(newFormData).some(([key, value]) => {
-        if (key === 'volume' && value === 'default') {
-          return true;
-        }
-        return !value;
-      });
+      const hideButton = Object.values(newFormData).some((value) => !value);
 
       if (!hideButton) {
         onShowButton();
