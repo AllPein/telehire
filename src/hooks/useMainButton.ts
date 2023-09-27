@@ -10,14 +10,14 @@ export function useMainButton({ onClick, text }: Props) {
   const { tg } = useTelegram();
 
   useMount(() => {
-    tg.MainButton.onClick = onClick;
+    tg.onEvent('mainButtonClicked', onClick);
 
     if (text) {
       tg.MainButton.setText(text);
     }
 
     return () => {
-      tg.MainButton.offClick(onClick);
+      tg.offEvent('mainButtonClicked', onClick);
     };
   });
 

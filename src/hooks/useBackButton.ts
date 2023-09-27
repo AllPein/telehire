@@ -6,19 +6,17 @@ type Props = {
 };
 
 export function useBackButton({ onClick }: Props) {
-  const {
-    tg: { BackButton, isVersionAtLeast },
-  } = useTelegram();
+  const { tg } = useTelegram();
 
   useMount(() => {
-    BackButton.onClick = onClick;
+    tg.onEvent('backButtonClicked', onClick);
 
-    if (isVersionAtLeast('6.1')) {
-      BackButton.isVisible = true;
+    if (tg.isVersionAtLeast('6.1')) {
+      tg.BackButton.isVisible = true;
     }
 
     return () => {
-      BackButton.offClick(onClick);
+      tg.offEvent('backButtonClicked', onClick);
     };
   });
 

@@ -6,6 +6,7 @@ import {
   Heading6,
 } from '@/components/Typography/Typography.styles';
 import { ExperienceEnum } from '@/enums/Vacancy';
+import { useBackButton } from '@/hooks/useBackButton';
 import { useMainButton } from '@/hooks/useMainButton';
 import { useMount } from '@/hooks/useMount';
 import { history } from '@/utils/history';
@@ -42,6 +43,10 @@ const VacancyInfo = () => {
 
   const { tg, onShowButton } = useMainButton({
     text: 'Apply',
+    onClick: handleApply,
+  });
+
+  useBackButton({
     onClick: handleApply,
   });
 
