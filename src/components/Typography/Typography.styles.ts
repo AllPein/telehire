@@ -22,7 +22,7 @@ export const Caption = styled.p`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  color: #fff;
+  color: ${(props) => (props.color ? props.color : '#fff')};
   letter-spacing: 0.048px;
 `;
 

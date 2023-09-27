@@ -11,6 +11,7 @@ import { HeadingWrapper, InputWrapper, Wrapper } from './VacancyList.styles';
 
 const vacanciesBase: Vacancy[] = [
   {
+    id: '1',
     title: 'React developer',
     salary: '1000$',
     country: 'Germany',
@@ -19,6 +20,7 @@ const vacanciesBase: Vacancy[] = [
     experience: ExperienceEnum.Senior,
   },
   {
+    id: '2',
     title: 'React developer',
     salary: '2000$',
     country: 'Germany',
@@ -27,6 +29,7 @@ const vacanciesBase: Vacancy[] = [
     experience: ExperienceEnum.Senior,
   },
   {
+    id: '3',
     title: 'React developer',
     salary: '3000$',
     country: 'Germany',
@@ -35,6 +38,7 @@ const vacanciesBase: Vacancy[] = [
     experience: ExperienceEnum.Senior,
   },
   {
+    id: '4',
     title: 'React developer',
     salary: '4000$',
     country: 'Germany',
@@ -43,6 +47,7 @@ const vacanciesBase: Vacancy[] = [
     experience: ExperienceEnum.Senior,
   },
   {
+    id: '5',
     title: 'React developer',
     salary: '5000$',
     country: 'Germany',
@@ -51,6 +56,7 @@ const vacanciesBase: Vacancy[] = [
     experience: ExperienceEnum.Senior,
   },
   {
+    id: '6',
     title: 'React developer',
     salary: '6000$',
     country: 'Germany',
@@ -93,10 +99,7 @@ const VacancyList = () => {
         <Heading6>Vacancy list for you</Heading6>
       </HeadingWrapper>
       {vacancies.map((vacancy) => (
-        <VacancyItem
-          key={vacancy.country + vacancy.title + vacancy.salary}
-          vacancy={vacancy}
-        />
+        <VacancyItem key={vacancy.id} vacancy={vacancy} />
       ))}
     </Wrapper>
   );

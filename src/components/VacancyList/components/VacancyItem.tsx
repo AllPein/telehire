@@ -7,6 +7,7 @@ import {
 } from '@/components/Typography/Typography.styles';
 import { Vacancy } from '@/components/models/Vacancy';
 import { ExperienceEnum } from '@/enums/Vacancy';
+import { history } from '@/utils/history';
 import { FC } from 'react';
 import { FlexWrapper, ItemWrapper, Wrapper } from './VacancyItem.styles';
 
@@ -23,8 +24,11 @@ const ExperienceToLabel = {
 };
 
 const VacancyItem: FC<Props> = ({ vacancy }) => {
+  const handleOpenVacancy = () => {
+    history.push('/vacancy/' + vacancy.id);
+  };
   return (
-    <Wrapper>
+    <Wrapper onClick={handleOpenVacancy}>
       <Body2>{vacancy.title}</Body2>
       <ItemWrapper>
         <Body>{vacancy.salary}</Body>
