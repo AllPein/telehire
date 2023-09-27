@@ -11,6 +11,7 @@ const VacancyListPage = () => {
   useBackButton({
     onClick: handleBackClick,
   });
+
   return (
     <AppContainer>
       <VacancyList />

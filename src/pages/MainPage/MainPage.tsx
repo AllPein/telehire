@@ -16,7 +16,7 @@ const MainPage = () => {
       </HeadingWrapper>
       <ButtonsWrapper>
         <ButtonWrapper>
-          <Button onClick={() => history.push('/create-company')} block>
+          <Button onClick={() => history.push('/employer')} block>
             Employer
           </Button>
         </ButtonWrapper>

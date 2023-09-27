@@ -1,5 +1,6 @@
 import { useMount } from '@/hooks/useMount';
 import { useTelegram } from '@/hooks/useTelegram';
+import { useEffect } from 'react';
 
 type Props = {
   onClick?: (event: any) => void;
@@ -8,16 +9,18 @@ type Props = {
 export function useBackButton({ onClick }: Props) {
   const { tg } = useTelegram();
 
-  useMount(() => {
+  useEffect(() => {
     tg.onEvent('backButtonClicked', onClick);
-
-    if (tg.isVersionAtLeast('6.1')) {
-      tg.BackButton.isVisible = true;
-    }
 
     return () => {
       tg.offEvent('backButtonClicked', onClick);
     };
+  }, [onClick]);
+
+  useMount(() => {
+    if (tg.isVersionAtLeast('6.1')) {
+      tg.BackButton.isVisible = true;
+    }
   });
 
   return;
