@@ -1,3 +1,4 @@
+import { Button } from '@/components/Button/Button';
 import { Input } from '@/components/Input/Input';
 import { Select } from '@/components/Select/Select';
 import { TextArea } from '@/components/TextArea/TextArea';
@@ -51,6 +52,7 @@ const CreateCompanyPage = () => {
   });
 
   const handleCreateClick = useCallback(() => {
+    console.log(formData);
     dispatch(CompanyAction.createCompany(formData));
     onHideButton();
   }, [formData]);
@@ -64,9 +66,7 @@ const CreateCompanyPage = () => {
     text: 'Create',
   });
 
-  useBackButton({
-    onClick: handleBackClick,
-  });
+  useBackButton(handleBackClick);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -76,11 +76,11 @@ const CreateCompanyPage = () => {
       const newFormData = { ...prevFormData, [name]: value };
       const hideButton = Object.values(newFormData).some((value) => !value);
 
-      if (!hideButton) {
-        onShowButton();
-      } else {
-        onHideButton();
-      }
+      //   if (!hideButton) {
+      //     onShowButton();
+      //   } else {
+      //     onHideButton();
+      //   }
       return newFormData;
     });
   };
@@ -123,6 +123,11 @@ const CreateCompanyPage = () => {
           />
         </InputWrapper>
       </div>
+      <LabelWrapper>
+        <Button block onClick={handleCreateClick}>
+          Create
+        </Button>
+      </LabelWrapper>
     </AppContainer>
   );
 };

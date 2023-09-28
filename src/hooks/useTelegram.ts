@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-
 const tg = (window as any).Telegram.WebApp;
 
 export function useTelegram() {
@@ -7,7 +5,7 @@ export function useTelegram() {
     tg.onClose();
   };
 
-  const user = useMemo(() => tg.initDataUnsafe.user, []);
+  const user = tg.initDataUnsafe.user;
 
   return {
     onClose,

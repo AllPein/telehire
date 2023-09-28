@@ -1,40 +1,29 @@
 import { CompanyList } from '@/components/CompanyList/CompanyList';
 import { Spinner } from '@/components/Spinner/Spinner';
+import { useBackButton } from '@/hooks/useBackButton';
 import { selectCompanyListLoading } from '@/store/Loader/LoaderSelectors';
-import { UserAction } from '@/store/auth/UserActions';
-import {
-  selectAuthenticated,
-  selectUserCompanyList,
-} from '@/store/auth/UserSelectors';
+import { selectUser } from '@/store/auth/UserSelectors';
 import { history } from '@/utils/history';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const EmployerPage = () => {
-  const dispatch = useDispatch();
-
-  const isAuthenticated = useSelector(selectAuthenticated);
+  useBackButton();
   const loading = useSelector(selectCompanyListLoading);
-  const companyList = useSelector(selectUserCompanyList);
+  const user = useSelector(selectUser);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(UserAction.initCompanyList());
-    }
-  }, [isAuthenticated]);
-
-  useEffect(() => {
-    if (companyList && !companyList.length) {
+    if (user?.companyList && !user?.companyList.length) {
       history.push('/create-company');
     }
-  }, [companyList]);
+  }, [user]);
 
   return (
     <>
-      {loading || !companyList ? (
+      {loading || !user?.companyList ? (
         <Spinner />
       ) : (
-        <CompanyList companies={companyList} />
+        <CompanyList companies={user.companyList} />
       )}
     </>
   );

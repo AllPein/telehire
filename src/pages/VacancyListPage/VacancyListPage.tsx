@@ -8,9 +8,7 @@ const VacancyListPage = () => {
     history.push('/');
   };
 
-  useBackButton({
-    onClick: handleBackClick,
-  });
+  useBackButton(handleBackClick);
 
   return (
     <AppContainer>

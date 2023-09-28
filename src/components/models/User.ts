@@ -1,3 +1,5 @@
+import { Company } from '@/components/models/Company';
+
 export type TelegramUser = {
   id: string;
   is_bot?: boolean;
@@ -10,3 +12,8 @@ export type TelegramUser = {
   allows_write_to_pm?: boolean;
   photo_url?: string;
 };
+
+export type User = {
+  companyList?: Company[] | null;
+  loggedInAs?: 'applicant' | 'company' | null;
+} & TelegramUser;

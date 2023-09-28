@@ -51,9 +51,7 @@ const VacancyInfo = () => {
     onClick: handleApply,
   });
 
-  useBackButton({
-    onClick: goBack,
-  });
+  useBackButton(goBack);
 
   useMount(() => {
     onShowButton();

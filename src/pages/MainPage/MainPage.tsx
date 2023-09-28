@@ -1,9 +1,8 @@
 import { Button } from '@/components/Button/Button';
-import { Spinner } from '@/components/Spinner/Spinner';
 import { Heading1 } from '@/components/Typography/Typography.styles';
-import { selectAuthLoading } from '@/store/Loader/LoaderSelectors';
+import { UserAction } from '@/store/auth/UserActions';
 import { history } from '@/utils/history';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   AppContainer,
   ButtonWrapper,
@@ -12,31 +11,30 @@ import {
 } from './MainPage.styles';
 
 const MainPage = () => {
-  const loading = useSelector(selectAuthLoading);
+  const dispatch = useDispatch();
+  const handleApplicantClick = () => {
+    history.push('/vacancies');
+    dispatch(UserAction.initLogin('applicant'));
+  };
+
   return (
-    <>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <AppContainer>
-          <HeadingWrapper>
-            <Heading1>Continue as</Heading1>
-          </HeadingWrapper>
-          <ButtonsWrapper>
-            <ButtonWrapper>
-              <Button onClick={() => history.push('/employer')} block>
-                Employer
-              </Button>
-            </ButtonWrapper>
-            <ButtonWrapper>
-              <Button onClick={() => history.push('/vacancies')} block>
-                Applicant
-              </Button>
-            </ButtonWrapper>
-          </ButtonsWrapper>
-        </AppContainer>
-      )}
-    </>
+    <AppContainer>
+      <HeadingWrapper>
+        <Heading1>Continue as</Heading1>
+      </HeadingWrapper>
+      <ButtonsWrapper>
+        <ButtonWrapper>
+          <Button onClick={() => history.push('/employer')} block>
+            Employer
+          </Button>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Button onClick={handleApplicantClick} block>
+            Applicant
+          </Button>
+        </ButtonWrapper>
+      </ButtonsWrapper>
+    </AppContainer>
   );
 };
 

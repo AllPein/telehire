@@ -28,7 +28,7 @@ export const handleInitGetCompanyList: Epic<
     switchMap(() =>
       from(companyService.getCompanies(state$.value.user.userInfo!.id)).pipe(
         tap((companies) => {
-          dispatch(UserAction.setCompanyList(companies));
+          dispatch(UserAction.setUser({ companyList: companies }));
         }),
         catchError((err) => {
           return throwError(err);

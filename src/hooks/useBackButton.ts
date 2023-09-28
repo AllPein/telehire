@@ -1,19 +1,19 @@
 import { useMount } from '@/hooks/useMount';
 import { useTelegram } from '@/hooks/useTelegram';
+import { history } from '@/utils/history';
 import { useEffect } from 'react';
 
-type Props = {
-  onClick?: (event: any) => void;
-};
+type OnBackClick = (event: any) => void;
 
-export function useBackButton({ onClick }: Props) {
+export function useBackButton(onClick?: OnBackClick) {
   const { tg } = useTelegram();
 
   useEffect(() => {
-    tg.onEvent('backButtonClicked', onClick);
+    const onClickModified = onClick ? onClick : () => history.goBack();
+    tg.onEvent('backButtonClicked', onClickModified);
 
     return () => {
-      tg.offEvent('backButtonClicked', onClick);
+      tg.offEvent('backButtonClicked', onClickModified);
     };
   }, [onClick]);
 

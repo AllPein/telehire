@@ -1,34 +1,31 @@
-import { Avatar } from '@/components/Avatar/Avatar';
 import { Button } from '@/components/Button/Button';
-import {
-  Body,
-  Caption,
-  Heading6,
-} from '@/components/Typography/Typography.styles';
+import { CompanyItem } from '@/components/CompanyItem/CompanyItem';
+import { Heading6 } from '@/components/Typography/Typography.styles';
 import { Company } from '@/components/models/Company';
-import { CompanyVolumeToLabel } from '@/enums/Company';
+import { UserAction } from '@/store/auth/UserActions';
 import { history } from '@/utils/history';
 import { FC } from 'react';
-import { CompanyWrapper, HeadingWrapper, Wrapper } from './CompanyList.styles';
+import { useDispatch } from 'react-redux';
+import { HeadingWrapper, Wrapper } from './CompanyList.styles';
 
 type Props = {
   companies: Company[];
 };
 
 const CompanyList: FC<Props> = ({ companies }) => {
+  const dispatch = useDispatch();
+  const handleCompanyClick = () => {
+    dispatch(UserAction.initLogin('company'));
+    history.push('/profile');
+  };
+
   return (
-    <Wrapper>
+    <Wrapper onClick={handleCompanyClick}>
       <HeadingWrapper>
         <Heading6>Log in as</Heading6>
       </HeadingWrapper>
       {companies.map((company) => (
-        <CompanyWrapper key={company.id}>
-          <Avatar src={company.photo_url} />
-          <Body>{company.name}</Body>
-          <Caption color="#FFFFFFB2">
-            {CompanyVolumeToLabel[company.volume]}
-          </Caption>
-        </CompanyWrapper>
+        <CompanyItem key={company.id} company={company} />
       ))}
       <HeadingWrapper>
         <Heading6>Or</Heading6>

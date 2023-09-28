@@ -32,7 +32,7 @@ class CompanyService implements ICompanyService {
       throw new Error(error.message);
     }
 
-    return data[0]!.company;
+    return data?.[0]?.company ?? [];
   }
 }
 

@@ -36,6 +36,7 @@ export const handleInitAuth: Epic<
           companyService.init(supabaseService);
           vacancyService.init(supabaseService);
           dispatch(UserAction.setToken(token));
+          dispatch(UserAction.initCompanyList());
         }),
         finalize(() => {
           dispatch(

@@ -5,6 +5,7 @@ import { AnyAction } from 'typescript-fsa';
 
 import { ofAction } from '@/operators/ofAction';
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
+import { UserAction } from '@/store/auth/UserActions';
 import { history } from '@/utils/history';
 import { CompanyAction } from '../CompanyActions';
 
@@ -19,7 +20,11 @@ export const handleCreateCompany: Epic<
     switchMap(({ payload: company }) =>
       from(companyService.createCompany(company)).pipe(
         tap(() => {
-          history.push('/vacancies');
+          dispatch(UserAction.initCompanyList());
+        }),
+        tap(() => {
+          dispatch(UserAction.initLogin('company'));
+          history.push('/profile');
         }),
       ),
     ),
