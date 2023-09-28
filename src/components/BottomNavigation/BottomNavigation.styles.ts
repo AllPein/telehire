@@ -9,6 +9,7 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
+  border-top: 1px solid var(--tg-theme-bg-color);
 
   img {
     cursor: pointer;
