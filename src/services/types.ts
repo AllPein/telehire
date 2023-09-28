@@ -13,6 +13,8 @@ export interface IApiService {
 
 export interface ICompanyService {
   createCompany: (company: Partial<Company>) => Promise<Company>;
+
+  getCompanies: (id: string) => Promise<Company[]>;
 }
 
 export interface IVacancyService {
