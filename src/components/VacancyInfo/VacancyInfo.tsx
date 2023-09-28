@@ -41,13 +41,18 @@ const VacancyInfo = () => {
     onHideButton();
   };
 
+  const goBack = () => {
+    history.push('/vacancies');
+    onHideButton();
+  };
+
   const { onShowButton, onHideButton } = useMainButton({
     text: 'Apply',
     onClick: handleApply,
   });
 
   useBackButton({
-    onClick: handleApply,
+    onClick: goBack,
   });
 
   useMount(() => {

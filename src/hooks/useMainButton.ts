@@ -1,3 +1,4 @@
+import { useMount } from '@/hooks/useMount';
 import { useTelegram } from '@/hooks/useTelegram';
 import { useEffect } from 'react';
 
@@ -9,12 +10,14 @@ type Props = {
 export function useMainButton({ onClick, text }: Props) {
   const { tg } = useTelegram();
 
-  useEffect(() => {
-    tg.onEvent('mainButtonClicked', onClick);
-
+  useMount(() => {
     if (text) {
       tg.MainButton.setText(text);
     }
+  });
+
+  useEffect(() => {
+    tg.onEvent('mainButtonClicked', onClick);
 
     return () => {
       tg.offEvent('mainButtonClicked', onClick);
