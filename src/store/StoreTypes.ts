@@ -4,14 +4,16 @@ import {
   ISupabaseService,
   IVacancyService,
 } from '@/services/types';
-import { AuthStore } from '@/store/auth/AuthActions';
+import { LoaderStore } from '@/store/Loader/LoaderActions';
+import { UserStore } from '@/store/auth/UserActions';
 import { RouterState } from 'connected-react-router';
 import { History } from 'history';
 import { AnyAction, Dispatch } from 'redux';
 import { CompanyStore } from './company/CompanyActions';
 
 export interface RootState {
-  auth: AuthStore;
+  user: UserStore;
+  loader: LoaderStore;
   company: CompanyStore;
   router: RouterState;
 }

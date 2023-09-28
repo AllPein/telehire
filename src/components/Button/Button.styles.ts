@@ -26,4 +26,8 @@ export const ButtonWrapper = styled.button<ButtonProps>`
   &:hover {
     opacity: 0.9;
   }
+
+  &:active {
+    opacity: 0.7;
+  }
 `;

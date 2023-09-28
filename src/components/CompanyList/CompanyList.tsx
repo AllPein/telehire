@@ -22,8 +22,8 @@ const CompanyList: FC<Props> = ({ companies }) => {
         <Heading6>Log in as</Heading6>
       </HeadingWrapper>
       {companies.map((company) => (
-        <CompanyWrapper>
-          <Avatar src={company.photoUrl} />
+        <CompanyWrapper key={company.id}>
+          <Avatar src={company.photo_url} />
           <Body>{company.name}</Body>
           <Caption color="#FFFFFFB2">
             {CompanyVolumeToLabel[company.volume]}

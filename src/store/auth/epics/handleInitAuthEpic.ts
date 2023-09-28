@@ -1,24 +1,49 @@
 import { Epic } from 'redux-observable';
 import { from } from 'rxjs';
-import { ignoreElements, switchMap, tap } from 'rxjs/operators';
+import { finalize, ignoreElements, switchMap, tap } from 'rxjs/operators';
 import { AnyAction } from 'typescript-fsa';
 
 import { ofAction } from '@/operators/ofAction';
+import { LoaderAction } from '@/store/Loader/LoaderActions';
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
-import { AuthAction } from '@/store/auth/AuthActions';
+import { UserAction } from '@/store/auth/UserActions';
 
 export const handleInitAuth: Epic<
   AnyAction,
   AnyAction,
   RootState,
   StoreDependencies
-> = (action$, state$, { apiService, supabaseService, dispatch }) =>
+> = (
+  action$,
+  state$,
+  { apiService, companyService, vacancyService, supabaseService, dispatch },
+) =>
   action$.pipe(
-    ofAction(AuthAction.initAuth),
+    ofAction(UserAction.initAuth),
+    tap(() => {
+      dispatch(
+        LoaderAction.setLoading({
+          type: 'auth',
+          value: true,
+        }),
+      );
+    }),
     switchMap(() =>
       from(apiService.getToken()).pipe(
         tap((token: string) => {
           supabaseService.init(token);
+
+          companyService.init(supabaseService);
+          vacancyService.init(supabaseService);
+          dispatch(UserAction.setToken(token));
+        }),
+        finalize(() => {
+          dispatch(
+            LoaderAction.setLoading({
+              type: 'auth',
+              value: false,
+            }),
+          );
         }),
       ),
     ),

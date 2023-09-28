@@ -1,13 +1,15 @@
 import { connectRouter } from 'connected-react-router';
 import { combineReducers } from 'redux';
 
+import { LoaderReducers } from '@/store/Loader/LoaderReducers';
 import { RootState } from '@/store/StoreTypes';
-import { AuthReducers } from '@/store/auth/AuthReducers';
+import { UserReducers } from '@/store/auth/UserReducers';
 import { history } from '@/utils/history';
 import { CompanyReducers } from './company/CompanyReducers';
 
 export default combineReducers<RootState>({
-  auth: AuthReducers,
+  user: UserReducers,
+  loader: LoaderReducers,
   router: connectRouter(history),
   company: CompanyReducers,
 });

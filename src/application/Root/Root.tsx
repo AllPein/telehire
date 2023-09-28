@@ -1,4 +1,5 @@
 import { AuthenticatedLayout } from '@/application/AuthenticatedLayout/AuthenticatedLayout';
+import { Spinner } from '@/components/Spinner/Spinner';
 import { lazy } from '@/utils/lazy';
 import { Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
@@ -73,7 +74,7 @@ const Root = () => {
   );
 
   return (
-    <Suspense fallback={<div>Loading..</div>}>
+    <Suspense fallback={<Spinner />}>
       <Route path="/" render={renderRoot} />
     </Suspense>
   );

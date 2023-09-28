@@ -1,9 +1,9 @@
 import { CompanyVolumeEnum } from '@/enums/Company';
 
-export interface Company {
+export type Company = {
   id: string;
   name: string;
   description: string;
-  photoUrl: string;
+  photo_url: string;
   volume: CompanyVolumeEnum;
-}
+};

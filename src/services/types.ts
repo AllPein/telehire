@@ -1,23 +1,26 @@
 import { Company } from '@/components/models/Company';
+import { Vacancy } from '@/components/models/Vacancy';
+import { SupabaseClient } from '@supabase/supabase-js';
 import {
   AxiosRequestConfig,
   AxiosResponse,
   RawAxiosRequestHeaders,
 } from 'axios';
-import { SupabaseClient } from '@supabase/supabase-js';
-import { Vacancy } from '@/components/models/Vacancy';
 
 export interface IApiService {
+  init: (axiosClient: AxiosClient) => void;
   getToken: () => Promise<string>;
 }
 
 export interface ICompanyService {
   createCompany: (company: Partial<Company>) => Promise<Company>;
+  init: (supabaseClient: ISupabaseService) => void;
 
   getCompanies: (id: string) => Promise<Company[]>;
 }
 
 export interface IVacancyService {
+  init: (supabaseClient: ISupabaseService) => void;
   createVacancy: (vacancy: Partial<Vacancy>) => Promise<Vacancy>;
 }
 

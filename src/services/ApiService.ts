@@ -29,6 +29,8 @@ class ApiService implements IApiService {
         },
       );
 
+      console.log(res);
+
       return res.data.token as string;
     } catch (err: any) {
       return err;
