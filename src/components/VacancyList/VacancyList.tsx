@@ -2,70 +2,22 @@ import FilterIcon from '@/assets/filter.svg';
 import { Button } from '@/components/Button/Button';
 import { Search } from '@/components/Search/Search';
 import { Heading6 } from '@/components/Typography/Typography.styles';
-import { VacancyItem } from '@/components/VacancyList/components/VacancyItem';
-import { Vacancy } from '@/components/models/Vacancy';
-import { ExperienceEnum } from '@/enums/Vacancy';
+import { VacancyItem } from '@/components/VacancyItem/VacancyItem';
 import { useTelegram } from '@/hooks/useTelegram';
-import { useMemo, useState } from 'react';
-import { HeadingWrapper, InputWrapper, Wrapper } from './VacancyList.styles';
+import { ShortVacancy } from '@/models/Vacancy';
+import { FC, useMemo, useState } from 'react';
+import {
+  AppContainer,
+  HeadingWrapper,
+  InputWrapper,
+  Wrapper,
+} from './VacancyList.styles';
 
-const vacanciesBase: Vacancy[] = [
-  {
-    id: '1',
-    title: 'React developer',
-    salary: '1000$',
-    country: 'Germany',
-    city: 'Berlin',
-    company: 'Google',
-    experience: ExperienceEnum.Senior,
-  },
-  {
-    id: '2',
-    title: 'React developer',
-    salary: '2000$',
-    country: 'Germany',
-    city: 'Berlin',
-    company: 'Google',
-    experience: ExperienceEnum.Senior,
-  },
-  {
-    id: '3',
-    title: 'React developer',
-    salary: '3000$',
-    country: 'Germany',
-    city: 'Berlin',
-    company: 'Google',
-    experience: ExperienceEnum.Senior,
-  },
-  {
-    id: '4',
-    title: 'React developer',
-    salary: '4000$',
-    country: 'Germany',
-    city: 'Berlin',
-    company: 'Google',
-    experience: ExperienceEnum.Senior,
-  },
-  {
-    id: '5',
-    title: 'React developer',
-    salary: '5000$',
-    country: 'Germany',
-    city: 'Berlin',
-    company: 'Google',
-    experience: ExperienceEnum.Senior,
-  },
-  {
-    id: '6',
-    title: 'React developer',
-    salary: '6000$',
-    country: 'Germany',
-    city: 'Berlin',
-    company: 'Google',
-    experience: ExperienceEnum.Senior,
-  },
-];
-const VacancyList = () => {
+type Props = {
+  vacancies: ShortVacancy[];
+};
+
+const VacancyList: FC<Props> = ({ vacancies }) => {
   const { tg } = useTelegram();
 
   const [searchValue, setSearchValue] = useState('');
@@ -81,27 +33,29 @@ const VacancyList = () => {
     });
   };
 
-  const vacancies = useMemo(() => {
-    return vacanciesBase.filter((vacancy) =>
-      vacancy.title.toLowerCase().includes(searchValue.toLowerCase()),
+  const vacancyList = useMemo(() => {
+    return vacancies.filter((vacancy) =>
+      vacancy.position.toLowerCase().includes(searchValue.toLowerCase()),
     );
   }, [searchValue]);
 
   return (
-    <Wrapper>
-      <InputWrapper>
-        <Search onSearch={handleSearch} placeholder="Search.." />
-        <Button onClick={handleFilterClick}>
-          <img src={FilterIcon} alt="" />
-        </Button>
-      </InputWrapper>
-      <HeadingWrapper>
-        <Heading6>Vacancy list for you</Heading6>
-      </HeadingWrapper>
-      {vacancies.map((vacancy) => (
-        <VacancyItem key={vacancy.id} vacancy={vacancy} />
-      ))}
-    </Wrapper>
+    <AppContainer>
+      <Wrapper>
+        <InputWrapper>
+          <Search onSearch={handleSearch} placeholder="Search.." />
+          <Button onClick={handleFilterClick}>
+            <img src={FilterIcon} alt="" />
+          </Button>
+        </InputWrapper>
+        <HeadingWrapper>
+          <Heading6>Vacancy list for you</Heading6>
+        </HeadingWrapper>
+        {vacancyList.map((vacancy) => (
+          <VacancyItem key={vacancy.id} vacancy={vacancy} />
+        ))}
+      </Wrapper>
+    </AppContainer>
   );
 };
 

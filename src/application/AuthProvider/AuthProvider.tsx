@@ -1,16 +1,15 @@
 import { Spinner } from '@/components/Spinner/Spinner';
+import { LOGGED_IN_AS } from '@/constants/localStorage';
+import { useBackButton } from '@/hooks/useBackButton';
 import { useMount } from '@/hooks/useMount';
-import { useTelegram } from '@/hooks/useTelegram';
 import { apiService } from '@/services/ApiService';
 import { AxiosClient } from '@/services/AxiosClient';
-import { companyService } from '@/services/CompanyService';
-import { supabaseService } from '@/services/SupabaseService';
-import { vacancyService } from '@/services/VacancyService';
 import {
   selectAuthLoading,
   selectCompanyListLoading,
 } from '@/store/Loader/LoaderSelectors';
 import { UserAction } from '@/store/auth/UserActions';
+import { ResumeAction } from '@/store/cv/ResumeActions';
 import { token } from '@/utils/token';
 import { FC, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,7 +22,8 @@ const AuthProvider: FC<Props> = ({ children }) => {
   const dispatch = useDispatch();
   const authLoading = useSelector(selectAuthLoading);
   const companyListLoading = useSelector(selectCompanyListLoading);
-  const { user } = useTelegram();
+  //   const { user } = useTelegram();
+  useBackButton();
 
   const loading = useMemo(
     () => authLoading || companyListLoading,
@@ -31,23 +31,38 @@ const AuthProvider: FC<Props> = ({ children }) => {
   );
 
   useMount(() => {
-    // dispatch(UserAction.setUser(user));
+    const user = {
+      id: 460186752,
+      first_name: 'Andrey',
+      last_name: 'Nebogatikov',
+      username: 'allpein',
+    };
+    dispatch(UserAction.setUser(user));
 
     const axiosClient = new AxiosClient(import.meta.env.VITE_BASE_API_URL);
     apiService.init(axiosClient);
 
-    if (token) {
-      supabaseService.init(token);
-      companyService.init(supabaseService);
-      vacancyService.init(supabaseService);
+    console.log(token);
+    if (token && token.tokenExpires > Date.now()) {
+      axiosClient.init({ Authorization: 'Bearer ' + token.token });
       dispatch(UserAction.initCompanyList());
+      dispatch(ResumeAction.getMyResumes());
     } else {
-      dispatch(UserAction.initAuth());
+      if (user) {
+        dispatch(
+          UserAction.initAuth({
+            user: {
+              id: user.id,
+            },
+            client: axiosClient,
+          }),
+        );
+      }
     }
 
     dispatch(
       UserAction.initLogin(
-        localStorage.getItem('user_logged_in_as') as 'company' | 'applicant',
+        localStorage.getItem(LOGGED_IN_AS) as 'company' | 'applicant',
       ),
     );
   });

@@ -6,7 +6,7 @@ type ItemProps = {
 
 export const Wrapper = styled.div`
   background-color: var(--tg-theme-bg-secondary);
-  margin: 8px;
+  margin: 8px 0;
   border-radius: 8px;
   width: 100%;
   color: #fff;

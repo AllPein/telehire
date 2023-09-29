@@ -6,9 +6,10 @@ import axios, {
 
 export class AxiosClient {
   private baseUrl: string | undefined;
+  private headers: RawAxiosRequestHeaders | undefined;
 
-  public init(baseUrl: string) {
-    this.baseUrl = baseUrl;
+  public init(headers: RawAxiosRequestHeaders) {
+    this.headers = headers;
   }
 
   constructor(baseUrl: string) {
@@ -20,12 +21,20 @@ export class AxiosClient {
     params?: object,
     options?: AxiosRequestConfig,
   ): Promise<AxiosResponse<T, unknown>> {
+    const modifiedOptions = {
+      ...options,
+      headers: {
+        ...options?.headers,
+        ...this.headers,
+      },
+    };
+
     return axios
       .request<T>({
         url: `${options?.baseURL || this.baseUrl}${url}`,
         method: 'get',
         params: params || {},
-        ...options,
+        ...modifiedOptions,
       })
       .then((response) => response);
   }
@@ -41,7 +50,10 @@ export class AxiosClient {
         url: `${this.baseUrl}${url}`,
         method: 'post',
         data: data || {},
-        headers,
+        headers: {
+          ...headers,
+          ...this.headers,
+        },
         params: params || {},
       })
       .then((response) => response);

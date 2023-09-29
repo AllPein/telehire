@@ -2,6 +2,7 @@ import { Epic } from 'redux-observable';
 import { ignoreElements, tap } from 'rxjs/operators';
 import { AnyAction } from 'typescript-fsa';
 
+import { LOGGED_IN_AS } from '@/constants/localStorage';
 import { ofAction } from '@/operators/ofAction';
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
 import { UserAction } from '@/store/auth/UserActions';
@@ -21,7 +22,7 @@ export const handleInitLogin: Epic<
       }
     }),
     tap(({ payload: loggedInAs }) => {
-      localStorage.setItem('user_logged_in_as', loggedInAs!);
+      localStorage.setItem(LOGGED_IN_AS, loggedInAs!);
       dispatch(UserAction.setUser({ loggedInAs }));
     }),
     ignoreElements(),

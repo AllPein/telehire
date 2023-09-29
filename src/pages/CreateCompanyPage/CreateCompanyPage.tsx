@@ -3,10 +3,9 @@ import { Input } from '@/components/Input/Input';
 import { Select } from '@/components/Select/Select';
 import { TextArea } from '@/components/TextArea/TextArea';
 import { Body, Heading6 } from '@/components/Typography/Typography.styles';
-import { Company } from '@/components/models/Company';
 import { CompanyVolumeEnum, CompanyVolumeToLabel } from '@/enums/Company';
-import { useBackButton } from '@/hooks/useBackButton';
 import { useMainButton } from '@/hooks/useMainButton';
+import { Company } from '@/models/Company';
 import { CompanyAction } from '@/store/company/CompanyActions';
 import { history } from '@/utils/history';
 import { ChangeEvent, useCallback, useState } from 'react';
@@ -65,8 +64,6 @@ const CreateCompanyPage = () => {
     onClick: handleCreateClick,
     text: 'Create',
   });
-
-  useBackButton(handleBackClick);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,

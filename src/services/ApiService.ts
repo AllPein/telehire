@@ -1,3 +1,7 @@
+import { CV } from '@/models/CV';
+import { Company } from '@/models/Company';
+import { Token } from '@/models/User';
+import { ShortVacancy, Vacancy } from '@/models/Vacancy';
 import { AxiosClient, IApiService } from '@/services/types';
 
 class ApiService implements IApiService {
@@ -12,26 +16,118 @@ class ApiService implements IApiService {
     this.#axiosClient = axiosClient;
   }
 
-  async getToken(): Promise<string> {
+  async getToken(data: { id: number }): Promise<Token> {
     try {
-      const hash = window.location.hash.slice(1);
-      const params = new URLSearchParams(hash);
-      const initData =
-        params.get('tgWebAppData') ||
-        'query_id=AAHdF6IQAAAAAN0XohDhrOrc&user=%7B%22id%22%3A279058397%2C%22first_name%22%3A%22Vladislav%22%2C%22last_name%22%3A%22Kibenko%22%2C%22username%22%3A%22vdkfrost%22%2C%22language_code%22%3A%22ru%22%2C%22is_premium%22%3Atrue%7D&auth_date=1662771648&hash=c501b71e775f74ce10e377dea85a7ea24ecd640b223ea86dfe453e0eaed2e2b2';
-      const res = await this.axiosClient.get<{ token: string }>(
-        '/authenticate',
-        {},
-        {
-          headers: {
-            Authorization: 'twa-init-data ' + initData,
-          },
-        },
+      const res = await this.axiosClient.post<any, any>(
+        '/auth/email/login',
+        data,
       );
 
-      console.log(res);
+      return res.data as Token;
+    } catch (err: any) {
+      return err;
+    }
+  }
 
-      return res.data.token as string;
+  async createCompany(company: Partial<Company>): Promise<Company> {
+    try {
+      const res = await this.#axiosClient.post<any, any>('/companies', {
+        ...company,
+        photoUrl: '',
+      });
+
+      return res.data;
+    } catch (err: any) {
+      return err;
+    }
+  }
+
+  async getCompany(companyId: number): Promise<Company> {
+    try {
+      const res = await this.#axiosClient.get<any>('/companies/' + companyId);
+
+      return res.data;
+    } catch (err: any) {
+      return err;
+    }
+  }
+
+  async getCompanies(): Promise<Company[]> {
+    try {
+      const res = await this.#axiosClient.get<any>('/companies/my');
+
+      return res.data;
+    } catch (err: any) {
+      return err;
+    }
+  }
+
+  async createVacancy(vacancy: Partial<Vacancy>): Promise<Vacancy> {
+    try {
+      const res = await this.#axiosClient.post<any, any>('/vacancies', vacancy);
+
+      return res.data;
+    } catch (err: any) {
+      return err;
+    }
+  }
+
+  async getVacancies(cvId: number | undefined): Promise<ShortVacancy[]> {
+    try {
+      const url = cvId ? '/feed/vacancies/' + cvId : '/vacancies';
+      const res = await this.#axiosClient.get<any>(url);
+
+      return res.data;
+    } catch (err: any) {
+      return err;
+    }
+  }
+
+  async getVacancy(vacancyId: number): Promise<Vacancy> {
+    try {
+      const res = await this.#axiosClient.get<any>('/vacancies/' + vacancyId);
+
+      return res.data;
+    } catch (err: any) {
+      return err;
+    }
+  }
+
+  async getResumes(): Promise<CV[]> {
+    try {
+      const res = await this.#axiosClient.get<any>('/cvs');
+
+      return res.data;
+    } catch (err: any) {
+      return err;
+    }
+  }
+
+  async getMyResumes(): Promise<CV[]> {
+    try {
+      const res = await this.#axiosClient.get<any>('/cvs/my');
+
+      return res.data;
+    } catch (err: any) {
+      return err;
+    }
+  }
+
+  async getResume(resumeId: number): Promise<CV> {
+    try {
+      const res = await this.#axiosClient.get<any>('/cvs/' + resumeId);
+
+      return res.data;
+    } catch (err: any) {
+      return err;
+    }
+  }
+
+  async createResume(resume: Partial<CV>): Promise<CV> {
+    try {
+      const res = await this.#axiosClient.post<any, any>('/cvs', resume);
+
+      return res.data;
     } catch (err: any) {
       return err;
     }

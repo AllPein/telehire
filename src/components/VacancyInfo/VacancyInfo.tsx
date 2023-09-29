@@ -1,15 +1,15 @@
 import PlaceIcon from '@/assets/place.svg';
-import { Avatar } from '@/components/Avatar/Avatar';
 import {
   Body2,
   Caption,
   Heading6,
 } from '@/components/Typography/Typography.styles';
-import { ExperienceEnum } from '@/enums/Vacancy';
-import { useBackButton } from '@/hooks/useBackButton';
+import { CurrencyEnum, ExperienceToLabel } from '@/enums/Vacancy';
 import { useMainButton } from '@/hooks/useMainButton';
 import { useMount } from '@/hooks/useMount';
+import { CurrencyToSymbol, Vacancy } from '@/models/Vacancy';
 import { history } from '@/utils/history';
+import { FC } from 'react';
 import {
   BigWrapper,
   CountryWrapper,
@@ -20,29 +20,13 @@ import {
   Wrapper,
 } from './VacancyInfo.styles';
 
-const vacancy = {
-  id: '1',
-  title: 'React developer',
-  salary: '1000$',
-  country: 'Germany',
-  city: 'Berlin',
-  company: 'Google',
-  photoUrl: 'https://hhcdn.ru/ichameleon/169297.svg',
-  experience: ExperienceEnum.Senior,
-  jobType: 'Remote',
-  requirements: '3-6 years of experience',
-  description:
-    'Ну у нас работать реально очень круто мяу мяу, приходите пожалуста',
+type Props = {
+  vacancy: Vacancy;
 };
 
-const VacancyInfo = () => {
+const VacancyInfo: FC<Props> = ({ vacancy }) => {
   const handleApply = () => {
     history.push('/');
-    onHideButton();
-  };
-
-  const goBack = () => {
-    history.push('/vacancies');
     onHideButton();
   };
 
@@ -51,26 +35,25 @@ const VacancyInfo = () => {
     onClick: handleApply,
   });
 
-  useBackButton(goBack);
-
   useMount(() => {
     onShowButton();
   });
 
   return (
     <Wrapper>
-      <Avatar src={vacancy.photoUrl} />
       <BigWrapper center>
-        <Heading6>{vacancy.title}</Heading6>
+        <Heading6>{vacancy.position}</Heading6>
       </BigWrapper>
       <SmallWrapper center>
-        <Caption color="#FFFFFFB2">{vacancy.company}</Caption>
+        <a href={'/company/' + vacancy.company.id}>
+          <Caption color="#FFFFFFB2">{vacancy.company.name}</Caption>
+        </a>
       </SmallWrapper>
       <SmallWrapper>
         <CountryWrapper>
           <img src={PlaceIcon} />
           <Caption>
-            {vacancy.country}, {vacancy.city}
+            {vacancy.location.country}, {vacancy.location.city}
           </Caption>
         </CountryWrapper>
       </SmallWrapper>
@@ -79,7 +62,17 @@ const VacancyInfo = () => {
           <InfoWrapper>
             <Caption color="#FFFFFFB2">Salary</Caption>
             <SmallWrapper center>
-              <Caption>{vacancy.salary}</Caption>
+              {vacancy.salaryTo ? (
+                <Caption>
+                  {vacancy.salaryFrom} - {vacancy.salaryTo}{' '}
+                  {CurrencyToSymbol[vacancy.currency as CurrencyEnum]}
+                </Caption>
+              ) : (
+                <Caption>
+                  from {vacancy.salaryFrom}
+                  {CurrencyToSymbol[vacancy.currency as CurrencyEnum]}
+                </Caption>
+              )}
             </SmallWrapper>
           </InfoWrapper>
           <Delimiter />
@@ -93,7 +86,7 @@ const VacancyInfo = () => {
           <InfoWrapper>
             <Caption color="#FFFFFFB2">Level</Caption>
             <SmallWrapper center>
-              <Caption>{vacancy.experience}</Caption>
+              <Caption>{ExperienceToLabel[vacancy.experience]}</Caption>
             </SmallWrapper>
           </InfoWrapper>
         </JobInfoWrapper>

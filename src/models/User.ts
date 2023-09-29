@@ -1,7 +1,8 @@
-import { Company } from '@/components/models/Company';
+import { CV } from '@/models/CV';
+import { Company } from '@/models/Company';
 
 export type TelegramUser = {
-  id: string;
+  id: number;
   is_bot?: boolean;
   first_name: string;
   last_name?: string;
@@ -15,5 +16,13 @@ export type TelegramUser = {
 
 export type User = {
   companyList?: Company[] | null;
+  resumes?: CV[] | null;
   loggedInAs?: 'applicant' | 'company' | null;
 } & TelegramUser;
+
+export type Token = {
+  token: string;
+  refreshToken: string;
+  tokenExpires: number;
+  user?: User;
+};

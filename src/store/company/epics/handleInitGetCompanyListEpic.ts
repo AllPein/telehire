@@ -19,14 +19,14 @@ export const handleInitGetCompanyList: Epic<
   AnyAction,
   RootState,
   StoreDependencies
-> = (action$, state$, { companyService, dispatch }) =>
+> = (action$, state$, { apiService, dispatch }) =>
   action$.pipe(
     ofAction(UserAction.initCompanyList),
     tap(() =>
       dispatch(LoaderAction.setLoading({ type: 'companyList', value: true })),
     ),
     switchMap(() =>
-      from(companyService.getCompanies(state$.value.user.userInfo!.id)).pipe(
+      from(apiService.getCompanies()).pipe(
         tap((companies) => {
           dispatch(UserAction.setUser({ companyList: companies }));
         }),

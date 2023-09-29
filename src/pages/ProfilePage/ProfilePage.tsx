@@ -1,13 +1,29 @@
 import { Profile } from '@/components/Profile/Profile';
-import { CV } from '@/components/models/CV';
-import { useBackButton } from '@/hooks/useBackButton';
-
-const cvs: CV[] = [];
+import { Spinner } from '@/components/Spinner/Spinner';
+import { selectUser } from '@/store/auth/UserSelectors';
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
 const ProfilePage = () => {
-  useBackButton();
+  const user = useSelector(selectUser);
 
-  return <Profile cvs={cvs} />;
+  const renderProfile = useMemo(() => {
+    if (!user) {
+      return false;
+    }
+
+    if (user?.loggedInAs === 'company') {
+      return user?.companyList;
+    }
+
+    if (user?.loggedInAs === 'applicant') {
+      return user?.resumes;
+    }
+
+    return false;
+  }, [user]);
+
+  return <>{renderProfile ? <Profile user={user!} /> : <Spinner />}</>;
 };
 
 export { ProfilePage };

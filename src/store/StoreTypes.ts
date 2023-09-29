@@ -1,11 +1,8 @@
-import {
-  IApiService,
-  ICompanyService,
-  ISupabaseService,
-  IVacancyService,
-} from '@/services/types';
+import { IApiService } from '@/services/types';
 import { LoaderStore } from '@/store/Loader/LoaderActions';
 import { UserStore } from '@/store/auth/UserActions';
+import { ResumeStore } from '@/store/cv/ResumeActions';
+import { VacancyStore } from '@/store/vacancy/VacancyActions';
 import { RouterState } from 'connected-react-router';
 import { History } from 'history';
 import { AnyAction, Dispatch } from 'redux';
@@ -14,6 +11,8 @@ import { CompanyStore } from './company/CompanyActions';
 export interface RootState {
   user: UserStore;
   loader: LoaderStore;
+  vacancy: VacancyStore;
+  resume: ResumeStore;
   company: CompanyStore;
   router: RouterState;
 }
@@ -21,8 +20,5 @@ export interface RootState {
 export type StoreDependencies = {
   history: History;
   dispatch: Dispatch<AnyAction>;
-  supabaseService: ISupabaseService;
-  companyService: ICompanyService;
-  vacancyService: IVacancyService;
   apiService: IApiService;
 };

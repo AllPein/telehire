@@ -1,20 +1,12 @@
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 
-import { User } from '@/components/models/User';
+import { TOKEN_NAME } from '@/constants/localStorage';
+import { Token } from '@/models/User';
 import { token } from '@/utils/token';
 import { UserAction, UserStore } from './UserActions';
 
 export const userStoreInitialState: UserStore = {
-  //   userInfo: null,
-  userInfo: {
-    id: '279058397',
-    first_name: 'Aleksandr',
-    last_name: 'Panin',
-    username: 'allpein',
-    photo_url: '',
-    companyList: null,
-    loggedInAs: null,
-  },
+  userInfo: null,
   token: token,
 };
 
@@ -28,8 +20,8 @@ export const UserReducers = reducerWithInitialState<UserStore>(
       userInfo: { ...state.userInfo, ...user },
     };
   })
-  .case(UserAction.setToken, (state: UserStore, token: string) => {
-    localStorage.setItem('supabase_token', token);
+  .case(UserAction.setToken, (state: UserStore, token: Token) => {
+    localStorage.setItem(TOKEN_NAME, JSON.stringify(token));
 
     return {
       ...state,

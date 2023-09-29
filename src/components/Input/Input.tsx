@@ -6,15 +6,23 @@ type Props = {
   placeholder?: string;
   name?: string;
   icon?: any;
+  type?: string;
 };
 
-const Input: FC<Props> = ({ placeholder, value, onChange, name, icon }) => (
+const Input: FC<Props> = ({
+  placeholder,
+  value,
+  onChange,
+  name,
+  icon,
+  type,
+}) => (
   <FormGroup>
     {icon && icon}
     <FormInput
+      type={type ?? 'text'}
       value={value}
       onChange={onChange}
-      type="text"
       name={name}
       placeholder={placeholder}
     />

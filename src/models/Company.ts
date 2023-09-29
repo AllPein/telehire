@@ -1,9 +1,11 @@
 import { CompanyVolumeEnum } from '@/enums/Company';
+import { ShortVacancy } from '@/models/Vacancy';
 
 export type Company = {
-  id: string;
+  id: number;
   name: string;
   description: string;
-  photo_url: string;
+  photoUrl: string;
   volume: CompanyVolumeEnum;
+  vacancies: ShortVacancy[];
 };

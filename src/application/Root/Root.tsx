@@ -10,6 +10,10 @@ const VacancyPage = lazy(
 );
 
 const MainPage = lazy(() => import('@/pages/MainPage/MainPage'), 'MainPage');
+const CompanyInfoPage = lazy(
+  () => import('@/pages/CompanyInfoPage/CompanyInfoPage'),
+  'CompanyInfoPage',
+);
 const ProfilePage = lazy(
   () => import('@/pages/ProfilePage/ProfilePage'),
   'ProfilePage',
@@ -21,6 +25,10 @@ const EmployerPage = lazy(
 const CreateCompanyPage = lazy(
   () => import('@/pages/CreateCompanyPage/CreateCompanyPage'),
   'CreateCompanyPage',
+);
+const CreateResumePage = lazy(
+  () => import('@/pages/CreateResumePage/CreateResumePage'),
+  'CreateResumePage',
 );
 const VacancyListPage = lazy(
   () => import('@/pages/VacancyListPage/VacancyListPage'),
@@ -57,8 +65,16 @@ const routes = [
     children: <CreateCompanyPage />,
   },
   {
+    path: '/create-cv',
+    children: <CreateResumePage />,
+  },
+  {
     path: '/employer',
     children: <EmployerPage />,
+  },
+  {
+    path: '/company/:companyId',
+    children: <CompanyInfoPage />,
   },
 ];
 
