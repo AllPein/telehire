@@ -52,7 +52,7 @@ const AuthProvider: FC<Props> = ({ children }) => {
         dispatch(
           UserAction.initAuth({
             user: {
-              id: user.id,
+              id: Number(user.id),
             },
             client: axiosClient,
           }),
