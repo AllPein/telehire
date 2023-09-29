@@ -43,7 +43,6 @@ const AuthProvider: FC<Props> = ({ children }) => {
     const axiosClient = new AxiosClient(import.meta.env.VITE_BASE_API_URL);
     apiService.init(axiosClient);
 
-    console.log(token);
     if (token && token.tokenExpires > Date.now()) {
       axiosClient.init({ Authorization: 'Bearer ' + token.token });
       dispatch(UserAction.initCompanyList());
