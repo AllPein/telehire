@@ -20,6 +20,7 @@ export const handleCreateResume: Epic<
     switchMap(({ payload: resume }) =>
       from(apiService.createResume(resume)).pipe(
         tap(() => {
+          dispatch(ResumeAction.getMyResumes());
           history.push('/profile');
         }),
       ),
