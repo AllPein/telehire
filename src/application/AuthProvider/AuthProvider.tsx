@@ -2,6 +2,7 @@ import { Spinner } from '@/components/Spinner/Spinner';
 import { LOGGED_IN_AS } from '@/constants/localStorage';
 import { useBackButton } from '@/hooks/useBackButton';
 import { useMount } from '@/hooks/useMount';
+import { useTelegram } from '@/hooks/useTelegram';
 import { apiService } from '@/services/ApiService';
 import { AxiosClient } from '@/services/AxiosClient';
 import {
@@ -22,7 +23,7 @@ const AuthProvider: FC<Props> = ({ children }) => {
   const dispatch = useDispatch();
   const authLoading = useSelector(selectAuthLoading);
   const companyListLoading = useSelector(selectCompanyListLoading);
-  //   const { user } = useTelegram();
+  const { user } = useTelegram();
   useBackButton();
 
   const loading = useMemo(
@@ -31,12 +32,12 @@ const AuthProvider: FC<Props> = ({ children }) => {
   );
 
   useMount(() => {
-    const user = {
-      id: 460186752,
-      first_name: 'Andrey',
-      last_name: 'Nebogatikov',
-      username: 'allpein',
-    };
+    // const user = {
+    //   id: 460186752,
+    //   first_name: 'Andrey',
+    //   last_name: 'Nebogatikov',
+    //   username: 'allpein',
+    // };
     dispatch(UserAction.setUser(user));
 
     const axiosClient = new AxiosClient(import.meta.env.VITE_BASE_API_URL);
