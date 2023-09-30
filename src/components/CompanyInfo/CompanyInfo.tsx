@@ -1,12 +1,15 @@
 import { Avatar } from '@/components/Avatar/Avatar';
+import { Button } from '@/components/Button/Button';
 import {
   Body2,
   Caption,
   Heading6,
 } from '@/components/Typography/Typography.styles';
 import { VacancyItem } from '@/components/VacancyItem/VacancyItem';
+import { CURRENT_COMPANY_ID } from '@/constants/localStorage';
 import { CompanyVolumeToLabel } from '@/enums/Company';
 import { Company } from '@/models/Company';
+import { history } from '@/utils/history';
 import { FC } from 'react';
 import {
   BigWrapper,
@@ -55,6 +58,16 @@ const CompanyInfo: FC<Props> = ({ company }) => (
         )}
       </BigWrapper>
     </BigWrapper>
+    {Number(localStorage.getItem(CURRENT_COMPANY_ID)) === company.id && (
+      <BigWrapper>
+        <Button
+          block
+          onClick={() => history.push('/create-vacancy/' + company.id)}
+        >
+          Create new vacancy
+        </Button>
+      </BigWrapper>
+    )}
   </Wrapper>
 );
 

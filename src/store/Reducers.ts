@@ -4,7 +4,7 @@ import { combineReducers } from 'redux';
 import { LoaderReducers } from '@/store/Loader/LoaderReducers';
 import { RootState } from '@/store/StoreTypes';
 import { UserReducers } from '@/store/auth/UserReducers';
-import { ResumeReducers } from '@/store/cv/ResumeReducers';
+import { ResumeReducers } from '@/store/resume/ResumeReducers';
 import { VacancyReducers } from '@/store/vacancy/VacancyReducers';
 import { history } from '@/utils/history';
 import { CompanyReducers } from './company/CompanyReducers';

@@ -6,22 +6,21 @@ import { AnyAction } from 'typescript-fsa';
 
 import { ofAction } from '@/operators/ofAction';
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
-import { ResumeAction } from '@/store/cv/ResumeActions';
-import { history } from '@/utils/history';
+import { UserAction } from '@/store/auth/UserActions';
+import { ResumeAction } from '@/store/resume/ResumeActions';
 
-export const handleCreateResume: Epic<
+export const handleGetMyResumes: Epic<
   AnyAction,
   AnyAction,
   RootState,
   StoreDependencies
 > = (action$, state$, { apiService, dispatch }) =>
   action$.pipe(
-    ofAction(ResumeAction.createResume),
-    switchMap(({ payload: resume }) =>
-      from(apiService.createResume(resume)).pipe(
-        tap(() => {
-          dispatch(ResumeAction.getMyResumes());
-          history.push('/profile');
+    ofAction(ResumeAction.getMyResumes),
+    switchMap(() =>
+      from(apiService.getMyResumes()).pipe(
+        tap((resumes) => {
+          dispatch(UserAction.setUser({ resumes }));
         }),
       ),
     ),

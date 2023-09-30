@@ -14,7 +14,8 @@ export const FormInput = styled.textarea`
   font-size: 16px;
   color: #fff;
   background: var(--tg-theme-bg-secondary);
-  border-radius: 16px;
+  background-color: var(--tg-theme-bg-secondary);
+  border-radius: 12px;
   resize: none;
   height: 200px;
 `;

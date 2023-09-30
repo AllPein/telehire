@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+type Props = {
+  active?: boolean;
+};
+
 export const Wrapper = styled.div`
   width: 100%;
   background-color: var(--tg-theme-bg-secondary);
@@ -10,8 +14,23 @@ export const Wrapper = styled.div`
   justify-content: space-around;
   align-items: center;
   border-top: 1px solid var(--tg-theme-bg-color);
+`;
+
+export const ImgWrapper = styled.div<Props>`
+  background-color: ${(props) => (props.active ? '#1a212c' : 'inherit')};
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  user-select: none;
+
+  z-index: 1;
 
   img {
-    cursor: pointer;
+    z-index: 2;
   }
 `;

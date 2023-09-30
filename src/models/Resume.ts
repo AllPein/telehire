@@ -1,6 +1,6 @@
 import { CurrencyEnum } from '@/enums/Vacancy';
 
-export type CV = {
+export type Resume = {
   id: number;
   position: string;
   createdAt?: string;

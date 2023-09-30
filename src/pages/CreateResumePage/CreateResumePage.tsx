@@ -5,8 +5,8 @@ import { TextArea } from '@/components/TextArea/TextArea';
 import { Body, Heading6 } from '@/components/Typography/Typography.styles';
 import { CurrencyEnum } from '@/enums/Vacancy';
 import { CurrencyToSymbol } from '@/models/Vacancy';
-import { ResumeAction } from '@/store/cv/ResumeActions';
-import { ChangeEvent, useState } from 'react';
+import { ResumeAction } from '@/store/resume/ResumeActions';
+import { ChangeEvent, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   AppContainer,
@@ -31,7 +31,7 @@ const CreateResumePage = () => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState<any>({
     position: '',
-    salary: '0',
+    salary: '',
     description: '',
     skills: ['React', 'Node.js'],
     currency: CurrencyEnum.USD,
@@ -58,24 +58,18 @@ const CreateResumePage = () => {
   ) => {
     const { name, value } = event.target;
 
-    setFormData((prevFormData: any) => {
-      const newFormData = { ...prevFormData, [name]: value };
-      const hideButton = Object.values(newFormData).some((value) => !value);
-
-      //   if (!hideButton) {
-      //     onShowButton();
-      //   } else {
-      //     onHideButton();
-      //   }
-      return newFormData;
-    });
+    setFormData((prevFormData: any) => ({ ...prevFormData, [name]: value }));
   };
+
+  const disabled = useMemo(() => {
+    return Object.values(formData).some((val) => !val);
+  }, [formData]);
 
   return (
     <AppContainer>
       <div>
         <HeadingWrapper>
-          <Heading6>Create your CV</Heading6>
+          <Heading6>Create your Resume</Heading6>
         </HeadingWrapper>
         <Body>Desired position</Body>
         <InputWrapper>
@@ -119,7 +113,7 @@ const CreateResumePage = () => {
         </InputWrapper>
       </div>
       <LabelWrapper>
-        <Button block onClick={handleCreateClick}>
+        <Button disabled={disabled} block onClick={handleCreateClick}>
           Create
         </Button>
       </LabelWrapper>

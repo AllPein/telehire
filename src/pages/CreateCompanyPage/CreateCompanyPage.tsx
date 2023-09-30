@@ -4,11 +4,10 @@ import { Select } from '@/components/Select/Select';
 import { TextArea } from '@/components/TextArea/TextArea';
 import { Body, Heading6 } from '@/components/Typography/Typography.styles';
 import { CompanyVolumeEnum, CompanyVolumeToLabel } from '@/enums/Company';
-import { useMainButton } from '@/hooks/useMainButton';
 import { Company } from '@/models/Company';
 import { CompanyAction } from '@/store/company/CompanyActions';
-import { history } from '@/utils/history';
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
+import Avatar from 'react-avatar-edit';
 import { useDispatch } from 'react-redux';
 import {
   AppContainer,
@@ -42,6 +41,7 @@ const options = [
 
 const CreateCompanyPage = () => {
   const dispatch = useDispatch();
+  const [preview, setPreview] = useState<string | null>(null);
   const [formData, setFormData] = useState<
     Pick<Company, 'name' | 'description' | 'volume'>
   >({
@@ -50,36 +50,32 @@ const CreateCompanyPage = () => {
     volume: undefined as unknown as CompanyVolumeEnum,
   });
 
-  const handleCreateClick = useCallback(() => {
-    console.log(formData);
-    dispatch(CompanyAction.createCompany(formData));
-    onHideButton();
-  }, [formData]);
-
-  const handleBackClick = () => {
-    history.push('/');
+  const handleCreateClick = () => {
+    dispatch(
+      CompanyAction.createCompany({
+        ...formData,
+        photoUrl: preview!,
+      }),
+    );
   };
 
-  const { onShowButton, onHideButton } = useMainButton({
-    onClick: handleCreateClick,
-    text: 'Create',
-  });
+  const disabled = useMemo(() => {
+    return !preview || Object.values(formData).some((value) => !value);
+  }, [formData, preview]);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = event.target;
-    setFormData((prevFormData) => {
-      const newFormData = { ...prevFormData, [name]: value };
-      const hideButton = Object.values(newFormData).some((value) => !value);
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+  };
 
-      //   if (!hideButton) {
-      //     onShowButton();
-      //   } else {
-      //     onHideButton();
-      //   }
-      return newFormData;
-    });
+  const onClose = () => {
+    setPreview(null);
+  };
+
+  const onCrop = (preview: string) => {
+    setPreview(preview);
   };
 
   return (
@@ -87,7 +83,24 @@ const CreateCompanyPage = () => {
       <div>
         <HeadingWrapper>
           <Heading6>Create a company</Heading6>
+          <Body>Company avatar</Body>
+          <LabelWrapper>
+            <Avatar
+              labelStyle={{ color: '#fff' }}
+              width={200}
+              height={100}
+              imageWidth={200}
+              onCrop={onCrop}
+              onClose={onClose}
+            />
+          </LabelWrapper>
+          {preview && (
+            <LabelWrapper>
+              <img src={preview!} />
+            </LabelWrapper>
+          )}
         </HeadingWrapper>
+
         <Body>Company name</Body>
         <InputWrapper>
           <Input
@@ -121,7 +134,7 @@ const CreateCompanyPage = () => {
         </InputWrapper>
       </div>
       <LabelWrapper>
-        <Button block onClick={handleCreateClick}>
+        <Button disabled={disabled} block onClick={handleCreateClick}>
           Create
         </Button>
       </LabelWrapper>

@@ -5,12 +5,24 @@ type Props = {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   size?: 's' | 'm' | 'l';
   block?: boolean;
+  disabled?: boolean;
   children: any;
 };
 
-const Button: FC<Props> = ({ onClick, size = 'm', children, block }) => {
+const Button: FC<Props> = ({
+  onClick,
+  size = 'm',
+  children,
+  block,
+  disabled,
+}) => {
   return (
-    <ButtonWrapper size={size} block={block} onClick={onClick}>
+    <ButtonWrapper
+      disabled={disabled}
+      size={size}
+      block={block}
+      onClick={onClick}
+    >
       {children}
     </ButtonWrapper>
   );

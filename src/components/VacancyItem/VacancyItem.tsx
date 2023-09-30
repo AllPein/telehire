@@ -18,7 +18,7 @@ type Props = {
 
 const VacancyItem: FC<Props> = ({ vacancy, withoutCompany }) => {
   const handleOpenVacancy = () => {
-    history.push('/vacancy/' + vacancy.id);
+    history.push('/vacancies/' + vacancy.id);
   };
 
   return (
@@ -47,7 +47,7 @@ const VacancyItem: FC<Props> = ({ vacancy, withoutCompany }) => {
           <FlexWrapper>
             <img src={PlaceIcon} />
             <Caption>
-              {vacancy.location.country}, {vacancy.location.city}
+              {vacancy.location?.country}, {vacancy.location?.city}
             </Caption>
           </FlexWrapper>
         )}

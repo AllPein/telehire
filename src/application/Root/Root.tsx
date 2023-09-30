@@ -10,6 +10,10 @@ const VacancyPage = lazy(
 );
 
 const MainPage = lazy(() => import('@/pages/MainPage/MainPage'), 'MainPage');
+const CreateVacancyPage = lazy(
+  () => import('@/pages/CreateVacancyPage/CreateVacancyPage'),
+  'CreateVacancyPage',
+);
 const CompanyInfoPage = lazy(
   () => import('@/pages/CompanyInfoPage/CompanyInfoPage'),
   'CompanyInfoPage',
@@ -41,32 +45,28 @@ const routes = [
     children: <MainPage />,
   },
   {
-    path: '/vacancy/:vacancyId',
+    path: '/vacancies/:vacancyId',
     children: <VacancyPage />,
   },
   {
     path: '/vacancies',
-    children: (
-      <AuthenticatedLayout>
-        <VacancyListPage />
-      </AuthenticatedLayout>
-    ),
+    children: <VacancyListPage />,
   },
   {
     path: '/profile',
-    children: (
-      <AuthenticatedLayout>
-        <ProfilePage />
-      </AuthenticatedLayout>
-    ),
+    children: <ProfilePage />,
   },
   {
     path: '/create-company',
     children: <CreateCompanyPage />,
   },
   {
-    path: '/create-cv',
+    path: '/create-resume',
     children: <CreateResumePage />,
+  },
+  {
+    path: '/create-vacancy/:companyId',
+    children: <CreateVacancyPage />,
   },
   {
     path: '/employer',
@@ -76,17 +76,23 @@ const routes = [
     path: '/company/:companyId',
     children: <CompanyInfoPage />,
   },
+  {
+    path: '/manage-company/:companyId',
+    children: <CompanyInfoPage />,
+  },
 ];
 
 const Root = () => {
   const renderRoot = () => (
-    <Switch>
-      {routes.map((route) => (
-        <Route key={route.path} exact {...route}>
-          {route.children}
-        </Route>
-      ))}
-    </Switch>
+    <AuthenticatedLayout>
+      <Switch>
+        {routes.map((route) => (
+          <Route key={route.path} exact {...route}>
+            {route.children}
+          </Route>
+        ))}
+      </Switch>
+    </AuthenticatedLayout>
   );
 
   return (

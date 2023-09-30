@@ -51,15 +51,15 @@ const Profile: FC<Props> = ({ user }) => {
         {user.resumes!.length > 0 ? (
           <>
             <BigWrapper>
-              <Heading6>Your CVs</Heading6>
+              <Heading6>Your resumes</Heading6>
             </BigWrapper>
             <SmallWrapper>
-              {user.resumes!.map((cv) => (
-                <CVWrapper key={cv.id}>
+              {user.resumes!.map((resume) => (
+                <CVWrapper key={resume.id}>
                   <>
-                    <Body>{cv.position}</Body>
+                    <Body>{resume.position}</Body>
                     <Caption color="#ffffffB2">
-                      {cv.salary} {CurrencyToSymbol[cv.currency]}
+                      {resume.salary} {CurrencyToSymbol[resume.currency]}
                     </Caption>
                   </>
                   <Caption color="#ffffffB2">23 views</Caption>
@@ -69,12 +69,12 @@ const Profile: FC<Props> = ({ user }) => {
           </>
         ) : (
           <BigWrapper>
-            <Heading6>You don't have any CVs</Heading6>
+            <Heading6>You don't have any resumes yet</Heading6>
           </BigWrapper>
         )}
 
         <BigWrapper>
-          <Button block onClick={() => history.push('/create-cv')}>
+          <Button block onClick={() => history.push('/create-resume')}>
             Create new
           </Button>
         </BigWrapper>

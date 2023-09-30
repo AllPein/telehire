@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const FormGroup = styled.div`
   display: flex;
   background: var(--tg-theme-bg-secondary);
-  border-radius: 16px;
+  border-radius: 12px;
   padding-left: 10px;
   width: 100%;
   align-items: center;
@@ -23,4 +23,5 @@ export const FormInput = styled.input`
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
   background: var(--tg-theme-bg-secondary);
+  background-color: var(--tg-theme-bg-secondary);
 `;

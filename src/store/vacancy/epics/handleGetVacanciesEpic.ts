@@ -16,8 +16,8 @@ export const handleGetVacancies: Epic<
 > = (action$, state$, { apiService, dispatch }) =>
   action$.pipe(
     ofAction(VacancyAction.getVacancies),
-    switchMap(({ payload: cvId }) =>
-      from(apiService.getVacancies(cvId)).pipe(
+    switchMap(({ payload: resumeId }) =>
+      from(apiService.getVacancies(resumeId)).pipe(
         tap((vacancies) => {
           dispatch(VacancyAction.setVacancies(vacancies));
         }),

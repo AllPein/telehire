@@ -8,7 +8,7 @@ import { ofAction } from '@/operators/ofAction';
 import { LoaderAction } from '@/store/Loader/LoaderActions';
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
 import { UserAction } from '@/store/auth/UserActions';
-import { ResumeAction } from '@/store/cv/ResumeActions';
+import { ResumeAction } from '@/store/resume/ResumeActions';
 
 export const handleInitAuth: Epic<
   AnyAction,

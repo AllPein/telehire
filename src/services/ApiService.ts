@@ -1,5 +1,5 @@
-import { CV } from '@/models/CV';
 import { Company } from '@/models/Company';
+import { Resume } from '@/models/Resume';
 import { Token } from '@/models/User';
 import { ShortVacancy, Vacancy } from '@/models/Vacancy';
 import { AxiosClient, IApiService } from '@/services/types';
@@ -31,10 +31,7 @@ class ApiService implements IApiService {
 
   async createCompany(company: Partial<Company>): Promise<Company> {
     try {
-      const res = await this.#axiosClient.post<any, any>('/companies', {
-        ...company,
-        photoUrl: '',
-      });
+      const res = await this.#axiosClient.post<any, any>('/companies', company);
 
       return res.data;
     } catch (err: any) {
@@ -72,9 +69,9 @@ class ApiService implements IApiService {
     }
   }
 
-  async getVacancies(cvId: number | undefined): Promise<ShortVacancy[]> {
+  async getVacancies(resumeId: number | undefined): Promise<ShortVacancy[]> {
     try {
-      const url = cvId ? '/feed/vacancies/' + cvId : '/vacancies';
+      const url = resumeId ? '/feed/vacancies/' + resumeId : '/vacancies';
       const res = await this.#axiosClient.get<any>(url);
 
       return res.data;
@@ -93,7 +90,7 @@ class ApiService implements IApiService {
     }
   }
 
-  async getResumes(): Promise<CV[]> {
+  async getResumes(): Promise<Resume[]> {
     try {
       const res = await this.#axiosClient.get<any>('/cvs');
 
@@ -103,7 +100,7 @@ class ApiService implements IApiService {
     }
   }
 
-  async getMyResumes(): Promise<CV[]> {
+  async getMyResumes(): Promise<Resume[]> {
     try {
       const res = await this.#axiosClient.get<any>('/cvs/my');
 
@@ -113,7 +110,7 @@ class ApiService implements IApiService {
     }
   }
 
-  async getResume(resumeId: number): Promise<CV> {
+  async getResume(resumeId: number): Promise<Resume> {
     try {
       const res = await this.#axiosClient.get<any>('/cvs/' + resumeId);
 
@@ -123,7 +120,7 @@ class ApiService implements IApiService {
     }
   }
 
-  async createResume(resume: Partial<CV>): Promise<CV> {
+  async createResume(resume: Partial<Resume>): Promise<Resume> {
     try {
       const res = await this.#axiosClient.post<any, any>('/cvs', resume);
 

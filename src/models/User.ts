@@ -1,5 +1,5 @@
-import { CV } from '@/models/CV';
 import { Company } from '@/models/Company';
+import { Resume } from '@/models/Resume';
 
 export type TelegramUser = {
   id: number;
@@ -16,7 +16,7 @@ export type TelegramUser = {
 
 export type User = {
   companyList?: Company[] | null;
-  resumes?: CV[] | null;
+  resumes?: Resume[] | null;
   loggedInAs?: 'applicant' | 'company' | null;
 } & TelegramUser;
 

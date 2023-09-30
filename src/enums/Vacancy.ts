@@ -11,6 +11,12 @@ export enum CurrencyEnum {
   RUB = 'rub',
 }
 
+export enum JobTypeEnum {
+  Remote = 'Remote',
+  Office = 'Office',
+  Hybrid = 'Hybrid',
+}
+
 export const ExperienceToLabel = {
   [ExperienceEnum.No]: 'No experience',
   [ExperienceEnum.Junior]: '0 - 1 year',

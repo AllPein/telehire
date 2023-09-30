@@ -1,5 +1,6 @@
-import { CV } from '@/models/CV';
 import { Company } from '@/models/Company';
+import { Resume } from '@/models/Resume';
+
 import { Token } from '@/models/User';
 import { ShortVacancy, Vacancy } from '@/models/Vacancy';
 import {
@@ -15,12 +16,12 @@ export interface IApiService {
   getCompany: (id: number) => Promise<Company>;
   getVacancies: (id: number | undefined) => Promise<ShortVacancy[]>;
   getVacancy: (id: number) => Promise<Vacancy>;
-  getResumes: () => Promise<CV[]>;
-  getMyResumes: () => Promise<CV[]>;
-  getResume: (id: number) => Promise<CV>;
+  getResumes: () => Promise<Resume[]>;
+  getMyResumes: () => Promise<Resume[]>;
+  getResume: (id: number) => Promise<Resume>;
   createVacancy: (vacancy: Partial<Vacancy>) => Promise<Vacancy | null>;
   createCompany: (company: Partial<Company>) => Promise<Company>;
-  createResume: (company: Partial<CV>) => Promise<CV>;
+  createResume: (company: Partial<Resume>) => Promise<Resume>;
 }
 export interface AxiosClient {
   init: (headers: RawAxiosRequestHeaders) => void;

@@ -1,12 +1,11 @@
 import PlaceIcon from '@/assets/place.svg';
+import { Button } from '@/components/Button/Button';
 import {
   Body2,
   Caption,
   Heading6,
 } from '@/components/Typography/Typography.styles';
 import { CurrencyEnum, ExperienceToLabel } from '@/enums/Vacancy';
-import { useMainButton } from '@/hooks/useMainButton';
-import { useMount } from '@/hooks/useMount';
 import { CurrencyToSymbol, Vacancy } from '@/models/Vacancy';
 import { history } from '@/utils/history';
 import { FC } from 'react';
@@ -27,17 +26,7 @@ type Props = {
 const VacancyInfo: FC<Props> = ({ vacancy }) => {
   const handleApply = () => {
     history.push('/');
-    onHideButton();
   };
-
-  const { onShowButton, onHideButton } = useMainButton({
-    text: 'Apply',
-    onClick: handleApply,
-  });
-
-  useMount(() => {
-    onShowButton();
-  });
 
   return (
     <Wrapper>
@@ -53,7 +42,7 @@ const VacancyInfo: FC<Props> = ({ vacancy }) => {
         <CountryWrapper>
           <img src={PlaceIcon} />
           <Caption>
-            {vacancy.location.country}, {vacancy.location.city}
+            {vacancy.location?.country}, {vacancy.location?.city}
           </Caption>
         </CountryWrapper>
       </SmallWrapper>
@@ -102,6 +91,11 @@ const VacancyInfo: FC<Props> = ({ vacancy }) => {
         <SmallWrapper>
           <Caption color="#FFFFFFB2">{vacancy.description}</Caption>
         </SmallWrapper>
+      </BigWrapper>
+      <BigWrapper>
+        <Button block onClick={handleApply}>
+          Apply
+        </Button>
       </BigWrapper>
     </Wrapper>
   );

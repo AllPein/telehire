@@ -1,7 +1,7 @@
 import { IApiService } from '@/services/types';
 import { LoaderStore } from '@/store/Loader/LoaderActions';
 import { UserStore } from '@/store/auth/UserActions';
-import { ResumeStore } from '@/store/cv/ResumeActions';
+import { ResumeStore } from '@/store/resume/ResumeActions';
 import { VacancyStore } from '@/store/vacancy/VacancyActions';
 import { RouterState } from 'connected-react-router';
 import { History } from 'history';

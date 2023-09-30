@@ -6,7 +6,7 @@ import { AnyAction } from 'typescript-fsa';
 
 import { ofAction } from '@/operators/ofAction';
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
-import { ResumeAction } from '@/store/cv/ResumeActions';
+import { ResumeAction } from '@/store/resume/ResumeActions';
 
 export const handleGetResumes: Epic<
   AnyAction,
