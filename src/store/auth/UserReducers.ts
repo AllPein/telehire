@@ -1,6 +1,5 @@
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 
-import { TOKEN_NAME } from '@/constants/localStorage';
 import { Token } from '@/models/User';
 import { token } from '@/utils/token';
 import { UserAction, UserStore } from './UserActions';
@@ -21,8 +20,6 @@ export const UserReducers = reducerWithInitialState<UserStore>(
     };
   })
   .case(UserAction.setToken, (state: UserStore, token: Token) => {
-    localStorage.setItem(TOKEN_NAME, JSON.stringify(token));
-
     return {
       ...state,
       token,

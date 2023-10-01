@@ -3,6 +3,7 @@ import { Resume } from '@/models/Resume';
 
 import { Token } from '@/models/User';
 import { ShortVacancy, Vacancy } from '@/models/Vacancy';
+import { CreateVacancyRequestDto } from '@/store/vacancy/types';
 import {
   AxiosRequestConfig,
   AxiosResponse,
@@ -19,10 +20,11 @@ export interface IApiService {
   getResumes: () => Promise<Resume[]>;
   getMyResumes: () => Promise<Resume[]>;
   getResume: (id: number) => Promise<Resume>;
-  createVacancy: (vacancy: Partial<Vacancy>) => Promise<Vacancy | null>;
+  createVacancy: (vacancy: CreateVacancyRequestDto) => Promise<Vacancy | null>;
   createCompany: (company: Partial<Company>) => Promise<Company>;
   createResume: (company: Partial<Resume>) => Promise<Resume>;
 }
+
 export interface AxiosClient {
   init: (headers: RawAxiosRequestHeaders) => void;
   get: <T>(

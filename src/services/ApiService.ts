@@ -3,6 +3,7 @@ import { Resume } from '@/models/Resume';
 import { Token } from '@/models/User';
 import { ShortVacancy, Vacancy } from '@/models/Vacancy';
 import { AxiosClient, IApiService } from '@/services/types';
+import { CreateVacancyRequestDto } from '@/store/vacancy/types';
 
 class ApiService implements IApiService {
   // @ts-ignore
@@ -59,7 +60,7 @@ class ApiService implements IApiService {
     }
   }
 
-  async createVacancy(vacancy: Partial<Vacancy>): Promise<Vacancy> {
+  async createVacancy(vacancy: CreateVacancyRequestDto): Promise<Vacancy> {
     try {
       const res = await this.#axiosClient.post<any, any>('/vacancies', vacancy);
 

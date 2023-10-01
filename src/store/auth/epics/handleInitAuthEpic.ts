@@ -1,14 +1,14 @@
 import { Epic } from 'redux-observable';
 import { from } from 'rxjs';
-import { finalize, ignoreElements, switchMap, tap } from 'rxjs/operators';
+import { ignoreElements, switchMap, tap } from 'rxjs/operators';
 import { AnyAction } from 'typescript-fsa';
 
+import { TOKEN_NAME } from '@/constants/localStorage';
 import { Token } from '@/models/User';
 import { ofAction } from '@/operators/ofAction';
 import { LoaderAction } from '@/store/Loader/LoaderActions';
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
 import { UserAction } from '@/store/auth/UserActions';
-import { ResumeAction } from '@/store/resume/ResumeActions';
 
 export const handleInitAuth: Epic<
   AnyAction,
@@ -27,20 +27,10 @@ export const handleInitAuth: Epic<
       );
     }),
     switchMap(({ payload: data }) =>
-      from(apiService.getToken(data.user)).pipe(
+      from(apiService.getToken(data)).pipe(
         tap((token: Token) => {
-          data.client.init({ Authorization: 'Bearer ' + token.token });
-          dispatch(UserAction.setToken(token));
-          dispatch(UserAction.initCompanyList());
-          dispatch(ResumeAction.getMyResumes());
-        }),
-        finalize(() => {
-          dispatch(
-            LoaderAction.setLoading({
-              type: 'auth',
-              value: false,
-            }),
-          );
+          localStorage.setItem(TOKEN_NAME, JSON.stringify(token));
+          dispatch(UserAction.initInitialize(false));
         }),
       ),
     ),

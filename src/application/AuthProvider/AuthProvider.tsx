@@ -1,17 +1,13 @@
 import { Spinner } from '@/components/Spinner/Spinner';
-import { LOGGED_IN_AS } from '@/constants/localStorage';
 import { useMount } from '@/hooks/useMount';
 import { useTelegram } from '@/hooks/useTelegram';
-import { apiService } from '@/services/ApiService';
-import { AxiosClient } from '@/services/AxiosClient';
 import {
   selectAuthLoading,
   selectCompanyListLoading,
 } from '@/store/Loader/LoaderSelectors';
 import { UserAction } from '@/store/auth/UserActions';
-import { ResumeAction } from '@/store/resume/ResumeActions';
 import { history } from '@/utils/history';
-import { token } from '@/utils/token';
+import { token, tokenAlive } from '@/utils/token';
 import { FC, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -44,31 +40,15 @@ const AuthProvider: FC<Props> = ({ children }) => {
     };
     dispatch(UserAction.setUser(user));
 
-    const loggedInAs = localStorage.getItem(LOGGED_IN_AS) as
-      | 'company'
-      | 'applicant';
-
-    const axiosClient = new AxiosClient(import.meta.env.VITE_BASE_API_URL);
-    apiService.init(axiosClient);
-
-    if (token && token.tokenExpires > Date.now()) {
-      axiosClient.init({ Authorization: 'Bearer ' + token.token });
-      dispatch(ResumeAction.getMyResumes());
-      dispatch(UserAction.initCompanyList());
+    if (tokenAlive(token)) {
+      dispatch(UserAction.initInitialize(true));
     } else {
-      if (user) {
-        dispatch(
-          UserAction.initAuth({
-            user: {
-              id: Number(user.id),
-            },
-            client: axiosClient,
-          }),
-        );
-      }
+      dispatch(
+        UserAction.initAuth({
+          id: user.id,
+        }),
+      );
     }
-
-    dispatch(UserAction.initLogin(loggedInAs));
 
     return () => {
       tg.offEvent('backButtonClicked', onClick);
