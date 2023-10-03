@@ -1,5 +1,3 @@
-import FilterIcon from '@/assets/filter.svg';
-import { Button } from '@/components/Button/Button';
 import { Search } from '@/components/Search/Search';
 import { Heading6 } from '@/components/Typography/Typography.styles';
 import { VacancyItem } from '@/components/VacancyItem/VacancyItem';
@@ -38,7 +36,7 @@ const VacancyList: FC<Props> = ({ vacancies }) => {
     return vacancies.filter((vacancy) =>
       vacancy.position.toLowerCase().includes(searchValue.toLowerCase()),
     );
-  }, [searchValue]);
+  }, [searchValue, vacancies]);
 
   const handleOpenVacancy = (vacancyId: number) => {
     history.push('/vacancies/' + vacancyId);
@@ -49,9 +47,6 @@ const VacancyList: FC<Props> = ({ vacancies }) => {
       <Wrapper>
         <InputWrapper>
           <Search onSearch={handleSearch} placeholder="Search.." />
-          <Button onClick={handleFilterClick}>
-            <img src={FilterIcon} alt="" />
-          </Button>
         </InputWrapper>
         <HeadingWrapper>
           <Heading6>Vacancy list for you</Heading6>

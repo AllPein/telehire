@@ -1,11 +1,13 @@
 import { Profile } from '@/components/Profile/Profile';
 import { Spinner } from '@/components/Spinner/Spinner';
+import { selectProfileLoading } from '@/store/Loader/LoaderSelectors';
 import { selectUser } from '@/store/auth/UserSelectors';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 const ProfilePage = () => {
   const user = useSelector(selectUser);
+  const profileLoading = useSelector(selectProfileLoading);
 
   const renderProfile = useMemo(() => {
     if (!user) {
@@ -23,7 +25,15 @@ const ProfilePage = () => {
     return false;
   }, [user]);
 
-  return <>{renderProfile ? <Profile user={user!} /> : <Spinner />}</>;
+  return (
+    <>
+      {!profileLoading && renderProfile ? (
+        <Profile user={user!} />
+      ) : (
+        <Spinner />
+      )}
+    </>
+  );
 };
 
 export { ProfilePage };

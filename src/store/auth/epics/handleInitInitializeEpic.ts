@@ -32,17 +32,11 @@ export const handleInitInitialize: Epic<
         | 'applicant';
 
       axiosClient.init({ Authorization: 'Bearer ' + token.token });
+      dispatch(UserAction.initLogin(loggedInAs));
       dispatch(UserAction.setToken(token!));
       dispatch(ResumeAction.getMyResumes());
       dispatch(UserAction.initCompanyList());
-
-      dispatch(UserAction.initLogin(loggedInAs));
-      dispatch(
-        LoaderAction.setLoading({
-          type: 'auth',
-          value: false,
-        }),
-      );
+      dispatch(UserAction.getUser());
     }),
 
     ignoreElements(),

@@ -34,3 +34,9 @@ export const JobInfoWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+export const MemberWrapper = styled.div`
+  background-color: var(--tg-theme-bg-secondary);
+  border-radius: 8px;
+  padding: 16px;
+`;

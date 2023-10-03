@@ -1,10 +1,11 @@
 /* eslint-disable import/no-cycle */
 import { Epic } from 'redux-observable';
 import { from } from 'rxjs';
-import { ignoreElements, switchMap, tap } from 'rxjs/operators';
+import { finalize, ignoreElements, switchMap, tap } from 'rxjs/operators';
 import { AnyAction } from 'typescript-fsa';
 
 import { ofAction } from '@/operators/ofAction';
+import { LoaderAction } from '@/store/Loader/LoaderActions';
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
 import { history } from '@/utils/history';
 import { mapVacancyFormToVacancyDto } from '@/utils/mappers';
@@ -18,11 +19,19 @@ export const handleCreateVacancy: Epic<
 > = (action$, state$, { apiService, dispatch }) =>
   action$.pipe(
     ofAction(VacancyAction.createVacancy),
+    tap(() => {
+      dispatch(LoaderAction.setLoading({ type: 'createVacancy', value: true }));
+    }),
     switchMap(({ payload: { formData, companyId } }) => {
       const vacancy = mapVacancyFormToVacancyDto(formData, companyId);
       return from(apiService.createVacancy(vacancy)).pipe(
         tap(() => {
           history.push('/company/' + vacancy.companyId);
+        }),
+        finalize(() => {
+          dispatch(
+            LoaderAction.setLoading({ type: 'createVacancy', value: false }),
+          );
         }),
       );
     }),

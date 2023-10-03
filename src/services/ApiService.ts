@@ -1,6 +1,6 @@
 import { Company } from '@/models/Company';
 import { Resume } from '@/models/Resume';
-import { Token } from '@/models/User';
+import { Token, User } from '@/models/User';
 import { ShortVacancy, Vacancy } from '@/models/Vacancy';
 import { AxiosClient, IApiService } from '@/services/types';
 import { CreateResumeDto } from '@/store/resume/types';
@@ -31,6 +31,15 @@ class ApiService implements IApiService {
       );
 
       return res.data as Token;
+    } catch (err: any) {
+      return err;
+    }
+  }
+  async getUser(): Promise<User> {
+    try {
+      const res = await this.axiosClient.get<any>('/auth/me');
+
+      return res.data as User;
     } catch (err: any) {
       return err;
     }
@@ -89,7 +98,7 @@ class ApiService implements IApiService {
 
   async getCandidates(vacancyId: number | undefined): Promise<Resume[]> {
     try {
-      const url = vacancyId ? '/feed/candidates/' + vacancyId : '/cvs';
+      const url = vacancyId ? '/feed/candidates/' + vacancyId : '/resumes';
       const res = await this.#axiosClient.get<any>(url);
 
       return res.data;
@@ -110,7 +119,7 @@ class ApiService implements IApiService {
 
   async getResumes(): Promise<Resume[]> {
     try {
-      const res = await this.#axiosClient.get<any>('/cvs');
+      const res = await this.#axiosClient.get<any>('/resumes');
 
       return res.data;
     } catch (err: any) {
@@ -120,7 +129,7 @@ class ApiService implements IApiService {
 
   async getMyResumes(): Promise<Resume[]> {
     try {
-      const res = await this.#axiosClient.get<any>('/cvs/my');
+      const res = await this.#axiosClient.get<any>('/resumes/my');
 
       return res.data;
     } catch (err: any) {
@@ -130,7 +139,7 @@ class ApiService implements IApiService {
 
   async getResume(resumeId: number): Promise<Resume> {
     try {
-      const res = await this.#axiosClient.get<any>('/cvs/' + resumeId);
+      const res = await this.#axiosClient.get<any>('/resumes/' + resumeId);
 
       return res.data;
     } catch (err: any) {
@@ -140,7 +149,7 @@ class ApiService implements IApiService {
 
   async createResume(resume: CreateResumeDto): Promise<Resume> {
     try {
-      const res = await this.#axiosClient.post<any, any>('/cvs', resume);
+      const res = await this.#axiosClient.post<any, any>('/resumes', resume);
 
       return res.data;
     } catch (err: any) {
@@ -181,13 +190,23 @@ class ApiService implements IApiService {
     }
   }
 
-  async apply(data: { cvId: number; vacancyId: number }): Promise<string> {
+  async apply(data: { resumeId: number; vacancyId: number }): Promise<string> {
     try {
       await this.#axiosClient.post<any, any>('/applies', data);
 
       return 'success';
     } catch (err: any) {
       return 'error';
+    }
+  }
+
+  async setActiveResumeId(resumeId: number): Promise<void> {
+    try {
+      await this.#axiosClient.post<any, any>('/resumes/setActive', {
+        resumeId,
+      });
+    } catch (err: any) {
+      throw err;
     }
   }
 }

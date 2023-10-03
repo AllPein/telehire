@@ -4,11 +4,12 @@ import { Select } from '@/components/Select/Select';
 import { TextArea } from '@/components/TextArea/TextArea';
 import { Body, Heading6 } from '@/components/Typography/Typography.styles';
 import { CompanyVolumeEnum, CompanyVolumeToLabel } from '@/enums/Company';
+import { selectCreateCompanyLoading } from '@/store/Loader/LoaderSelectors';
 import { CompanyAction } from '@/store/company/CompanyActions';
 import { CompanyFormData } from '@/types/FormData';
 import { ChangeEvent, useMemo, useState } from 'react';
 import Avatar from 'react-avatar-edit';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   AppContainer,
   HeadingWrapper,
@@ -47,6 +48,7 @@ const CreateCompanyPage = () => {
     description: '',
     volume: options[0],
   });
+  const loading = useSelector(selectCreateCompanyLoading);
 
   const handleCreateClick = () => {
     dispatch(CompanyAction.createCompany({ ...formData, photoUrl: preview! }));
@@ -127,7 +129,12 @@ const CreateCompanyPage = () => {
         </InputWrapper>
       </div>
       <LabelWrapper>
-        <Button disabled={disabled} block onClick={handleCreateClick}>
+        <Button
+          disabled={disabled}
+          block
+          onClick={handleCreateClick}
+          loading={loading}
+        >
           Create
         </Button>
       </LabelWrapper>

@@ -1,3 +1,4 @@
+import { ResumeInfo } from '@/components/ResumeInfo/ResumeInfo';
 import { Spinner } from '@/components/Spinner/Spinner';
 import { ResumeAction } from '@/store/resume/ResumeActions';
 import { selectCurrentResume } from '@/store/resume/ResumeSelectors';
@@ -18,7 +19,9 @@ const ResumePage = () => {
     };
   }, [resumeId]);
 
-  return <>{<Spinner />}</>;
+  return (
+    <>{currentResume ? <ResumeInfo resume={currentResume} /> : <Spinner />}</>
+  );
 };
 
 export { ResumePage };

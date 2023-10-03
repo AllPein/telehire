@@ -16,48 +16,46 @@ type Props = {
   onClick: (vacancyId: number) => void;
 };
 
-const VacancyItem: FC<Props> = ({ vacancy, withoutCompany, onClick }) => {
-  return (
-    <Wrapper onClick={() => onClick(vacancy.id)}>
-      <Body2>{vacancy.position}</Body2>
+const VacancyItem: FC<Props> = ({ vacancy, withoutCompany, onClick }) => (
+  <Wrapper onClick={() => onClick(vacancy.id)}>
+    <Body2>{vacancy.position}</Body2>
 
-      <ItemWrapper>
-        {vacancy.salaryTo ? (
-          <Body>
-            {vacancy.salaryFrom} - {vacancy.salaryTo}
-            {CurrencyToSymbol[vacancy.currency as CurrencyEnum]}
-          </Body>
-        ) : (
-          <Body>
-            from {vacancy.salaryFrom}
-            {CurrencyToSymbol[vacancy.currency as CurrencyEnum]}
-          </Body>
-        )}
-      </ItemWrapper>
-      <ItemWrapper margin="l">
-        {vacancy.jobType === 'Remote' ? (
-          <ItemWrapper>
-            <Caption color="#FFFFFFB2">{vacancy.jobType}</Caption>
-          </ItemWrapper>
-        ) : (
-          <FlexWrapper>
-            <img src={PlaceIcon} />
-            <Caption>{vacancy.location?.country}</Caption>
-          </FlexWrapper>
-        )}
-      </ItemWrapper>
-      {!withoutCompany && (
+    <ItemWrapper>
+      {vacancy.salaryTo ? (
+        <Body>
+          {vacancy.salaryFrom} - {vacancy.salaryTo}
+          {CurrencyToSymbol[vacancy.currency as CurrencyEnum]}
+        </Body>
+      ) : (
+        <Body>
+          from {vacancy.salaryFrom}
+          {CurrencyToSymbol[vacancy.currency as CurrencyEnum]}
+        </Body>
+      )}
+    </ItemWrapper>
+    <ItemWrapper margin="l">
+      {vacancy.jobType === 'Remote' ? (
+        <ItemWrapper>
+          <Caption color="#FFFFFFB2">{vacancy.jobType}</Caption>
+        </ItemWrapper>
+      ) : (
         <FlexWrapper>
-          <img src={CompanyIcon} />
-          <Caption>{vacancy.company.name}</Caption>
+          <img src={PlaceIcon} />
+          <Caption>{vacancy.location?.country}</Caption>
         </FlexWrapper>
       )}
+    </ItemWrapper>
+    {!withoutCompany && (
+      <FlexWrapper>
+        <img src={CompanyIcon} />
+        <Caption>{vacancy.company.name}</Caption>
+      </FlexWrapper>
+    )}
 
-      <ItemWrapper>
-        <Caption>{ExperienceToLabel[vacancy.experience]}</Caption>
-      </ItemWrapper>
-    </Wrapper>
-  );
-};
+    <ItemWrapper>
+      <Caption>{ExperienceToLabel[vacancy.experience]}</Caption>
+    </ItemWrapper>
+  </Wrapper>
+);
 
 export { VacancyItem };

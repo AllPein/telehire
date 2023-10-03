@@ -32,13 +32,13 @@ export function mapVacancyFormToVacancyDto(
         } else if (key === 'skills') {
           acc[key] = (value as Option[]).map((option) => option.value);
         } else {
-          acc[key as keyof CreateVacancyRequestDto] = (value as Option).value;
+          acc[key as string] = (value as Option).value;
         }
       } else {
         if (key === 'salaryFrom' || key === 'salaryTo') {
           acc[key] = Number(value);
         } else {
-          acc[key as keyof CreateVacancyRequestDto] = value;
+          acc[key as string] = value;
         }
       }
 
@@ -57,7 +57,7 @@ export function mapResumeFormToVacancyDto(formData: ResumeFormData) {
         if (key === 'skills') {
           acc[key] = (value as Option[]).map((option) => option.value);
         } else {
-          acc[key as keyof CreateVacancyRequestDto] = (value as Option).value;
+          acc[key] = (value as Option).value;
         }
       } else {
         if (key === 'salary') {

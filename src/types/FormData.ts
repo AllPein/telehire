@@ -4,7 +4,7 @@ export type VacancyFormData = {
   position: string;
   salaryFrom: string;
   salaryTo: string;
-  country: Option;
+  country: Option | null;
   requirements: string;
   jobType: Option;
   experience: Option;

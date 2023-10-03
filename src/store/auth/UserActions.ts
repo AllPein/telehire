@@ -20,6 +20,7 @@ export const UserAction = {
     axiosClient: AxiosClient;
     token: Token;
   }>('INIT_INITIALIZE'),
+  getUser: factory('GET_USER'),
   setUser: factory<Partial<User>>('SET_USER'),
   setToken: factory<Token>('SET_TOKEN'),
   resetState: factory('RESET_STATE'),

@@ -9,11 +9,14 @@ import { VacancyItem } from '@/components/VacancyItem/VacancyItem';
 import { CURRENT_COMPANY_ID } from '@/constants/localStorage';
 import { CompanyVolumeToLabel } from '@/enums/Company';
 import { Company } from '@/models/Company';
+import { selectUser } from '@/store/auth/UserSelectors';
 import { history } from '@/utils/history';
 import { FC, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import {
   BigWrapper,
   JobInfoWrapper,
+  MemberWrapper,
   SmallWrapper,
   Wrapper,
 } from './CompanyInfo.styles';
@@ -23,6 +26,7 @@ type Props = {
 };
 
 const CompanyInfo: FC<Props> = ({ company }) => {
+  const user = useSelector(selectUser);
   const fromCompany = useMemo(
     () => Number(localStorage.getItem(CURRENT_COMPANY_ID)) === company.id,
     [company],
@@ -55,6 +59,26 @@ const CompanyInfo: FC<Props> = ({ company }) => {
         <SmallWrapper>
           <Caption color="#FFFFFFB2">{company.description}</Caption>
         </SmallWrapper>
+      </BigWrapper>
+      <BigWrapper>
+        <Body2>Company members</Body2>
+        <BigWrapper>
+          {company.members.map((member) => (
+            <MemberWrapper key={member.id}>
+              <Caption>
+                {member.firstName} {member.lastName}
+              </Caption>
+              <SmallWrapper>
+                <Caption color="#ffffffb2">@{member.username}</Caption>
+              </SmallWrapper>
+            </MemberWrapper>
+          ))}
+          {user?.id === company.ownerId && (
+            <BigWrapper>
+              <Button block>Generate invite link</Button>
+            </BigWrapper>
+          )}
+        </BigWrapper>
       </BigWrapper>
       <BigWrapper>
         <Body2>Active positions</Body2>

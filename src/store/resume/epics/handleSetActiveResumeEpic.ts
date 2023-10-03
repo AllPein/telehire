@@ -5,23 +5,29 @@ import { ignoreElements, switchMap, tap } from 'rxjs/operators';
 import { AnyAction } from 'typescript-fsa';
 
 import { ofAction } from '@/operators/ofAction';
+import { LoaderAction } from '@/store/Loader/LoaderActions';
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
+import { UserAction } from '@/store/auth/UserActions';
 import { ResumeAction } from '@/store/resume/ResumeActions';
 
-export const handleGetResumes: Epic<
+export const handleSetActiveResumeId: Epic<
   AnyAction,
   AnyAction,
   RootState,
   StoreDependencies
 > = (action$, state$, { apiService, dispatch }) =>
   action$.pipe(
-    ofAction(ResumeAction.getResumes),
-    switchMap(() =>
-      from(apiService.getResumes()).pipe(
-        tap((resumes) => {
-          dispatch(ResumeAction.setResumes(resumes));
+    ofAction(ResumeAction.setActiveResumeId),
+    tap(() => {
+      dispatch(LoaderAction.setLoading({ type: 'profile', value: true }));
+    }),
+    switchMap(({ payload: resumeId }) =>
+      from(apiService.setActiveResumeId(resumeId)).pipe(
+        tap(() => {
+          dispatch(UserAction.getUser());
         }),
       ),
     ),
+
     ignoreElements(),
   );

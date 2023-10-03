@@ -17,6 +17,12 @@ export enum JobTypeEnum {
   Hybrid = 'Hybrid',
 }
 
+export enum VacancyStatusEnum {
+  Pending = 'Pending',
+  Denied = 'Denied',
+  Accepted = 'Accepted',
+}
+
 export const ExperienceToLabel = {
   [ExperienceEnum.No]: 'No experience',
   [ExperienceEnum.Junior]: '0 - 1 year',

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  padding: 16px;
+  padding: 48px;
   text-align: center;
 `;
 

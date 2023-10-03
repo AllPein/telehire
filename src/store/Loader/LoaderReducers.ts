@@ -6,6 +6,14 @@ export const loaderStoreInitialState: LoaderStore = Object.freeze({
   loading: {
     auth: false,
     companyList: false,
+    dictionary: false,
+    createVacancy: false,
+    createResume: false,
+    profile: false,
+    createCompany: false,
+    getFeed: false,
+    getCompany: false,
+    getResume: false,
   },
 });
 

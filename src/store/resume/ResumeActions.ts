@@ -11,6 +11,7 @@ export type ResumeStore = {
 
 export const ResumeAction = {
   createResume: factory<ResumeFormData>('CREATE_RESUME'),
+  setActiveResumeId: factory<number>('SET_ACTIVE_RESUME_ID'),
   getResume: factory<number>('GET_RESUME'),
   getMyResumes: factory('GET_MY_RESUMES'),
   getResumes: factory('GET_RESUMES'),

@@ -3,20 +3,20 @@ import { Resume } from '@/models/Resume';
 
 export type TelegramUser = {
   id: number;
-  is_bot?: boolean;
-  first_name: string;
-  last_name?: string;
+  isBot?: boolean;
+  firstName: string;
+  lastName?: string;
   username?: string;
-  language_code?: string;
-  is_premium?: boolean;
-  added_to_attachment_menu?: boolean;
-  allows_write_to_pm?: boolean;
-  photo_url?: string;
+  languageCode?: string;
+  isPremium?: boolean;
+  addedToAttachmentMenu?: boolean;
+  allowsWriteToPm?: boolean;
+  photoUrl?: string;
 };
 
 export type User = {
   companyList?: Company[] | null;
-  currentResumeId?: number;
+  activeResumeId?: number;
   resumes?: Resume[] | null;
   loggedInAs?: 'applicant' | 'company' | null;
 } & TelegramUser;

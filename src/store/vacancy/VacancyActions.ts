@@ -13,6 +13,6 @@ export const VacancyAction = {
     'CREATE_VACANCY',
   ),
   getVacancy: factory<number>('GET_VACANCY'),
-  apply: factory<{ vacancyId: number; cvId: number }>('APPLY'),
+  apply: factory<{ vacancyId: number; resumeId: number }>('APPLY'),
   setVacancy: factory<Vacancy | null>('SET_VACANCY'),
 };

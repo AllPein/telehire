@@ -5,11 +5,15 @@ import {
   Caption,
   Heading6,
 } from '@/components/Typography/Typography.styles';
-import { CurrencyEnum, ExperienceToLabel } from '@/enums/Vacancy';
+import {
+  CurrencyEnum,
+  ExperienceToLabel,
+  VacancyStatusEnum,
+} from '@/enums/Vacancy';
 import { CurrencyToSymbol, Vacancy } from '@/models/Vacancy';
 import { selectUser } from '@/store/auth/UserSelectors';
 import { VacancyAction } from '@/store/vacancy/VacancyActions';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   BigWrapper,
@@ -28,14 +32,38 @@ type Props = {
 const VacancyInfo: FC<Props> = ({ vacancy }) => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+
   const handleApply = () => {
     dispatch(
       VacancyAction.apply({
-        cvId: 5,
+        resumeId: user!.activeResumeId!,
         vacancyId: vacancy.id,
       }),
     );
   };
+
+  const vacancyStatusControl = useMemo(() => {
+    if (user?.loggedInAs === 'applicant') {
+      if (vacancy.status === VacancyStatusEnum.Pending) {
+        return (
+          <BigWrapper>
+            <Button block disabled>
+              You already applied
+            </Button>
+          </BigWrapper>
+        );
+      }
+      return (
+        <BigWrapper>
+          <Button block onClick={handleApply}>
+            Apply
+          </Button>
+        </BigWrapper>
+      );
+    }
+
+    return null;
+  }, [vacancy, user]);
 
   return (
     <Wrapper>
@@ -99,13 +127,7 @@ const VacancyInfo: FC<Props> = ({ vacancy }) => {
           <Caption color="#FFFFFFB2">{vacancy.description}</Caption>
         </SmallWrapper>
       </BigWrapper>
-      {user?.loggedInAs === 'applicant' && (
-        <BigWrapper>
-          <Button block onClick={handleApply}>
-            Apply
-          </Button>
-        </BigWrapper>
-      )}
+      {vacancyStatusControl}
     </Wrapper>
   );
 };

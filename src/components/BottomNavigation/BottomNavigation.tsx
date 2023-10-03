@@ -11,8 +11,10 @@ import { ImgWrapper, Wrapper } from './BottomNavigation.styles';
 
 const locationToValue = {
   '/vacancies': 'job',
+  '/candidates/': 'candidates',
   '/company/': 'company',
   '/profile': 'profile',
+  '/applies': 'applies',
 };
 
 const BottomNavigation = () => {
@@ -27,25 +29,32 @@ const BottomNavigation = () => {
     );
 
     if (key) {
-      // @ts-ignore
-      setActiveItem(locationToValue[key]);
+      setActiveItem(locationToValue[key as keyof typeof locationToValue]);
     }
   }, [location]);
 
   const handleChangeLocation = (location: string, params?: any) => {
-    // @ts-ignore
-    setActiveItem(locationToValue[location]);
+    setActiveItem(locationToValue[location as keyof typeof locationToValue]);
     history.push(location + (params ?? ''));
   };
 
   return (
     <Wrapper>
-      <ImgWrapper
-        active={activeItem === 'job'}
-        onClick={() => handleChangeLocation('/vacancies')}
-      >
-        <img src={JobIcon} />
-      </ImgWrapper>
+      {user?.loggedInAs === 'company' ? (
+        <ImgWrapper
+          active={activeItem === 'candidates'}
+          onClick={() => handleChangeLocation('/candidates/', 'all')}
+        >
+          <img src={JobIcon} />
+        </ImgWrapper>
+      ) : (
+        <ImgWrapper
+          active={activeItem === 'job'}
+          onClick={() => handleChangeLocation('/vacancies')}
+        >
+          <img src={JobIcon} />
+        </ImgWrapper>
+      )}
 
       {user?.loggedInAs === 'company' ? (
         <ImgWrapper
@@ -59,7 +68,14 @@ const BottomNavigation = () => {
         >
           <img src={CompanyIcon} />
         </ImgWrapper>
-      ) : null}
+      ) : (
+        <ImgWrapper
+          active={activeItem === 'applies'}
+          onClick={() => handleChangeLocation('/applies')}
+        >
+          <img src={CompanyIcon} />
+        </ImgWrapper>
+      )}
       <ImgWrapper
         active={activeItem === 'profile'}
         onClick={() => handleChangeLocation('/profile')}

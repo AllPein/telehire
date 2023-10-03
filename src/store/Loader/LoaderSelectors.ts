@@ -22,3 +22,12 @@ const createIsLoadingSelector = <Name extends LoadingType>(name: Name) =>
 
 export const selectAuthLoading = createIsLoadingSelector('auth');
 export const selectCompanyListLoading = createIsLoadingSelector('companyList');
+export const selectProfileLoading = createIsLoadingSelector('profile');
+export const selectGetFeedLoading = createIsLoadingSelector('getFeed');
+export const selectCreateResumeLoading =
+  createIsLoadingSelector('createResume');
+export const selectCreateCompanyLoading =
+  createIsLoadingSelector('createCompany');
+export const selectDictionaryLoading = createIsLoadingSelector('dictionary');
+export const selectCreateVacancyLoading =
+  createIsLoadingSelector('createVacancy');

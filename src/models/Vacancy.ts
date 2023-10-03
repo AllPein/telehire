@@ -1,4 +1,9 @@
-import { CurrencyEnum, ExperienceEnum, JobTypeEnum } from '@/enums/Vacancy';
+import {
+  CurrencyEnum,
+  ExperienceEnum,
+  JobTypeEnum,
+  VacancyStatusEnum,
+} from '@/enums/Vacancy';
 import { Company } from '@/models/Company';
 
 export type Vacancy = {
@@ -14,6 +19,7 @@ export type ShortVacancy = {
   salaryTo: number;
   currency: string;
   jobType: JobTypeEnum;
+  status: VacancyStatusEnum | null;
   location: {
     country: string;
   };

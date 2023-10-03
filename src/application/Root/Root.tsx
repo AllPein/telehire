@@ -92,10 +92,6 @@ const routes = [
     path: '/company/:companyId',
     children: <CompanyInfoPage />,
   },
-  {
-    path: '/manage-company/:companyId',
-    children: <CompanyInfoPage />,
-  },
 ];
 
 const Root = () => {

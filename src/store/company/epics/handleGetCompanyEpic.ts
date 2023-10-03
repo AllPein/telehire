@@ -23,5 +23,6 @@ export const handleGetCompany: Epic<
         }),
       ),
     ),
+
     ignoreElements(),
   );

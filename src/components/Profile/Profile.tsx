@@ -5,12 +5,13 @@ import {
   Caption,
   Heading6,
 } from '@/components/Typography/Typography.styles';
+import { UserInfo } from '@/components/UserInfo/UserInfo';
 import { CURRENT_COMPANY_ID } from '@/constants/localStorage';
 import { useTelegram } from '@/hooks/useTelegram';
 import { Company } from '@/models/Company';
 import { User } from '@/models/User';
 import { CurrencyToSymbol } from '@/models/Vacancy';
-import { UserAction } from '@/store/auth/UserActions';
+import { ResumeAction } from '@/store/resume/ResumeActions';
 import { history } from '@/utils/history';
 import { FC, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
@@ -41,17 +42,13 @@ const Profile: FC<Props> = ({ user }) => {
   }, [user]);
 
   const activeResume = useMemo(() => {
-    if (!user.currentResumeId) {
-      return user.resumes![0];
-    }
-
     return user.resumes!.find(
-      (innerResume) => innerResume.id === user.currentResumeId,
-    )!;
+      (innerResume) => innerResume.id === user.activeResumeId,
+    );
   }, [user]);
 
   const handleChangeActiveResume = (resumeId: number) => {
-    dispatch(UserAction.setUser({ currentResumeId: resumeId }));
+    dispatch(ResumeAction.setActiveResumeId(resumeId));
   };
 
   const profileContent = useMemo(() => {
@@ -71,7 +68,7 @@ const Profile: FC<Props> = ({ user }) => {
 
     return (
       <>
-        {user.resumes!.length > 0 ? (
+        {activeResume ? (
           <>
             <BigWrapper>
               <Heading6>Using this resume</Heading6>
@@ -91,6 +88,14 @@ const Profile: FC<Props> = ({ user }) => {
                 <Caption color="#ffffffB2">23 views</Caption>
               </CVWrapper>
             </SmallWrapper>
+          </>
+        ) : (
+          <BigWrapper>
+            <Body>Select an active resume</Body>
+          </BigWrapper>
+        )}
+        {user.resumes!.length > 0 ? (
+          <>
             <BigWrapper>
               <Heading6>Other resumes</Heading6>
             </BigWrapper>
@@ -99,7 +104,7 @@ const Profile: FC<Props> = ({ user }) => {
                 <InactiveWrapper key={resume.id}>
                   <input
                     type="radio"
-                    checked={resume.id === activeResume.id}
+                    checked={resume.id === activeResume?.id}
                     onChange={() => handleChangeActiveResume(resume.id)}
                   />
                   <CVWrapper
@@ -134,22 +139,7 @@ const Profile: FC<Props> = ({ user }) => {
 
   return (
     <Wrapper>
-      <Heading6>
-        {user?.first_name} {user?.last_name}
-      </Heading6>
-      {user?.is_premium && (
-        <SmallWrapper>
-          <Caption color="rgb(223, 174, 83)">{'Premium user'}</Caption>
-        </SmallWrapper>
-      )}
-      <SmallWrapper>
-        <Caption
-          onClick={() => tg.openTelegramLink(`https://t.me/${user?.username}`)}
-          color="#ffffffB2"
-        >
-          @{user?.username}
-        </Caption>
-      </SmallWrapper>
+      <UserInfo user={user} />
       {profileContent}
     </Wrapper>
   );

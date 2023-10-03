@@ -15,6 +15,10 @@ import {
 } from '@/enums/Vacancy';
 import { useMount } from '@/hooks/useMount';
 import { CurrencyToSymbol } from '@/models/Vacancy';
+import {
+  selectCreateVacancyLoading,
+  selectDictionaryLoading,
+} from '@/store/Loader/LoaderSelectors';
 import { DictionaryAction } from '@/store/dictionary/DictionaryActions';
 import {
   selectCountreis,
@@ -22,7 +26,6 @@ import {
 } from '@/store/dictionary/DictionarySelectors';
 import { VacancyAction } from '@/store/vacancy/VacancyActions';
 import { VacancyFormData } from '@/types/FormData';
-import { Option } from '@/types/Select';
 import { debounce } from 'lodash';
 import { ChangeEvent, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -91,12 +94,14 @@ const CreateVacancyPage = () => {
   const dispatch = useDispatch();
   const countries = useSelector(selectCountreis);
   const skills = useSelector(selectSkills);
+  const dictionaryLoading = useSelector(selectDictionaryLoading);
+  const createLoading = useSelector(selectCreateVacancyLoading);
 
   const [formData, setFormData] = useState<VacancyFormData>({
     position: '',
     salaryFrom: '',
     salaryTo: '',
-    country: {} as Option,
+    country: null,
     requirements: '',
     jobType: jobTypeOptions[0],
     experience: experienceOptions[0],
@@ -245,6 +250,8 @@ const CreateVacancyPage = () => {
                 name="country"
                 value={formData.country}
                 onChange={handleChange}
+                placeholder="Select country"
+                loading={dictionaryLoading}
                 options={countries ?? []}
               />
             </InputWrapper>
@@ -257,16 +264,23 @@ const CreateVacancyPage = () => {
           <Select
             name="skills"
             onInputChange={handleChangeSkills}
+            loading={dictionaryLoading}
+            placeholder="Select required skills"
             isMulti
             value={formData.skills}
             onChange={handleChange}
-            options={skills ?? []}
+            options={skills}
           />
         </InputWrapper>
       </div>
 
       <LabelWrapper>
-        <Button block onClick={handleCreateClick} disabled={disabled}>
+        <Button
+          block
+          onClick={handleCreateClick}
+          disabled={disabled}
+          loading={createLoading}
+        >
           Create
         </Button>
       </LabelWrapper>

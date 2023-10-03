@@ -10,6 +10,7 @@ import {
 import { CurrencyEnum } from '@/enums/Vacancy';
 import { useMount } from '@/hooks/useMount';
 import { CurrencyToSymbol } from '@/models/Vacancy';
+import { selectCreateResumeLoading } from '@/store/Loader/LoaderSelectors';
 import { DictionaryAction } from '@/store/dictionary/DictionaryActions';
 import { selectSkills } from '@/store/dictionary/DictionarySelectors';
 import { ResumeAction } from '@/store/resume/ResumeActions';
@@ -47,6 +48,7 @@ const CreateResumePage = () => {
     skills: [],
     currency: options[0],
   });
+  const loading = useSelector(selectCreateResumeLoading);
 
   const skills = useSelector(selectSkills);
 
@@ -155,7 +157,12 @@ const CreateResumePage = () => {
         </InputWrapper>
       </div>
       <LabelWrapper>
-        <Button disabled={disabled} block onClick={handleCreateClick}>
+        <Button
+          disabled={disabled}
+          block
+          onClick={handleCreateClick}
+          loading={loading}
+        >
           Create
         </Button>
       </LabelWrapper>

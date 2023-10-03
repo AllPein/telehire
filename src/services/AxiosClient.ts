@@ -9,7 +9,7 @@ export class AxiosClient {
   private headers: RawAxiosRequestHeaders | undefined;
 
   public init(headers: RawAxiosRequestHeaders) {
-    this.headers = headers;
+    this.headers = { ...this.headers, ...headers };
   }
 
   constructor(baseUrl: string) {

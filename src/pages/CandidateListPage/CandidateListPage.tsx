@@ -1,5 +1,6 @@
 import { CandidatesList } from '@/components/CandidatesList/CandidatesList';
 import { Spinner } from '@/components/Spinner/Spinner';
+import { selectGetFeedLoading } from '@/store/Loader/LoaderSelectors';
 import { selectUser } from '@/store/auth/UserSelectors';
 import { FeedAction } from '@/store/feed/FeedActions';
 import { selectCandidates } from '@/store/feed/FeedSelectors';
@@ -12,13 +13,20 @@ const CandidateListPage = () => {
   const dispatch = useDispatch();
   const candidates = useSelector(selectCandidates);
   const user = useSelector(selectUser);
+  const loading = useSelector(selectGetFeedLoading);
 
   useEffect(() => {
     dispatch(FeedAction.getCandidates(Number(vacancyId)));
   }, [user]);
 
   return (
-    <>{candidates ? <CandidatesList candidates={candidates} /> : <Spinner />}</>
+    <>
+      {candidates && !loading ? (
+        <CandidatesList candidates={candidates} />
+      ) : (
+        <Spinner />
+      )}
+    </>
   );
 };
 

@@ -17,8 +17,8 @@ export const handleApply: Epic<
 > = (action$, state$, { apiService, dispatch }) =>
   action$.pipe(
     ofAction(VacancyAction.apply),
-    switchMap(({ payload: { cvId, vacancyId } }) => {
-      return from(apiService.apply({ cvId, vacancyId })).pipe(
+    switchMap(({ payload: { resumeId, vacancyId } }) => {
+      return from(apiService.apply({ resumeId, vacancyId })).pipe(
         tap((status) => {
           if (status === 'success') {
             history.push('/vacancies');

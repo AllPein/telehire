@@ -12,7 +12,7 @@ const VacancyListPage = () => {
   const user = useSelector(selectUser);
 
   useEffect(() => {
-    dispatch(FeedAction.getVacancies(user?.currentResumeId));
+    dispatch(FeedAction.getVacancies(user?.activeResumeId));
   }, [user]);
 
   return <>{vacancies ? <VacancyList vacancies={vacancies} /> : <Spinner />}</>;

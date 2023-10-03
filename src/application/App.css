@@ -31,6 +31,8 @@ input[type='radio'] {
   border-radius: 50%;
   display: grid;
   place-content: center;
+  cursor: pointer;
+  transition: 0.3s opacity;
 }
 
 input[type='radio']::before {
@@ -45,6 +47,16 @@ input[type='radio']::before {
 
 input[type='radio']:checked::before {
   transform: scale(1);
+  opacity: 1;
+}
+
+input[type='radio']:checked:hover {
+  cursor: default;
+  opacity: 1;
+}
+
+input[type='radio']:hover {
+  opacity: 0.8;
 }
 
 a {

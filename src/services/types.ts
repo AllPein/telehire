@@ -1,7 +1,7 @@
 import { Company } from '@/models/Company';
 import { Resume } from '@/models/Resume';
 
-import { Token } from '@/models/User';
+import { Token, User } from '@/models/User';
 import { ShortVacancy, Vacancy } from '@/models/Vacancy';
 import { CreateCompanyDto } from '@/store/company/types';
 import { CountriesDto } from '@/store/dictionary/types';
@@ -16,6 +16,7 @@ import {
 export interface IApiService {
   init: (axiosClient: AxiosClient) => void;
   getToken: (data: string) => Promise<Token>;
+  getUser: () => Promise<User>;
   getCompanies: () => Promise<Company[]>;
   getCompany: (id: number) => Promise<Company>;
   getVacancies: (id: number | undefined) => Promise<ShortVacancy[]>;
@@ -26,9 +27,10 @@ export interface IApiService {
   getMyResumes: () => Promise<Resume[]>;
   getResume: (id: number) => Promise<Resume>;
   createVacancy: (vacancy: CreateVacancyRequestDto) => Promise<Vacancy | null>;
-  apply: (data: { cvId: number; vacancyId: number }) => Promise<string>;
+  apply: (data: { resumeId: number; vacancyId: number }) => Promise<string>;
   createCompany: (company: CreateCompanyDto) => Promise<Company>;
   createResume: (company: CreateResumeDto) => Promise<Resume>;
+  setActiveResumeId: (resumeId: number) => Promise<void>;
 }
 
 export interface AxiosClient {
