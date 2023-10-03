@@ -7,8 +7,10 @@ import {
 } from '@/components/Typography/Typography.styles';
 import { CurrencyEnum, ExperienceToLabel } from '@/enums/Vacancy';
 import { CurrencyToSymbol, Vacancy } from '@/models/Vacancy';
-import { history } from '@/utils/history';
+import { selectUser } from '@/store/auth/UserSelectors';
+import { VacancyAction } from '@/store/vacancy/VacancyActions';
 import { FC } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   BigWrapper,
   CountryWrapper,
@@ -24,8 +26,15 @@ type Props = {
 };
 
 const VacancyInfo: FC<Props> = ({ vacancy }) => {
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
   const handleApply = () => {
-    history.push('/');
+    dispatch(
+      VacancyAction.apply({
+        cvId: 5,
+        vacancyId: vacancy.id,
+      }),
+    );
   };
 
   return (
@@ -41,9 +50,7 @@ const VacancyInfo: FC<Props> = ({ vacancy }) => {
       <SmallWrapper>
         <CountryWrapper>
           <img src={PlaceIcon} />
-          <Caption>
-            {vacancy.location?.country}, {vacancy.location?.city}
-          </Caption>
+          <Caption>{vacancy.location?.country}</Caption>
         </CountryWrapper>
       </SmallWrapper>
       <BigWrapper>
@@ -92,11 +99,13 @@ const VacancyInfo: FC<Props> = ({ vacancy }) => {
           <Caption color="#FFFFFFB2">{vacancy.description}</Caption>
         </SmallWrapper>
       </BigWrapper>
-      <BigWrapper>
-        <Button block onClick={handleApply}>
-          Apply
-        </Button>
-      </BigWrapper>
+      {user?.loggedInAs === 'applicant' && (
+        <BigWrapper>
+          <Button block onClick={handleApply}>
+            Apply
+          </Button>
+        </BigWrapper>
+      )}
     </Wrapper>
   );
 };

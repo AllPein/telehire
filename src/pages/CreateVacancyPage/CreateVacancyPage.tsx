@@ -13,10 +13,19 @@ import {
   ExperienceToLabel,
   JobTypeEnum,
 } from '@/enums/Vacancy';
+import { useMount } from '@/hooks/useMount';
 import { CurrencyToSymbol } from '@/models/Vacancy';
+import { DictionaryAction } from '@/store/dictionary/DictionaryActions';
+import {
+  selectCountreis,
+  selectSkills,
+} from '@/store/dictionary/DictionarySelectors';
 import { VacancyAction } from '@/store/vacancy/VacancyActions';
+import { VacancyFormData } from '@/types/FormData';
+import { Option } from '@/types/Select';
+import { debounce } from 'lodash';
 import { ChangeEvent, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import {
   AppContainer,
@@ -28,95 +37,92 @@ import {
 
 const currencyOptions = [
   {
-    text: CurrencyToSymbol[CurrencyEnum.USD],
+    label: CurrencyToSymbol[CurrencyEnum.USD],
     value: CurrencyEnum.USD,
   },
   {
-    text: CurrencyToSymbol[CurrencyEnum.RUB],
+    label: CurrencyToSymbol[CurrencyEnum.RUB],
     value: CurrencyEnum.RUB,
   },
 ];
 
 const jobTypeOptions = [
   {
-    text: JobTypeEnum.Office,
+    label: JobTypeEnum.Office,
     value: JobTypeEnum.Office,
   },
   {
-    text: JobTypeEnum.Remote,
+    label: JobTypeEnum.Remote,
     value: JobTypeEnum.Remote,
   },
   {
-    text: JobTypeEnum.Hybrid,
+    label: JobTypeEnum.Hybrid,
     value: JobTypeEnum.Hybrid,
   },
 ];
 
 const experienceOptions = [
   {
-    text: ExperienceToLabel[ExperienceEnum.No],
+    label: ExperienceToLabel[ExperienceEnum.No],
     value: ExperienceEnum.No,
   },
   {
-    text: ExperienceToLabel[ExperienceEnum.Junior],
+    label: ExperienceToLabel[ExperienceEnum.Junior],
     value: ExperienceEnum.Junior,
   },
   {
-    text: ExperienceToLabel[ExperienceEnum.Middle],
+    label: ExperienceToLabel[ExperienceEnum.Middle],
     value: ExperienceEnum.Middle,
   },
   {
-    text: ExperienceToLabel[ExperienceEnum.Senior],
+    label: ExperienceToLabel[ExperienceEnum.Senior],
     value: ExperienceEnum.Senior,
   },
   {
-    text: ExperienceToLabel[ExperienceEnum.Extra],
+    label: ExperienceToLabel[ExperienceEnum.Extra],
     value: ExperienceEnum.Extra,
   },
 ];
 
+const CHANGE_DEBOUNCE_TIME = 300;
+
 const CreateVacancyPage = () => {
   const { companyId } = useParams<{ companyId: string }>();
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState<any>({
+  const countries = useSelector(selectCountreis);
+  const skills = useSelector(selectSkills);
+
+  const [formData, setFormData] = useState<VacancyFormData>({
     position: '',
     salaryFrom: '',
     salaryTo: '',
-    country: '',
-    city: '',
+    country: {} as Option,
     requirements: '',
-    jobType: JobTypeEnum.Hybrid,
-    experience: ExperienceEnum.No,
-    skills: ['React', 'Node.js'],
-    currency: CurrencyEnum.USD,
+    jobType: jobTypeOptions[0],
+    experience: experienceOptions[0],
+    skills: [],
+    currency: currencyOptions[0],
+  });
+
+  const handleLoadCountries = () => {
+    if (!countries) {
+      dispatch(DictionaryAction.getDictionaryByKey({ key: 'countries' }));
+    }
+  };
+
+  useMount(() => {
+    dispatch(
+      DictionaryAction.getDictionaryByKey({
+        key: 'skills',
+        payload: { query: '' },
+      }),
+    );
   });
 
   const handleCreateClick = () => {
-    const mappedFormData = Object.entries(formData).reduce(
-      (acc: any, [key, value]) => {
-        if (key === 'salaryFrom' || key === 'salaryTo') {
-          acc[key] = Number(value);
-        } else {
-          acc[key] = value;
-        }
-
-        if (key === 'country' || key === 'city') {
-          if (acc.location) {
-            acc.location[key] = value;
-          } else {
-            acc.location = {
-              [key]: value,
-            };
-          }
-        }
-
-        return acc;
-      },
-      {
-        companyId: Number(companyId),
-      },
+    dispatch(
+      VacancyAction.createVacancy({ formData, companyId: Number(companyId) }),
     );
-    dispatch(VacancyAction.createVacancy(mappedFormData));
   };
 
   const handleChange = (
@@ -125,6 +131,25 @@ const CreateVacancyPage = () => {
     const { name, value } = event.target;
 
     setFormData((prevFormData: any) => ({ ...prevFormData, [name]: value }));
+  };
+
+  const debouncedSetValue = useMemo(
+    () =>
+      debounce((value) => {
+        dispatch(
+          DictionaryAction.getDictionaryByKey({
+            key: 'skills',
+            payload: { query: value },
+          }),
+        );
+      }, CHANGE_DEBOUNCE_TIME),
+    [],
+  );
+
+  const handleChangeSkills = (value: string) => {
+    if (value.length) {
+      debouncedSetValue(value);
+    }
   };
 
   const disabled = useMemo(() => {
@@ -181,6 +206,7 @@ const CreateVacancyPage = () => {
             <Select
               value={formData.currency}
               name="currency"
+              placeholder=""
               options={currencyOptions}
               onChange={handleChange}
             />
@@ -208,39 +234,39 @@ const CreateVacancyPage = () => {
             onChange={handleChange}
           />
         </InputWrapper>
-        {formData.jobType !== JobTypeEnum.Remote && (
+        {formData.jobType.value !== JobTypeEnum.Remote && (
           <>
-            <LabelWrapper>
-              <Body>Location</Body>
-            </LabelWrapper>
             <LabelWrapper>
               <Body2>Country</Body2>
             </LabelWrapper>
             <InputWrapper>
-              <Input
+              <Select
+                onClick={handleLoadCountries}
                 name="country"
                 value={formData.country}
                 onChange={handleChange}
-                placeholder="Country"
-              />
-            </InputWrapper>
-            <LabelWrapper>
-              <Body2>City</Body2>
-            </LabelWrapper>
-            <InputWrapper>
-              <Input
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-                placeholder="City"
+                options={countries ?? []}
               />
             </InputWrapper>
           </>
         )}
+        <LabelWrapper>
+          <Body2>Required skills</Body2>
+        </LabelWrapper>
+        <InputWrapper>
+          <Select
+            name="skills"
+            onInputChange={handleChangeSkills}
+            isMulti
+            value={formData.skills}
+            onChange={handleChange}
+            options={skills ?? []}
+          />
+        </InputWrapper>
       </div>
 
       <LabelWrapper>
-        <Button block onClick={handleCreateClick}>
+        <Button block onClick={handleCreateClick} disabled={disabled}>
           Create
         </Button>
       </LabelWrapper>

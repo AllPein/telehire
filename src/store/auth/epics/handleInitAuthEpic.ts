@@ -26,11 +26,14 @@ export const handleInitAuth: Epic<
         }),
       );
     }),
-    switchMap(({ payload: data }) =>
-      from(apiService.getToken(data)).pipe(
+    switchMap(({ payload: { initData, axiosClient } }) =>
+      from(apiService.getToken(initData)).pipe(
         tap((token: Token) => {
           localStorage.setItem(TOKEN_NAME, JSON.stringify(token));
-          dispatch(UserAction.initInitialize(false));
+          console.log(token);
+          dispatch(
+            UserAction.initInitialize({ axiosClient, withLoad: false, token }),
+          );
         }),
       ),
     ),

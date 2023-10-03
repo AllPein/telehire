@@ -2,12 +2,21 @@ import { Button } from '@/components/Button/Button';
 import { Input } from '@/components/Input/Input';
 import { Select } from '@/components/Select/Select';
 import { TextArea } from '@/components/TextArea/TextArea';
-import { Body, Heading6 } from '@/components/Typography/Typography.styles';
+import {
+  Body,
+  Body2,
+  Heading6,
+} from '@/components/Typography/Typography.styles';
 import { CurrencyEnum } from '@/enums/Vacancy';
+import { useMount } from '@/hooks/useMount';
 import { CurrencyToSymbol } from '@/models/Vacancy';
+import { DictionaryAction } from '@/store/dictionary/DictionaryActions';
+import { selectSkills } from '@/store/dictionary/DictionarySelectors';
 import { ResumeAction } from '@/store/resume/ResumeActions';
+import { ResumeFormData } from '@/types/FormData';
+import { debounce } from 'lodash';
 import { ChangeEvent, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   AppContainer,
   FlexWrapper,
@@ -18,39 +27,40 @@ import {
 
 const options = [
   {
-    text: CurrencyToSymbol[CurrencyEnum.USD],
+    label: CurrencyToSymbol[CurrencyEnum.USD],
     value: CurrencyEnum.USD,
   },
   {
-    text: CurrencyToSymbol[CurrencyEnum.RUB],
+    label: CurrencyToSymbol[CurrencyEnum.RUB],
     value: CurrencyEnum.RUB,
   },
 ];
 
+const CHANGE_DEBOUNCE_TIME = 300;
+
 const CreateResumePage = () => {
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState<any>({
+  const [formData, setFormData] = useState<ResumeFormData>({
     position: '',
     salary: '',
     description: '',
-    skills: ['React', 'Node.js'],
-    currency: CurrencyEnum.USD,
+    skills: [],
+    currency: options[0],
+  });
+
+  const skills = useSelector(selectSkills);
+
+  useMount(() => {
+    dispatch(
+      DictionaryAction.getDictionaryByKey({
+        key: 'skills',
+        payload: { query: '' },
+      }),
+    );
   });
 
   const handleCreateClick = () => {
-    const mappedFormData = Object.entries(formData).reduce(
-      (acc: any, [key, value]) => {
-        if (key === 'salary') {
-          acc[key] = Number(value);
-        } else {
-          acc[key] = value;
-        }
-
-        return acc;
-      },
-      {},
-    );
-    dispatch(ResumeAction.createResume(mappedFormData));
+    dispatch(ResumeAction.createResume(formData));
   };
 
   const handleChange = (
@@ -64,6 +74,25 @@ const CreateResumePage = () => {
   const disabled = useMemo(() => {
     return Object.values(formData).some((val) => !val);
   }, [formData]);
+
+  const debouncedSetValue = useMemo(
+    () =>
+      debounce((value) => {
+        dispatch(
+          DictionaryAction.getDictionaryByKey({
+            key: 'skills',
+            payload: { query: value },
+          }),
+        );
+      }, CHANGE_DEBOUNCE_TIME),
+    [],
+  );
+
+  const handleChangeSkills = (value: string) => {
+    if (value.length) {
+      debouncedSetValue(value);
+    }
+  };
 
   return (
     <AppContainer>
@@ -110,6 +139,19 @@ const CreateResumePage = () => {
               onChange={handleChange}
             />
           </FlexWrapper>
+        </InputWrapper>
+        <LabelWrapper>
+          <Body2>Skills</Body2>
+        </LabelWrapper>
+        <InputWrapper>
+          <Select
+            name="skills"
+            onInputChange={handleChangeSkills}
+            isMulti
+            value={formData.skills}
+            onChange={handleChange}
+            options={skills ?? []}
+          />
         </InputWrapper>
       </div>
       <LabelWrapper>

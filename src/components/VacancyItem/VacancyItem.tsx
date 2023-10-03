@@ -7,22 +7,18 @@ import {
 } from '@/components/Typography/Typography.styles';
 import { CurrencyEnum, ExperienceToLabel } from '@/enums/Vacancy';
 import { CurrencyToSymbol, ShortVacancy } from '@/models/Vacancy';
-import { history } from '@/utils/history';
 import { FC } from 'react';
 import { FlexWrapper, ItemWrapper, Wrapper } from './VacancyItem.styles';
 
 type Props = {
   vacancy: ShortVacancy;
   withoutCompany?: boolean;
+  onClick: (vacancyId: number) => void;
 };
 
-const VacancyItem: FC<Props> = ({ vacancy, withoutCompany }) => {
-  const handleOpenVacancy = () => {
-    history.push('/vacancies/' + vacancy.id);
-  };
-
+const VacancyItem: FC<Props> = ({ vacancy, withoutCompany, onClick }) => {
   return (
-    <Wrapper onClick={handleOpenVacancy}>
+    <Wrapper onClick={() => onClick(vacancy.id)}>
       <Body2>{vacancy.position}</Body2>
 
       <ItemWrapper>
@@ -46,9 +42,7 @@ const VacancyItem: FC<Props> = ({ vacancy, withoutCompany }) => {
         ) : (
           <FlexWrapper>
             <img src={PlaceIcon} />
-            <Caption>
-              {vacancy.location?.country}, {vacancy.location?.city}
-            </Caption>
+            <Caption>{vacancy.location?.country}</Caption>
           </FlexWrapper>
         )}
       </ItemWrapper>

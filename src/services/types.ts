@@ -3,6 +3,9 @@ import { Resume } from '@/models/Resume';
 
 import { Token } from '@/models/User';
 import { ShortVacancy, Vacancy } from '@/models/Vacancy';
+import { CreateCompanyDto } from '@/store/company/types';
+import { CountriesDto } from '@/store/dictionary/types';
+import { CreateResumeDto } from '@/store/resume/types';
 import { CreateVacancyRequestDto } from '@/store/vacancy/types';
 import {
   AxiosRequestConfig,
@@ -12,17 +15,20 @@ import {
 
 export interface IApiService {
   init: (axiosClient: AxiosClient) => void;
-  getToken: (data: { id: number }) => Promise<Token>;
+  getToken: (data: string) => Promise<Token>;
   getCompanies: () => Promise<Company[]>;
   getCompany: (id: number) => Promise<Company>;
   getVacancies: (id: number | undefined) => Promise<ShortVacancy[]>;
+  getCandidates: (id: number | undefined) => Promise<Resume[]>;
   getVacancy: (id: number) => Promise<Vacancy>;
+  getDictionary: (key: string, payload?: any) => Promise<CountriesDto[]>;
   getResumes: () => Promise<Resume[]>;
   getMyResumes: () => Promise<Resume[]>;
   getResume: (id: number) => Promise<Resume>;
   createVacancy: (vacancy: CreateVacancyRequestDto) => Promise<Vacancy | null>;
-  createCompany: (company: Partial<Company>) => Promise<Company>;
-  createResume: (company: Partial<Resume>) => Promise<Resume>;
+  apply: (data: { cvId: number; vacancyId: number }) => Promise<string>;
+  createCompany: (company: CreateCompanyDto) => Promise<Company>;
+  createResume: (company: CreateResumeDto) => Promise<Resume>;
 }
 
 export interface AxiosClient {

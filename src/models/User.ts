@@ -16,6 +16,7 @@ export type TelegramUser = {
 
 export type User = {
   companyList?: Company[] | null;
+  currentResumeId?: number;
   resumes?: Resume[] | null;
   loggedInAs?: 'applicant' | 'company' | null;
 } & TelegramUser;

@@ -1,4 +1,6 @@
 import { UserEpics } from '@/store/auth/UserEpics';
+import { DictionaryEpics } from '@/store/dictionary/DictionaryEpics';
+import { FeedEpics } from '@/store/feed/FeedEpics';
 import { ResumeEpics } from '@/store/resume/ResumeEpics';
 import { VacancyEpics } from '@/store/vacancy/VacancyEpics';
 import { combineEpics } from 'redux-observable';
@@ -9,4 +11,6 @@ export default combineEpics(
   ...CompanyEpics,
   ...VacancyEpics,
   ...ResumeEpics,
+  ...DictionaryEpics,
+  ...FeedEpics,
 );

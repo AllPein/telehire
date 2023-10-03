@@ -16,7 +16,6 @@ export type ShortVacancy = {
   jobType: JobTypeEnum;
   location: {
     country: string;
-    city: string;
   };
   company: Company;
   experience: ExperienceEnum;

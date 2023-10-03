@@ -1,18 +1,18 @@
-import { ShortVacancy, Vacancy } from '@/models/Vacancy';
-import { CreateVacancyRequestDto } from '@/store/vacancy/types';
+import { Vacancy } from '@/models/Vacancy';
+import { VacancyFormData } from '@/types/FormData';
 import actionCreatorFactory from 'typescript-fsa';
 
 const factory = actionCreatorFactory('Vacancy');
 
 export type VacancyStore = {
-  vacancies: ShortVacancy[] | null;
   currentVacancy: Vacancy | null;
 };
 
 export const VacancyAction = {
-  createVacancy: factory<CreateVacancyRequestDto>('CREATE_VACANCY'),
+  createVacancy: factory<{ formData: VacancyFormData; companyId: number }>(
+    'CREATE_VACANCY',
+  ),
   getVacancy: factory<number>('GET_VACANCY'),
-  getVacancies: factory<number | undefined>('GET_VACANCIES'),
+  apply: factory<{ vacancyId: number; cvId: number }>('APPLY'),
   setVacancy: factory<Vacancy | null>('SET_VACANCY'),
-  setVacancies: factory<ShortVacancy[]>('SET_VACANCIES'),
 };

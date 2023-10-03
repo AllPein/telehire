@@ -6,6 +6,9 @@ export type CreateVacancyRequestDto = {
   salaryTo?: number;
   currency: CurrencyEnum;
   jobType: JobTypeEnum;
+  location: {
+    country: string;
+  };
   experience: ExperienceEnum;
   companyId: number;
   requirements: string;

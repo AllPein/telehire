@@ -17,6 +17,12 @@ export const BigWrapper = styled.div`
   margin-top: 16px;
 `;
 
+export const InactiveWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
+`;
+
 export const CVWrapper = styled.div`
   background-color: var(--tg-theme-bg-secondary);
   border-radius: 8px;

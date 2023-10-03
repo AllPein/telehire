@@ -5,6 +5,7 @@ import { Heading6 } from '@/components/Typography/Typography.styles';
 import { VacancyItem } from '@/components/VacancyItem/VacancyItem';
 import { useTelegram } from '@/hooks/useTelegram';
 import { ShortVacancy } from '@/models/Vacancy';
+import { history } from '@/utils/history';
 import { FC, useMemo, useState } from 'react';
 import {
   AppContainer,
@@ -39,6 +40,10 @@ const VacancyList: FC<Props> = ({ vacancies }) => {
     );
   }, [searchValue]);
 
+  const handleOpenVacancy = (vacancyId: number) => {
+    history.push('/vacancies/' + vacancyId);
+  };
+
   return (
     <AppContainer>
       <Wrapper>
@@ -52,7 +57,11 @@ const VacancyList: FC<Props> = ({ vacancies }) => {
           <Heading6>Vacancy list for you</Heading6>
         </HeadingWrapper>
         {vacancyList.map((vacancy) => (
-          <VacancyItem key={vacancy.id} vacancy={vacancy} />
+          <VacancyItem
+            key={vacancy.id}
+            vacancy={vacancy}
+            onClick={handleOpenVacancy}
+          />
         ))}
       </Wrapper>
     </AppContainer>

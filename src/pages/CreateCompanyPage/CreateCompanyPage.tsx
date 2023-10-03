@@ -4,8 +4,8 @@ import { Select } from '@/components/Select/Select';
 import { TextArea } from '@/components/TextArea/TextArea';
 import { Body, Heading6 } from '@/components/Typography/Typography.styles';
 import { CompanyVolumeEnum, CompanyVolumeToLabel } from '@/enums/Company';
-import { Company } from '@/models/Company';
 import { CompanyAction } from '@/store/company/CompanyActions';
+import { CompanyFormData } from '@/types/FormData';
 import { ChangeEvent, useMemo, useState } from 'react';
 import Avatar from 'react-avatar-edit';
 import { useDispatch } from 'react-redux';
@@ -18,23 +18,23 @@ import {
 
 const options = [
   {
-    text: CompanyVolumeToLabel[CompanyVolumeEnum.SelfEmployed],
+    label: CompanyVolumeToLabel[CompanyVolumeEnum.SelfEmployed],
     value: CompanyVolumeEnum.SelfEmployed,
   },
   {
-    text: CompanyVolumeToLabel[CompanyVolumeEnum.Low],
+    label: CompanyVolumeToLabel[CompanyVolumeEnum.Low],
     value: CompanyVolumeEnum.Low,
   },
   {
-    text: CompanyVolumeToLabel[CompanyVolumeEnum.Medium],
+    label: CompanyVolumeToLabel[CompanyVolumeEnum.Medium],
     value: CompanyVolumeEnum.Medium,
   },
   {
-    text: CompanyVolumeToLabel[CompanyVolumeEnum.High],
+    label: CompanyVolumeToLabel[CompanyVolumeEnum.High],
     value: CompanyVolumeEnum.High,
   },
   {
-    text: CompanyVolumeToLabel[CompanyVolumeEnum.Huge],
+    label: CompanyVolumeToLabel[CompanyVolumeEnum.Huge],
     value: CompanyVolumeEnum.Huge,
   },
 ];
@@ -42,21 +42,14 @@ const options = [
 const CreateCompanyPage = () => {
   const dispatch = useDispatch();
   const [preview, setPreview] = useState<string | null>(null);
-  const [formData, setFormData] = useState<
-    Pick<Company, 'name' | 'description' | 'volume'>
-  >({
+  const [formData, setFormData] = useState<Omit<CompanyFormData, 'photoUrl'>>({
     name: '',
     description: '',
-    volume: undefined as unknown as CompanyVolumeEnum,
+    volume: options[0],
   });
 
   const handleCreateClick = () => {
-    dispatch(
-      CompanyAction.createCompany({
-        ...formData,
-        photoUrl: preview!,
-      }),
-    );
+    dispatch(CompanyAction.createCompany({ ...formData, photoUrl: preview! }));
   };
 
   const disabled = useMemo(() => {

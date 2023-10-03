@@ -8,6 +8,7 @@ import { ofAction } from '@/operators/ofAction';
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
 import { ResumeAction } from '@/store/resume/ResumeActions';
 import { history } from '@/utils/history';
+import { mapResumeFormToVacancyDto } from '@/utils/mappers';
 
 export const handleCreateResume: Epic<
   AnyAction,
@@ -17,13 +18,14 @@ export const handleCreateResume: Epic<
 > = (action$, state$, { apiService, dispatch }) =>
   action$.pipe(
     ofAction(ResumeAction.createResume),
-    switchMap(({ payload: resume }) =>
-      from(apiService.createResume(resume)).pipe(
+    switchMap(({ payload: formData }) => {
+      const resume = mapResumeFormToVacancyDto(formData);
+      return from(apiService.createResume(resume)).pipe(
         tap(() => {
           dispatch(ResumeAction.getMyResumes());
           history.push('/profile');
         }),
-      ),
-    ),
+      );
+    }),
     ignoreElements(),
   );

@@ -3,6 +3,7 @@ import { Resume } from '@/models/Resume';
 import { Token } from '@/models/User';
 import { ShortVacancy, Vacancy } from '@/models/Vacancy';
 import { AxiosClient, IApiService } from '@/services/types';
+import { CreateResumeDto } from '@/store/resume/types';
 import { CreateVacancyRequestDto } from '@/store/vacancy/types';
 
 class ApiService implements IApiService {
@@ -17,11 +18,16 @@ class ApiService implements IApiService {
     this.#axiosClient = axiosClient;
   }
 
-  async getToken(data: { id: number }): Promise<Token> {
+  async getToken(data: string): Promise<Token> {
     try {
-      const res = await this.axiosClient.post<any, any>(
-        '/auth/email/login',
-        data,
+      const res = await this.axiosClient.get<any>(
+        '/auth/login',
+        {},
+        {
+          headers: {
+            'x-twa-init-data': data,
+          },
+        },
       );
 
       return res.data as Token;
@@ -81,6 +87,17 @@ class ApiService implements IApiService {
     }
   }
 
+  async getCandidates(vacancyId: number | undefined): Promise<Resume[]> {
+    try {
+      const url = vacancyId ? '/feed/candidates/' + vacancyId : '/cvs';
+      const res = await this.#axiosClient.get<any>(url);
+
+      return res.data;
+    } catch (err: any) {
+      return err;
+    }
+  }
+
   async getVacancy(vacancyId: number): Promise<Vacancy> {
     try {
       const res = await this.#axiosClient.get<any>('/vacancies/' + vacancyId);
@@ -121,13 +138,56 @@ class ApiService implements IApiService {
     }
   }
 
-  async createResume(resume: Partial<Resume>): Promise<Resume> {
+  async createResume(resume: CreateResumeDto): Promise<Resume> {
     try {
       const res = await this.#axiosClient.post<any, any>('/cvs', resume);
 
       return res.data;
     } catch (err: any) {
       return err;
+    }
+  }
+
+  async getDictionary(key: string, payload?: any): Promise<any> {
+    try {
+      let url;
+      let baseURL;
+      switch (key) {
+        case 'countries':
+          url = '/all?fields=name';
+          baseURL = 'https://restcountries.com/v3.1';
+          break;
+
+        case 'skills':
+          url = `/skills?q=${payload.query}`;
+          break;
+
+        default:
+          url = '/all';
+          break;
+      }
+
+      const res = await this.#axiosClient.get(
+        url,
+        {},
+        {
+          baseURL,
+        },
+      );
+
+      return res.data;
+    } catch (err: any) {
+      return err;
+    }
+  }
+
+  async apply(data: { cvId: number; vacancyId: number }): Promise<string> {
+    try {
+      await this.#axiosClient.post<any, any>('/applies', data);
+
+      return 'success';
+    } catch (err: any) {
+      return 'error';
     }
   }
 }

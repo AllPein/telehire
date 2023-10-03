@@ -8,6 +8,7 @@ import { ofAction } from '@/operators/ofAction';
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
 import { UserAction } from '@/store/auth/UserActions';
 import { history } from '@/utils/history';
+import { mapCompanyFormDataToVacancyDto } from '@/utils/mappers';
 import { CompanyAction } from '../CompanyActions';
 
 export const handleCreateCompany: Epic<
@@ -18,8 +19,9 @@ export const handleCreateCompany: Epic<
 > = (action$, state$, { apiService, dispatch }) =>
   action$.pipe(
     ofAction(CompanyAction.createCompany),
-    switchMap(({ payload: company }) =>
-      from(apiService.createCompany(company)).pipe(
+    switchMap(({ payload: company }) => {
+      const mappedCompany = mapCompanyFormDataToVacancyDto(company);
+      return from(apiService.createCompany(mappedCompany)).pipe(
         tap((newCompany) => {
           dispatch(UserAction.initCompanyList());
 
@@ -27,7 +29,7 @@ export const handleCreateCompany: Epic<
           dispatch(UserAction.initLogin('company'));
           history.push('/profile');
         }),
-      ),
-    ),
+      );
+    }),
     ignoreElements(),
   );

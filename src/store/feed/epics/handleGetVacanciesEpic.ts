@@ -6,7 +6,7 @@ import { AnyAction } from 'typescript-fsa';
 
 import { ofAction } from '@/operators/ofAction';
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
-import { VacancyAction } from '../VacancyActions';
+import { FeedAction } from '../FeedActions';
 
 export const handleGetVacancies: Epic<
   AnyAction,
@@ -15,11 +15,11 @@ export const handleGetVacancies: Epic<
   StoreDependencies
 > = (action$, state$, { apiService, dispatch }) =>
   action$.pipe(
-    ofAction(VacancyAction.getVacancies),
+    ofAction(FeedAction.getVacancies),
     switchMap(({ payload: resumeId }) =>
       from(apiService.getVacancies(resumeId)).pipe(
         tap((vacancies) => {
-          dispatch(VacancyAction.setVacancies(vacancies));
+          dispatch(FeedAction.setVacancies(vacancies));
         }),
       ),
     ),

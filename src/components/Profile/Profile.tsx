@@ -10,9 +10,17 @@ import { useTelegram } from '@/hooks/useTelegram';
 import { Company } from '@/models/Company';
 import { User } from '@/models/User';
 import { CurrencyToSymbol } from '@/models/Vacancy';
+import { UserAction } from '@/store/auth/UserActions';
 import { history } from '@/utils/history';
 import { FC, useMemo } from 'react';
-import { BigWrapper, CVWrapper, SmallWrapper, Wrapper } from './Profile.styles';
+import { useDispatch } from 'react-redux';
+import {
+  BigWrapper,
+  CVWrapper,
+  InactiveWrapper,
+  SmallWrapper,
+  Wrapper,
+} from './Profile.styles';
 
 type Props = {
   user: User;
@@ -20,6 +28,7 @@ type Props = {
 
 const Profile: FC<Props> = ({ user }) => {
   const { tg } = useTelegram();
+  const dispatch = useDispatch();
 
   const company = useMemo(() => {
     const currentCompanyId = localStorage.getItem(CURRENT_COMPANY_ID);
@@ -30,6 +39,20 @@ const Profile: FC<Props> = ({ user }) => {
       );
     }
   }, [user]);
+
+  const activeResume = useMemo(() => {
+    if (!user.currentResumeId) {
+      return user.resumes![0];
+    }
+
+    return user.resumes!.find(
+      (innerResume) => innerResume.id === user.currentResumeId,
+    )!;
+  }, [user]);
+
+  const handleChangeActiveResume = (resumeId: number) => {
+    dispatch(UserAction.setUser({ currentResumeId: resumeId }));
+  };
 
   const profileContent = useMemo(() => {
     if (user?.loggedInAs === 'company' && company) {
@@ -51,19 +74,46 @@ const Profile: FC<Props> = ({ user }) => {
         {user.resumes!.length > 0 ? (
           <>
             <BigWrapper>
-              <Heading6>Your resumes</Heading6>
+              <Heading6>Using this resume</Heading6>
+            </BigWrapper>
+            <SmallWrapper>
+              <CVWrapper
+                key={activeResume.id}
+                onClick={() => history.push('/resumes/' + activeResume.id)}
+              >
+                <>
+                  <Body>{activeResume.position}</Body>
+                  <Caption color="#ffffffB2">
+                    {activeResume.salary}{' '}
+                    {CurrencyToSymbol[activeResume.currency]}
+                  </Caption>
+                </>
+                <Caption color="#ffffffB2">23 views</Caption>
+              </CVWrapper>
+            </SmallWrapper>
+            <BigWrapper>
+              <Heading6>Other resumes</Heading6>
             </BigWrapper>
             <SmallWrapper>
               {user.resumes!.map((resume) => (
-                <CVWrapper key={resume.id}>
-                  <>
-                    <Body>{resume.position}</Body>
-                    <Caption color="#ffffffB2">
-                      {resume.salary} {CurrencyToSymbol[resume.currency]}
-                    </Caption>
-                  </>
-                  <Caption color="#ffffffB2">23 views</Caption>
-                </CVWrapper>
+                <InactiveWrapper key={resume.id}>
+                  <input
+                    type="radio"
+                    checked={resume.id === activeResume.id}
+                    onChange={() => handleChangeActiveResume(resume.id)}
+                  />
+                  <CVWrapper
+                    onClick={() => history.push('/resumes/' + resume.id)}
+                  >
+                    <>
+                      <Body>{resume.position}</Body>
+                      <Caption color="#ffffffB2">
+                        {resume.salary} {CurrencyToSymbol[resume.currency]}
+                      </Caption>
+                    </>
+                    <Caption color="#ffffffB2">23 views</Caption>
+                  </CVWrapper>
+                </InactiveWrapper>
               ))}
             </SmallWrapper>
           </>
