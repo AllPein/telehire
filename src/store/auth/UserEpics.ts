@@ -1,3 +1,4 @@
+import { handleGetApplies } from '@/store/auth/epics/handleGetAppliesEpic';
 import { handleGetUser } from '@/store/auth/epics/handleGetUserEpic';
 import { handleInitAuth } from '@/store/auth/epics/handleInitAuthEpic';
 import { handleInitInitialize } from '@/store/auth/epics/handleInitInitializeEpic';
@@ -8,4 +9,5 @@ export const UserEpics = [
   handleInitLogin,
   handleInitInitialize,
   handleGetUser,
+  handleGetApplies,
 ];

@@ -8,14 +8,15 @@ import {
   Heading6,
 } from '@/components/Typography/Typography.styles';
 import { CurrencyEnum } from '@/enums/Vacancy';
-import { useMount } from '@/hooks/useMount';
 import { CurrencyToSymbol } from '@/models/Vacancy';
-import { selectCreateResumeLoading } from '@/store/Loader/LoaderSelectors';
+import {
+  selectCreateResumeLoading,
+  selectDictionaryLoading,
+} from '@/store/Loader/LoaderSelectors';
 import { DictionaryAction } from '@/store/dictionary/DictionaryActions';
 import { selectSkills } from '@/store/dictionary/DictionarySelectors';
 import { ResumeAction } from '@/store/resume/ResumeActions';
 import { ResumeFormData } from '@/types/FormData';
-import { debounce } from 'lodash';
 import { ChangeEvent, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -37,8 +38,6 @@ const options = [
   },
 ];
 
-const CHANGE_DEBOUNCE_TIME = 300;
-
 const CreateResumePage = () => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState<ResumeFormData>({
@@ -49,17 +48,20 @@ const CreateResumePage = () => {
     currency: options[0],
   });
   const loading = useSelector(selectCreateResumeLoading);
+  const skillsLoading = useSelector(selectDictionaryLoading);
 
   const skills = useSelector(selectSkills);
 
-  useMount(() => {
-    dispatch(
-      DictionaryAction.getDictionaryByKey({
-        key: 'skills',
-        payload: { query: '' },
-      }),
-    );
-  });
+  const handleLoadSkills = () => {
+    if (!skills) {
+      dispatch(
+        DictionaryAction.getDictionaryByKey({
+          key: 'skills',
+          payload: { query: '' },
+        }),
+      );
+    }
+  };
 
   const handleCreateClick = () => {
     dispatch(ResumeAction.createResume(formData));
@@ -76,25 +78,6 @@ const CreateResumePage = () => {
   const disabled = useMemo(() => {
     return Object.values(formData).some((val) => !val);
   }, [formData]);
-
-  const debouncedSetValue = useMemo(
-    () =>
-      debounce((value) => {
-        dispatch(
-          DictionaryAction.getDictionaryByKey({
-            key: 'skills',
-            payload: { query: value },
-          }),
-        );
-      }, CHANGE_DEBOUNCE_TIME),
-    [],
-  );
-
-  const handleChangeSkills = (value: string) => {
-    if (value.length) {
-      debouncedSetValue(value);
-    }
-  };
 
   return (
     <AppContainer>
@@ -148,9 +131,10 @@ const CreateResumePage = () => {
         <InputWrapper>
           <Select
             name="skills"
-            onInputChange={handleChangeSkills}
             isMulti
+            onFocus={handleLoadSkills}
             value={formData.skills}
+            loading={skillsLoading}
             onChange={handleChange}
             options={skills ?? []}
           />

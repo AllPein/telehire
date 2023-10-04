@@ -200,6 +200,18 @@ class ApiService implements IApiService {
     }
   }
 
+  async getApplies(resumeId: number): Promise<any[]> {
+    try {
+      const res = await this.#axiosClient.get<any>(
+        `/applies?resumeId=${resumeId}`,
+      );
+
+      return res.data;
+    } catch (err: any) {
+      return err;
+    }
+  }
+
   async setActiveResumeId(resumeId: number): Promise<void> {
     try {
       await this.#axiosClient.post<any, any>('/resumes/setActive', {

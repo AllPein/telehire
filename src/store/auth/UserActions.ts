@@ -22,6 +22,7 @@ export const UserAction = {
   }>('INIT_INITIALIZE'),
   getUser: factory('GET_USER'),
   setUser: factory<Partial<User>>('SET_USER'),
+  getApplies: factory<number>('GET_APPLIES'),
   setToken: factory<Token>('SET_TOKEN'),
   resetState: factory('RESET_STATE'),
 };

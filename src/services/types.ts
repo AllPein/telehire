@@ -17,6 +17,7 @@ export interface IApiService {
   init: (axiosClient: AxiosClient) => void;
   getToken: (data: string) => Promise<Token>;
   getUser: () => Promise<User>;
+  getApplies: (resumeId: number) => Promise<any[]>;
   getCompanies: () => Promise<Company[]>;
   getCompany: (id: number) => Promise<Company>;
   getVacancies: (id: number | undefined) => Promise<ShortVacancy[]>;

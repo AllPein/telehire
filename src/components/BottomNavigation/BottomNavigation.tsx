@@ -1,3 +1,5 @@
+import AppliesIcon from '@/assets/apply.svg';
+import CandidatesIcon from '@/assets/candidates.svg';
 import CompanyIcon from '@/assets/company.svg';
 import JobIcon from '@/assets/job.svg';
 import ProfileIcon from '@/assets/profile.svg';
@@ -45,7 +47,7 @@ const BottomNavigation = () => {
           active={activeItem === 'candidates'}
           onClick={() => handleChangeLocation('/candidates/', 'all')}
         >
-          <img src={JobIcon} />
+          <img src={CandidatesIcon} />
         </ImgWrapper>
       ) : (
         <ImgWrapper
@@ -73,7 +75,7 @@ const BottomNavigation = () => {
           active={activeItem === 'applies'}
           onClick={() => handleChangeLocation('/applies')}
         >
-          <img src={CompanyIcon} />
+          <img src={AppliesIcon} />
         </ImgWrapper>
       )}
       <ImgWrapper

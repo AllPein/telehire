@@ -13,7 +13,6 @@ import {
   ExperienceToLabel,
   JobTypeEnum,
 } from '@/enums/Vacancy';
-import { useMount } from '@/hooks/useMount';
 import { CurrencyToSymbol } from '@/models/Vacancy';
 import {
   selectCreateVacancyLoading,
@@ -26,7 +25,6 @@ import {
 } from '@/store/dictionary/DictionarySelectors';
 import { VacancyAction } from '@/store/vacancy/VacancyActions';
 import { VacancyFormData } from '@/types/FormData';
-import { debounce } from 'lodash';
 import { ChangeEvent, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -115,14 +113,16 @@ const CreateVacancyPage = () => {
     }
   };
 
-  useMount(() => {
-    dispatch(
-      DictionaryAction.getDictionaryByKey({
-        key: 'skills',
-        payload: { query: '' },
-      }),
-    );
-  });
+  const handleLoadSkills = () => {
+    if (!skills) {
+      dispatch(
+        DictionaryAction.getDictionaryByKey({
+          key: 'skills',
+          payload: { query: '' },
+        }),
+      );
+    }
+  };
 
   const handleCreateClick = () => {
     dispatch(
@@ -136,25 +136,6 @@ const CreateVacancyPage = () => {
     const { name, value } = event.target;
 
     setFormData((prevFormData: any) => ({ ...prevFormData, [name]: value }));
-  };
-
-  const debouncedSetValue = useMemo(
-    () =>
-      debounce((value) => {
-        dispatch(
-          DictionaryAction.getDictionaryByKey({
-            key: 'skills',
-            payload: { query: value },
-          }),
-        );
-      }, CHANGE_DEBOUNCE_TIME),
-    [],
-  );
-
-  const handleChangeSkills = (value: string) => {
-    if (value.length) {
-      debouncedSetValue(value);
-    }
   };
 
   const disabled = useMemo(() => {
@@ -246,7 +227,7 @@ const CreateVacancyPage = () => {
             </LabelWrapper>
             <InputWrapper>
               <Select
-                onClick={handleLoadCountries}
+                onFocus={handleLoadCountries}
                 name="country"
                 value={formData.country}
                 onChange={handleChange}
@@ -263,13 +244,13 @@ const CreateVacancyPage = () => {
         <InputWrapper>
           <Select
             name="skills"
-            onInputChange={handleChangeSkills}
+            onFocus={handleLoadSkills}
             loading={dictionaryLoading}
             placeholder="Select required skills"
             isMulti
             value={formData.skills}
             onChange={handleChange}
-            options={skills}
+            options={skills ?? []}
           />
         </InputWrapper>
       </div>

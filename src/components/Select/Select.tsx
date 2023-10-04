@@ -60,7 +60,7 @@ type Props = {
   name: string;
   placeholder?: string;
   disabled?: boolean;
-  onClick?: () => any;
+  onFocus?: () => any;
   isMulti?: boolean;
   onInputChange?: (newValue: string) => void;
   loading?: boolean;
@@ -76,7 +76,7 @@ const Select: FC<Props> = ({
   isMulti,
   onInputChange,
   placeholder,
-  onClick,
+  onFocus,
 }) => {
   const handleChange = (event: SingleValue<Option> | MultiValue<Option>) => {
     onChange({
@@ -89,7 +89,7 @@ const Select: FC<Props> = ({
 
   return (
     <ReactSelect
-      onFocus={onClick}
+      onFocus={onFocus}
       isDisabled={disabled}
       options={options}
       value={value}

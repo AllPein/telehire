@@ -10,6 +10,10 @@ const VacancyPage = lazy(
 );
 
 const MainPage = lazy(() => import('@/pages/MainPage/MainPage'), 'MainPage');
+const AppliesPage = lazy(
+  () => import('@/pages/AppliesPage/AppliesPage'),
+  'AppliesPage',
+);
 const ResumePage = lazy(
   () => import('@/pages/ResumePage/ResumePage'),
   'ResumePage',
@@ -59,6 +63,10 @@ const routes = [
   {
     path: '/resumes/:resumeId',
     children: <ResumePage />,
+  },
+  {
+    path: '/applies',
+    children: <AppliesPage />,
   },
   {
     path: '/vacancies',

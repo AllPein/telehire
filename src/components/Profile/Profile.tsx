@@ -68,36 +68,10 @@ const Profile: FC<Props> = ({ user }) => {
 
     return (
       <>
-        {activeResume ? (
-          <>
-            <BigWrapper>
-              <Heading6>Using this resume</Heading6>
-            </BigWrapper>
-            <SmallWrapper>
-              <CVWrapper
-                key={activeResume.id}
-                onClick={() => history.push('/resumes/' + activeResume.id)}
-              >
-                <>
-                  <Body>{activeResume.position}</Body>
-                  <Caption color="#ffffffB2">
-                    {activeResume.salary}{' '}
-                    {CurrencyToSymbol[activeResume.currency]}
-                  </Caption>
-                </>
-                <Caption color="#ffffffB2">23 views</Caption>
-              </CVWrapper>
-            </SmallWrapper>
-          </>
-        ) : (
-          <BigWrapper>
-            <Body>Select an active resume</Body>
-          </BigWrapper>
-        )}
         {user.resumes!.length > 0 ? (
           <>
             <BigWrapper>
-              <Heading6>Other resumes</Heading6>
+              <Heading6>Your resumes</Heading6>
             </BigWrapper>
             <SmallWrapper>
               {user.resumes!.map((resume) => (
