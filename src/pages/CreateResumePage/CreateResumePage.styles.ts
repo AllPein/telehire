@@ -23,7 +23,7 @@ export const LabelWrapper = styled.div`
 `;
 
 export const FlexWrapper = styled.div`
-  display: flex;
-  gap: 4px;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
 `;

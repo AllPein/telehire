@@ -18,8 +18,9 @@ export const BigWrapper = styled.div`
 `;
 
 export const InactiveWrapper = styled.div`
-  display: flex;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
   align-items: center;
 `;
 

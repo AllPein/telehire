@@ -24,10 +24,8 @@ input[type='radio'] {
   background-color: #fff;
   margin: 0;
   font: inherit;
-  color: currentColor;
-  width: 2em;
-  height: 2em;
-  border: 0.15em solid currentColor;
+  width: 1.7em;
+  height: 1.7em;
   border-radius: 50%;
   display: grid;
   place-content: center;

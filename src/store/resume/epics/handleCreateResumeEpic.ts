@@ -7,6 +7,7 @@ import { AnyAction } from 'typescript-fsa';
 import { ofAction } from '@/operators/ofAction';
 import { LoaderAction } from '@/store/Loader/LoaderActions';
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
+import { UserAction } from '@/store/auth/UserActions';
 import { ResumeAction } from '@/store/resume/ResumeActions';
 import { history } from '@/utils/history';
 import { mapResumeFormToVacancyDto } from '@/utils/mappers';
@@ -27,6 +28,7 @@ export const handleCreateResume: Epic<
       return from(apiService.createResume(resume)).pipe(
         tap(() => {
           dispatch(ResumeAction.getMyResumes());
+          dispatch(UserAction.getUser());
           history.push('/profile');
         }),
         finalize(() => {

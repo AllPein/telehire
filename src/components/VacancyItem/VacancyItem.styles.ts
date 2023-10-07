@@ -29,6 +29,12 @@ export const FlexWrapper = styled.div`
   align-items: center;
 `;
 
+export const VacancyInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+`;
+
 export const ItemWrapper = styled.div<ItemProps>`
   margin-top: ${(props) => (props.margin === 'l' ? '16px' : '8px')};
 `;
