@@ -13,6 +13,7 @@ const CompanyInfoPage = () => {
   const company = useSelector(selectCurrentCompany);
 
   useEffect(() => {
+    localStorage.removeItem('started');
     dispatch(CompanyAction.getCompany(Number(companyId)));
   }, [companyId]);
 

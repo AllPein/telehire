@@ -34,9 +34,7 @@ const AuthProvider: FC<Props> = ({ children }) => {
   );
 
   useMount(() => {
-    localStorage.removeItem(TOKEN_NAME);
-
-    if (tg.initDataUnsafe.start_param.includes('company')) {
+    if (tg.initDataUnsafe.start_param.includes('company') && !Boolean(localStorage.getItem('started'))) {
       const hash = tg.initDataUnsafe.start_param.split('company')[1];
       history.push('/accept-invite/' + hash);
     }
