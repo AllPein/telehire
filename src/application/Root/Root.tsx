@@ -10,6 +10,10 @@ const VacancyPage = lazy(
 );
 
 const MainPage = lazy(() => import('@/pages/MainPage/MainPage'), 'MainPage');
+const AcceptInvitePage = lazy(
+  () => import('@/pages/AcceptInvitePage/AcceptInvitePage'),
+  'AcceptInvitePage',
+);
 const AppliesPage = lazy(
   () => import('@/pages/AppliesPage/AppliesPage'),
   'AppliesPage',
@@ -99,6 +103,10 @@ const routes = [
   {
     path: '/company/:companyId',
     children: <CompanyInfoPage />,
+  },
+  {
+    path: '/accept-invite/:hash',
+    children: <AcceptInvitePage />,
   },
 ];
 

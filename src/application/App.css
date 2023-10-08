@@ -16,12 +16,12 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 input:-internal-autofill-selected {
-  background-color: var(--tg-theme-bg-secondary) !important;
+  background-color: var(--tg-theme-secondary-bg-color) !important;
 }
 
 input[type='radio'] {
   appearance: none;
-  background-color: #fff;
+  background-color: var(--tg-theme-text-color);
   margin: 0;
   font: inherit;
   width: 1.7em;
@@ -58,7 +58,7 @@ input[type='radio']:hover {
 }
 
 a {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 .main {
@@ -66,12 +66,8 @@ a {
 }
 
 :root {
-  --tg-theme-bg-color: #1a212c;
-  --tg-theme-bg-secondary: #24303f;
-
-  --tg-theme-button-color: #2eaddc;
-  --tg-theme-button-text-color: white;
-
+  --tg-theme-accepted-color: rgb(97, 179, 82);
   background-color: var(--tg-theme-bg-color);
+  color: var(--tg-theme-text-color);
   min-height: 100vh;
 }

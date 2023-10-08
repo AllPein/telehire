@@ -9,6 +9,7 @@ import { Company } from '@/models/Company';
 export type Vacancy = {
   requirements?: string;
   description?: string;
+  authorId: string | null;
 } & ShortVacancy;
 
 export type ShortVacancy = {

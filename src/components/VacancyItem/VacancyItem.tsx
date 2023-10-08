@@ -1,5 +1,3 @@
-import CompanyIcon from '@/assets/company.svg';
-import PlaceIcon from '@/assets/place.svg';
 import {
   Body,
   Body2,
@@ -11,6 +9,8 @@ import {
   VacancyStatusEnum,
 } from '@/enums/Vacancy';
 import { CurrencyToSymbol, ShortVacancy } from '@/models/Vacancy';
+import { mdiDomain, mdiMapMarker } from '@mdi/js';
+import Icon from '@mdi/react';
 import { FC } from 'react';
 import {
   FlexWrapper,
@@ -24,6 +24,12 @@ type Props = {
   withoutCompany?: boolean;
   status?: VacancyStatusEnum;
   onClick: (vacancyId: number) => void;
+};
+
+const mapStatusToColor = {
+  [VacancyStatusEnum.Accepted]: 'var(--tg-theme-accepted-color)',
+  [VacancyStatusEnum.Denied]: 'rgb(208, 87, 85)',
+  [VacancyStatusEnum.Pending]: undefined,
 };
 
 const VacancyItem: FC<Props> = ({
@@ -53,18 +59,18 @@ const VacancyItem: FC<Props> = ({
         <ItemWrapper margin="l">
           {vacancy.jobType === 'Remote' ? (
             <ItemWrapper>
-              <Caption color="#FFFFFFB2">{vacancy.jobType}</Caption>
+              <Caption>{vacancy.jobType}</Caption>
             </ItemWrapper>
           ) : (
             <FlexWrapper>
-              <img src={PlaceIcon} />
+              <Icon path={mdiMapMarker} size={0.5} />
               <Caption>{vacancy.location?.country}</Caption>
             </FlexWrapper>
           )}
         </ItemWrapper>
         {!withoutCompany && (
           <FlexWrapper>
-            <img src={CompanyIcon} />
+            <Icon path={mdiDomain} size={0.5} />
             <Caption>{vacancy.company.name}</Caption>
           </FlexWrapper>
         )}
@@ -73,7 +79,7 @@ const VacancyItem: FC<Props> = ({
           <Caption>{ExperienceToLabel[vacancy.experience]}</Caption>
         </ItemWrapper>
       </div>
-      {status && <Caption color="rgb(223, 174, 83)">{status}</Caption>}
+      {status && <Caption color={mapStatusToColor[status]}>{status}</Caption>}
     </VacancyInfo>
   </Wrapper>
 );

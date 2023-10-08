@@ -1,5 +1,6 @@
-import SearchIcon from '@/assets/search.svg';
 import { Input } from '@/components/Input/Input';
+import { mdiMagnify } from '@mdi/js';
+import Icon from '@mdi/react';
 import { debounce } from 'lodash';
 import { ChangeEvent, FC, useMemo, useState } from 'react';
 
@@ -32,7 +33,7 @@ const Search: FC<Props> = (props) => {
       {...props}
       value={value}
       onChange={handleChange}
-      icon={<img src={SearchIcon} />}
+      icon={<Icon path={mdiMagnify} size={1} />}
     />
   );
 };

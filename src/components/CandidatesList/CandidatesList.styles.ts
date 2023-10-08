@@ -18,7 +18,6 @@ export const InputWrapper = styled.div`
   margin-bottom: 24px;
   display: flex;
   gap: 20px;
-  color: #fff;
   width: 100%;
   text-align: center;
 `;

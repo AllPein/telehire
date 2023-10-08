@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const FormGroup = styled.div`
   display: flex;
-  background: var(--tg-theme-bg-secondary);
+  background: var(--tg-theme-secondary-bg-color);
   border-radius: 12px;
   padding-left: 10px;
   width: 100%;
@@ -19,9 +19,9 @@ export const FormInput = styled.input`
   border: none;
   padding: 16px;
   font-size: 16px;
-  color: #fff;
+  color: var(--tg-theme-text-color);
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
-  background: var(--tg-theme-bg-secondary);
-  background-color: var(--tg-theme-bg-secondary);
+  background: var(--tg-theme-secondary-bg-color);
+  background-color: var(--tg-theme-secondary-bg-color);
 `;

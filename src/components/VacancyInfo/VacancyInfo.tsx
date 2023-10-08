@@ -1,5 +1,3 @@
-import PlaceIcon from '@/assets/place.svg';
-import { Button } from '@/components/Button/Button';
 import {
   Body2,
   Caption,
@@ -10,9 +8,13 @@ import {
   ExperienceToLabel,
   VacancyStatusEnum,
 } from '@/enums/Vacancy';
+import { useMainButton } from '@/hooks/useMainButton';
+import { useTelegram } from '@/hooks/useTelegram';
 import { CurrencyToSymbol, Vacancy } from '@/models/Vacancy';
 import { selectUser } from '@/store/auth/UserSelectors';
 import { VacancyAction } from '@/store/vacancy/VacancyActions';
+import { mdiMapMarker } from '@mdi/js';
+import Icon from '@mdi/react';
 import { FC, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -30,6 +32,7 @@ type Props = {
 };
 
 const VacancyInfo: FC<Props> = ({ vacancy }) => {
+  const { tg } = useTelegram();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
 
@@ -45,25 +48,41 @@ const VacancyInfo: FC<Props> = ({ vacancy }) => {
   const vacancyStatusControl = useMemo(() => {
     if (user?.loggedInAs === 'applicant') {
       if (vacancy.status === VacancyStatusEnum.Pending) {
-        return (
-          <BigWrapper>
-            <Button block disabled>
-              You already applied
-            </Button>
-          </BigWrapper>
-        );
+        return {
+          visible: false,
+        };
       }
-      return (
-        <BigWrapper>
-          <Button block onClick={handleApply}>
-            Apply
-          </Button>
-        </BigWrapper>
-      );
+
+      if (vacancy.status === VacancyStatusEnum.Accepted) {
+        return {
+          visible: true,
+          text: 'Chat with HR',
+          onClick: () =>
+            tg.openTelegramLink(`https://t.me/${vacancy.authorId}`),
+          params: {
+            color: 'rgb(97, 179, 82)',
+          },
+        };
+      }
+
+      return {
+        visible: true,
+        text: 'Apply',
+        onClick: handleApply,
+      };
     }
 
-    return null;
+    return {
+      visible: false,
+    };
   }, [vacancy, user]);
+
+  useMainButton({
+    onClick: vacancyStatusControl.onClick,
+    condition: vacancyStatusControl.visible,
+    text: vacancyStatusControl.text,
+    params: vacancyStatusControl.params,
+  });
 
   return (
     <Wrapper>
@@ -72,19 +91,19 @@ const VacancyInfo: FC<Props> = ({ vacancy }) => {
       </BigWrapper>
       <SmallWrapper center>
         <a href={'/company/' + vacancy.company.id}>
-          <Caption color="#FFFFFFB2">{vacancy.company.name}</Caption>
+          <Caption>{vacancy.company.name}</Caption>
         </a>
       </SmallWrapper>
       <SmallWrapper>
         <CountryWrapper>
-          <img src={PlaceIcon} />
+          <Icon path={mdiMapMarker} size={0.5} />
           <Caption>{vacancy.location?.country}</Caption>
         </CountryWrapper>
       </SmallWrapper>
       <BigWrapper>
         <JobInfoWrapper>
           <InfoWrapper>
-            <Caption color="#FFFFFFB2">Salary</Caption>
+            <Caption>Salary</Caption>
             <SmallWrapper center>
               {vacancy.salaryTo ? (
                 <Caption>
@@ -101,14 +120,14 @@ const VacancyInfo: FC<Props> = ({ vacancy }) => {
           </InfoWrapper>
           <Delimiter />
           <InfoWrapper>
-            <Caption color="#FFFFFFB2">Job Type</Caption>
+            <Caption>Job Type</Caption>
             <SmallWrapper center>
               <Caption>{vacancy.jobType}</Caption>
             </SmallWrapper>
           </InfoWrapper>
           <Delimiter />
           <InfoWrapper>
-            <Caption color="#FFFFFFB2">Level</Caption>
+            <Caption>Level</Caption>
             <SmallWrapper center>
               <Caption>{ExperienceToLabel[vacancy.experience]}</Caption>
             </SmallWrapper>
@@ -118,16 +137,15 @@ const VacancyInfo: FC<Props> = ({ vacancy }) => {
       <BigWrapper>
         <Body2>Requirements</Body2>
         <SmallWrapper>
-          <Caption color="#FFFFFFB2">{vacancy.requirements}</Caption>
+          <Caption>{vacancy.requirements}</Caption>
         </SmallWrapper>
       </BigWrapper>
       <BigWrapper>
         <Body2>About vacancy</Body2>
         <SmallWrapper>
-          <Caption color="#FFFFFFB2">{vacancy.description}</Caption>
+          <Caption>{vacancy.description}</Caption>
         </SmallWrapper>
       </BigWrapper>
-      {vacancyStatusControl}
     </Wrapper>
   );
 };

@@ -5,7 +5,8 @@ const factory = actionCreatorFactory('loader');
 export type LoadingType =
   | 'auth'
   | 'companyList'
-  | 'dictionary'
+  | 'countries'
+  | 'skills'
   | 'createVacancy'
   | 'createResume'
   | 'profile'

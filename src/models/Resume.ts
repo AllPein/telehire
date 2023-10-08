@@ -10,4 +10,5 @@ export type Resume = {
   user: User;
   currency: CurrencyEnum;
   skills: string[];
+  views: number;
 };

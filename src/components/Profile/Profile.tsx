@@ -7,10 +7,9 @@ import {
 } from '@/components/Typography/Typography.styles';
 import { UserInfo } from '@/components/UserInfo/UserInfo';
 import { CURRENT_COMPANY_ID } from '@/constants/localStorage';
-import { useTelegram } from '@/hooks/useTelegram';
+import { useMainButton } from '@/hooks/useMainButton';
 import { Company } from '@/models/Company';
 import { User } from '@/models/User';
-import { CurrencyToSymbol } from '@/models/Vacancy';
 import { ResumeAction } from '@/store/resume/ResumeActions';
 import { history } from '@/utils/history';
 import { FC, useMemo } from 'react';
@@ -28,8 +27,13 @@ type Props = {
 };
 
 const Profile: FC<Props> = ({ user }) => {
-  const { tg } = useTelegram();
   const dispatch = useDispatch();
+
+  useMainButton({
+    onClick: () => history.push('/create-resume'),
+    text: 'Create new',
+    condition: user.loggedInAs === 'applicant',
+  });
 
   const company = useMemo(() => {
     const currentCompanyId = localStorage.getItem(CURRENT_COMPANY_ID);
@@ -86,11 +90,9 @@ const Profile: FC<Props> = ({ user }) => {
                   >
                     <>
                       <Body>{resume.position}</Body>
-                      <Caption color="#ffffffB2">
-                        {resume.salary} {CurrencyToSymbol[resume.currency]}
-                      </Caption>
                     </>
-                    <Caption color="#ffffffB2">23 views</Caption>
+                    <Caption>{resume.views} views</Caption>
+                    <Button size="s">Boost</Button>
                   </CVWrapper>
                 </InactiveWrapper>
               ))}
@@ -101,12 +103,6 @@ const Profile: FC<Props> = ({ user }) => {
             <Heading6>You don't have any resumes yet</Heading6>
           </BigWrapper>
         )}
-
-        <BigWrapper>
-          <Button block onClick={() => history.push('/create-resume')}>
-            Create new
-          </Button>
-        </BigWrapper>
       </>
     );
   }, [user, company]);

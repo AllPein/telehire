@@ -6,7 +6,7 @@ type Props = {
 
 export const Wrapper = styled.div`
   width: 100%;
-  background-color: var(--tg-theme-bg-secondary);
+  background-color: var(--tg-theme-secondary-bg-color);
   height: 60px;
   position: fixed;
   bottom: 0;
@@ -17,7 +17,8 @@ export const Wrapper = styled.div`
 `;
 
 export const ImgWrapper = styled.div<Props>`
-  background-color: ${(props) => (props.active ? '#1a212c' : 'inherit')};
+  background-color: ${(props) =>
+    props.active ? 'var(--tg-theme-bg-color)' : 'inherit'};
   width: 40px;
   height: 40px;
   cursor: pointer;

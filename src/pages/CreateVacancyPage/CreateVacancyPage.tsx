@@ -1,4 +1,3 @@
-import { Button } from '@/components/Button/Button';
 import { Input } from '@/components/Input/Input';
 import { Select } from '@/components/Select/Select';
 import { TextArea } from '@/components/TextArea/TextArea';
@@ -13,10 +12,12 @@ import {
   ExperienceToLabel,
   JobTypeEnum,
 } from '@/enums/Vacancy';
+import { useMainButton } from '@/hooks/useMainButton';
 import { CurrencyToSymbol } from '@/models/Vacancy';
 import {
+  selectCountriesLoading,
   selectCreateVacancyLoading,
-  selectDictionaryLoading,
+  selectSkillsLoading,
 } from '@/store/Loader/LoaderSelectors';
 import { DictionaryAction } from '@/store/dictionary/DictionaryActions';
 import {
@@ -85,14 +86,13 @@ const experienceOptions = [
   },
 ];
 
-const CHANGE_DEBOUNCE_TIME = 300;
-
 const CreateVacancyPage = () => {
   const { companyId } = useParams<{ companyId: string }>();
   const dispatch = useDispatch();
   const countries = useSelector(selectCountreis);
   const skills = useSelector(selectSkills);
-  const dictionaryLoading = useSelector(selectDictionaryLoading);
+  const countriesLoading = useSelector(selectCountriesLoading);
+  const skillsLoading = useSelector(selectSkillsLoading);
   const createLoading = useSelector(selectCreateVacancyLoading);
 
   const [formData, setFormData] = useState<VacancyFormData>({
@@ -130,6 +130,26 @@ const CreateVacancyPage = () => {
     );
   };
 
+  const showButton = useMemo(() => {
+    return Object.values(formData).every((val) => {
+      if (!val) {
+        return false;
+      }
+
+      if (Array.isArray(val)) {
+        return val.length > 0;
+      }
+
+      return true;
+    });
+  }, [formData]);
+
+  useMainButton({
+    onClick: handleCreateClick,
+    condition: showButton,
+    text: 'Create',
+  });
+
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -138,133 +158,118 @@ const CreateVacancyPage = () => {
     setFormData((prevFormData: any) => ({ ...prevFormData, [name]: value }));
   };
 
-  const disabled = useMemo(() => {
-    return Object.values(formData).some((val) => !val);
-  }, [formData]);
-
   return (
     <AppContainer>
-      <div>
-        <HeadingWrapper>
-          <Heading6>Create new vacancy</Heading6>
-        </HeadingWrapper>
-        <Body>Position</Body>
-        <InputWrapper>
-          <Input
-            name="position"
-            value={formData.position}
-            onChange={handleChange}
-            placeholder="Position"
-          />
-        </InputWrapper>
-        <LabelWrapper>
-          <Body>Requirements</Body>
-        </LabelWrapper>
-        <InputWrapper>
-          <TextArea
-            name="requirements"
-            value={formData.requirements}
-            onChange={handleChange}
-            placeholder="Requirements for the position"
-          />
-        </InputWrapper>
-        <LabelWrapper>
-          <Body>Salary</Body>
-        </LabelWrapper>
-        <InputWrapper>
-          <FlexWrapper>
-            <Body>from</Body>
-            <Input
-              type="number"
-              name="salaryFrom"
-              value={formData.salaryFrom}
-              onChange={handleChange}
-              placeholder="Salary from"
-            />
-            <Body>to</Body>
-            <Input
-              type="number"
-              name="salaryTo"
-              value={formData.salaryTo}
-              onChange={handleChange}
-              placeholder="Salary to"
-            />
-            <Select
-              value={formData.currency}
-              name="currency"
-              placeholder=""
-              options={currencyOptions}
-              onChange={handleChange}
-            />
-          </FlexWrapper>
-        </InputWrapper>
-        <LabelWrapper>
-          <Body>Required experience</Body>
-        </LabelWrapper>
-        <InputWrapper>
-          <Select
-            value={formData.experience}
-            name="experience"
-            options={experienceOptions}
-            onChange={handleChange}
-          />
-        </InputWrapper>
-        <LabelWrapper>
-          <Body>Job type</Body>
-        </LabelWrapper>
-        <InputWrapper>
-          <Select
-            value={formData.jobType}
-            name="jobType"
-            options={jobTypeOptions}
-            onChange={handleChange}
-          />
-        </InputWrapper>
-        {formData.jobType.value !== JobTypeEnum.Remote && (
-          <>
-            <LabelWrapper>
-              <Body2>Country</Body2>
-            </LabelWrapper>
-            <InputWrapper>
-              <Select
-                onFocus={handleLoadCountries}
-                name="country"
-                value={formData.country}
-                onChange={handleChange}
-                placeholder="Select country"
-                loading={dictionaryLoading}
-                options={countries ?? []}
-              />
-            </InputWrapper>
-          </>
-        )}
-        <LabelWrapper>
-          <Body2>Required skills</Body2>
-        </LabelWrapper>
-        <InputWrapper>
-          <Select
-            name="skills"
-            onFocus={handleLoadSkills}
-            loading={dictionaryLoading}
-            placeholder="Select required skills"
-            isMulti
-            value={formData.skills}
-            onChange={handleChange}
-            options={skills ?? []}
-          />
-        </InputWrapper>
-      </div>
-
+      <HeadingWrapper>
+        <Heading6>Create new vacancy</Heading6>
+      </HeadingWrapper>
+      <Body>Position</Body>
+      <InputWrapper>
+        <Input
+          name="position"
+          value={formData.position}
+          onChange={handleChange}
+          placeholder="Position"
+        />
+      </InputWrapper>
       <LabelWrapper>
-        <Button
-          block
-          onClick={handleCreateClick}
-          disabled={disabled}
-          loading={createLoading}
-        >
-          Create
-        </Button>
+        <Body>Requirements</Body>
       </LabelWrapper>
+      <InputWrapper>
+        <TextArea
+          name="requirements"
+          value={formData.requirements}
+          onChange={handleChange}
+          placeholder="Requirements for the position"
+        />
+      </InputWrapper>
+      <LabelWrapper>
+        <Body>Salary</Body>
+      </LabelWrapper>
+      <InputWrapper>
+        <FlexWrapper>
+          <Body>from</Body>
+          <Input
+            type="number"
+            name="salaryFrom"
+            value={formData.salaryFrom}
+            onChange={handleChange}
+            placeholder="Salary from"
+          />
+          <Body>to</Body>
+          <Input
+            type="number"
+            name="salaryTo"
+            value={formData.salaryTo}
+            onChange={handleChange}
+            placeholder="Salary to"
+          />
+          <Select
+            value={formData.currency}
+            name="currency"
+            placeholder=""
+            options={currencyOptions}
+            onChange={handleChange}
+          />
+        </FlexWrapper>
+      </InputWrapper>
+      <LabelWrapper>
+        <Body>Required experience</Body>
+      </LabelWrapper>
+      <InputWrapper>
+        <Select
+          value={formData.experience}
+          name="experience"
+          options={experienceOptions}
+          onChange={handleChange}
+        />
+      </InputWrapper>
+      <LabelWrapper>
+        <Body>Job type</Body>
+      </LabelWrapper>
+      <InputWrapper>
+        <Select
+          value={formData.jobType}
+          name="jobType"
+          options={jobTypeOptions}
+          onChange={handleChange}
+        />
+      </InputWrapper>
+      {formData.jobType.value !== JobTypeEnum.Remote && (
+        <>
+          <LabelWrapper>
+            <Body2>Country</Body2>
+          </LabelWrapper>
+          <InputWrapper>
+            <Select
+              onFocus={handleLoadCountries}
+              name="country"
+              value={formData.country}
+              onChange={handleChange}
+              withCreate
+              placeholder="Select country"
+              loading={countriesLoading}
+              options={countries ?? []}
+            />
+          </InputWrapper>
+        </>
+      )}
+      <LabelWrapper>
+        <Body2>Required skills</Body2>
+      </LabelWrapper>
+      <InputWrapper>
+        <Select
+          name="skills"
+          onFocus={handleLoadSkills}
+          loading={skillsLoading}
+          placeholder="Select required skills"
+          isMulti
+          value={formData.skills}
+          onChange={handleChange}
+          withCreate
+          options={skills ?? []}
+        />
+      </InputWrapper>
     </AppContainer>
   );
 };

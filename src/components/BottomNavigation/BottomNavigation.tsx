@@ -1,11 +1,14 @@
-import AppliesIcon from '@/assets/apply.svg';
-import CandidatesIcon from '@/assets/candidates.svg';
-import CompanyIcon from '@/assets/company.svg';
-import JobIcon from '@/assets/job.svg';
-import ProfileIcon from '@/assets/profile.svg';
 import { CURRENT_COMPANY_ID } from '@/constants/localStorage';
 import { selectUser } from '@/store/auth/UserSelectors';
 import { history } from '@/utils/history';
+import {
+  mdiAccountCircleOutline,
+  mdiAccountMultiple,
+  mdiBriefcaseOutline,
+  mdiDomain,
+  mdiEmailNewsletter,
+} from '@mdi/js';
+import Icon from '@mdi/react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
@@ -47,14 +50,14 @@ const BottomNavigation = () => {
           active={activeItem === 'candidates'}
           onClick={() => handleChangeLocation('/candidates/', 'all')}
         >
-          <img src={CandidatesIcon} />
+          <Icon path={mdiAccountMultiple} size={1} />
         </ImgWrapper>
       ) : (
         <ImgWrapper
           active={activeItem === 'job'}
           onClick={() => handleChangeLocation('/vacancies')}
         >
-          <img src={JobIcon} />
+          <Icon path={mdiBriefcaseOutline} size={1} />
         </ImgWrapper>
       )}
 
@@ -68,21 +71,21 @@ const BottomNavigation = () => {
             )
           }
         >
-          <img src={CompanyIcon} />
+          <Icon path={mdiDomain} size={1} />
         </ImgWrapper>
       ) : (
         <ImgWrapper
           active={activeItem === 'applies'}
           onClick={() => handleChangeLocation('/applies')}
         >
-          <img src={AppliesIcon} />
+          <Icon path={mdiEmailNewsletter} size={1} />
         </ImgWrapper>
       )}
       <ImgWrapper
         active={activeItem === 'profile'}
         onClick={() => handleChangeLocation('/profile')}
       >
-        <img src={ProfileIcon} />
+        <Icon path={mdiAccountCircleOutline} size={1} />
       </ImgWrapper>
     </Wrapper>
   );

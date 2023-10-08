@@ -8,11 +8,13 @@ import {
 import { VacancyItem } from '@/components/VacancyItem/VacancyItem';
 import { CURRENT_COMPANY_ID } from '@/constants/localStorage';
 import { CompanyVolumeToLabel } from '@/enums/Company';
+import { useMainButton } from '@/hooks/useMainButton';
 import { Company } from '@/models/Company';
 import { selectUser } from '@/store/auth/UserSelectors';
+import { CompanyAction } from '@/store/company/CompanyActions';
 import { history } from '@/utils/history';
 import { FC, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   BigWrapper,
   JobInfoWrapper,
@@ -27,10 +29,17 @@ type Props = {
 
 const CompanyInfo: FC<Props> = ({ company }) => {
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
   const fromCompany = useMemo(
     () => Number(localStorage.getItem(CURRENT_COMPANY_ID)) === company.id,
     [company],
   );
+
+  useMainButton({
+    onClick: () => history.push('/create-vacancy/' + company.id),
+    condition: fromCompany,
+    text: 'Create new vacancy',
+  });
 
   const handleVacancyClick = (vacancyId: number) => {
     if (fromCompany) {
@@ -38,6 +47,10 @@ const CompanyInfo: FC<Props> = ({ company }) => {
     } else {
       history.push('/vacancies/' + vacancyId);
     }
+  };
+
+  const handleGenerateLink = () => {
+    dispatch(CompanyAction.generateLink(company.id));
   };
 
   return (
@@ -48,7 +61,7 @@ const CompanyInfo: FC<Props> = ({ company }) => {
       </BigWrapper>
       <BigWrapper>
         <JobInfoWrapper>
-          <Caption color="#FFFFFFB2">Company size</Caption>
+          <Caption>Company size</Caption>
           <SmallWrapper center>
             <Caption>{CompanyVolumeToLabel[company.volume]}</Caption>
           </SmallWrapper>
@@ -57,7 +70,7 @@ const CompanyInfo: FC<Props> = ({ company }) => {
       <BigWrapper>
         <Body2>About company</Body2>
         <SmallWrapper>
-          <Caption color="#FFFFFFB2">{company.description}</Caption>
+          <Caption>{company.description}</Caption>
         </SmallWrapper>
       </BigWrapper>
       <BigWrapper>
@@ -69,13 +82,15 @@ const CompanyInfo: FC<Props> = ({ company }) => {
                 {member.firstName} {member.lastName}
               </Caption>
               <SmallWrapper>
-                <Caption color="#ffffffb2">@{member.username}</Caption>
+                <Caption>@{member.username}</Caption>
               </SmallWrapper>
             </MemberWrapper>
           ))}
           {user?.id === company.ownerId && (
             <BigWrapper>
-              <Button block>Generate invite link</Button>
+              <Button block onClick={handleGenerateLink}>
+                Generate invite link
+              </Button>
             </BigWrapper>
           )}
         </BigWrapper>
@@ -94,23 +109,11 @@ const CompanyInfo: FC<Props> = ({ company }) => {
             ))
           ) : (
             <SmallWrapper>
-              <Caption color="#FFFFFFB2">
-                {company.name} has no active vacancies yet
-              </Caption>
+              <Caption>{company.name} has no active vacancies yet</Caption>
             </SmallWrapper>
           )}
         </BigWrapper>
       </BigWrapper>
-      {fromCompany && (
-        <BigWrapper>
-          <Button
-            block
-            onClick={() => history.push('/create-vacancy/' + company.id)}
-          >
-            Create new vacancy
-          </Button>
-        </BigWrapper>
-      )}
     </Wrapper>
   );
 };

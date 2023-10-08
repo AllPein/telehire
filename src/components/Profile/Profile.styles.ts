@@ -25,7 +25,7 @@ export const InactiveWrapper = styled.div`
 `;
 
 export const CVWrapper = styled.div`
-  background-color: var(--tg-theme-bg-secondary);
+  background-color: var(--tg-theme-secondary-bg-color);
   border-radius: 8px;
   padding: 16px;
   width: 100%;

@@ -28,6 +28,7 @@ export const selectCreateResumeLoading =
   createIsLoadingSelector('createResume');
 export const selectCreateCompanyLoading =
   createIsLoadingSelector('createCompany');
-export const selectDictionaryLoading = createIsLoadingSelector('dictionary');
+export const selectCountriesLoading = createIsLoadingSelector('countries');
+export const selectSkillsLoading = createIsLoadingSelector('skills');
 export const selectCreateVacancyLoading =
   createIsLoadingSelector('createVacancy');

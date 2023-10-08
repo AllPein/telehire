@@ -1,4 +1,3 @@
-import { Button } from '@/components/Button/Button';
 import {
   Body2,
   Caption,
@@ -6,15 +5,15 @@ import {
 } from '@/components/Typography/Typography.styles';
 import { UserInfo } from '@/components/UserInfo/UserInfo';
 import { CurrencyEnum } from '@/enums/Vacancy';
+import { useMainButton } from '@/hooks/useMainButton';
+import { useTelegram } from '@/hooks/useTelegram';
 import { Resume } from '@/models/Resume';
 import { CurrencyToSymbol } from '@/models/Vacancy';
 import { selectUser } from '@/store/auth/UserSelectors';
-import { history } from '@/utils/history';
 import { FC } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   BigWrapper,
-  Delimiter,
   InfoWrapper,
   JobInfoWrapper,
   SmallWrapper,
@@ -26,10 +25,19 @@ type Props = {
 };
 
 const ResumeInfo: FC<Props> = ({ resume }) => {
+  const { tg } = useTelegram();
   const user = useSelector(selectUser);
-  const handleApply = () => {
-    history.push('/');
+  const dispatch = useDispatch();
+
+  const handleInvite = () => {
+    tg.openTelegramLink(`https://t.me/${resume.user.username}`);
   };
+
+  useMainButton({
+    onClick: handleInvite,
+    text: 'Contact applicant',
+    condition: user?.loggedInAs === 'company',
+  });
 
   return (
     <Wrapper>
@@ -40,7 +48,7 @@ const ResumeInfo: FC<Props> = ({ resume }) => {
       <BigWrapper>
         <JobInfoWrapper>
           <InfoWrapper>
-            <Caption color="#FFFFFFB2">Salary</Caption>
+            <Caption>Salary</Caption>
             <SmallWrapper center>
               <Caption>
                 {resume.salary}
@@ -48,28 +56,14 @@ const ResumeInfo: FC<Props> = ({ resume }) => {
               </Caption>
             </SmallWrapper>
           </InfoWrapper>
-          <Delimiter />
-
-          <Delimiter />
-          <InfoWrapper>
-            <Caption color="#FFFFFFB2">Level</Caption>
-            <SmallWrapper center></SmallWrapper>
-          </InfoWrapper>
         </JobInfoWrapper>
       </BigWrapper>
       <BigWrapper>
-        <Body2>Personal information</Body2>
+        <Body2>Information</Body2>
         <SmallWrapper>
-          <Caption color="#FFFFFFB2">{resume.description}</Caption>
+          <Caption>{resume.description}</Caption>
         </SmallWrapper>
       </BigWrapper>
-      {user?.loggedInAs === 'company' && (
-        <BigWrapper>
-          <Button block onClick={handleApply}>
-            Invite
-          </Button>
-        </BigWrapper>
-      )}
     </Wrapper>
   );
 };

@@ -212,6 +212,31 @@ class ApiService implements IApiService {
     }
   }
 
+  async generateLink(companyId: number): Promise<string> {
+    try {
+      const res = await this.#axiosClient.post<any, any>(
+        `/companies/create-link`,
+        { companyId },
+      );
+
+      return res.data.hash;
+    } catch (err: any) {
+      return err;
+    }
+  }
+
+  async acceptInvite(hash: string): Promise<void> {
+    try {
+      const res = await this.#axiosClient.get<any>(
+        `/companies/accept-invite/${hash}`,
+      );
+
+      return res.data.hash;
+    } catch (err: any) {
+      return err;
+    }
+  }
+
   async setActiveResumeId(resumeId: number): Promise<void> {
     try {
       await this.#axiosClient.post<any, any>('/resumes/setActive', {

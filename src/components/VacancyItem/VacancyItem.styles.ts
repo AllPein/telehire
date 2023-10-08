@@ -5,11 +5,10 @@ type ItemProps = {
 };
 
 export const Wrapper = styled.div`
-  background-color: var(--tg-theme-bg-secondary);
+  background-color: var(--tg-theme-secondary-bg-color);
   margin: 8px 0;
   border-radius: 8px;
   width: 100%;
-  color: #fff;
   font-style: normal;
   font-weight: 400;
   line-height: normal;

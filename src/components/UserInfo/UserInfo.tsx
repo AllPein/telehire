@@ -1,7 +1,9 @@
 import { Caption, Heading6 } from '@/components/Typography/Typography.styles';
 import { useTelegram } from '@/hooks/useTelegram';
 import { User } from '@/models/User';
+import { selectUser } from '@/store/auth/UserSelectors';
 import { FC } from 'react';
+import { useSelector } from 'react-redux';
 import { SmallWrapper } from './UserInfo.styles';
 
 type Props = {
@@ -10,6 +12,14 @@ type Props = {
 
 const UserInfo: FC<Props> = ({ user }) => {
   const { tg } = useTelegram();
+  const currentUser = useSelector(selectUser);
+
+  const handleOpenChat = () => {
+    if (user.id !== currentUser?.id) {
+      tg.openTelegramLink(`https://t.me/${user.username}`);
+    }
+  };
+
   return (
     <div>
       <Heading6>
@@ -21,12 +31,7 @@ const UserInfo: FC<Props> = ({ user }) => {
         </SmallWrapper>
       )}
       <SmallWrapper center>
-        <Caption
-          onClick={() => tg.openTelegramLink(`https://t.me/${user.username}`)}
-          color="#ffffffB2"
-        >
-          @{user.username}
-        </Caption>
+        <Caption onClick={handleOpenChat}>@{user.username}</Caption>
       </SmallWrapper>
     </div>
   );

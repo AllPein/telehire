@@ -1,6 +1,11 @@
-const tg = (window as any).Telegram.WebApp;
+import { useMemo } from 'react';
 
 export function useTelegram() {
+  const tg = useMemo(
+    () => (window as any).Telegram.WebApp,
+    [(window as any).Telegram.WebApp],
+  );
+
   const onClose = () => {
     tg.onClose();
   };

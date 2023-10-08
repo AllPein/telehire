@@ -16,7 +16,7 @@ export const ButtonWrapper = styled.button<ButtonProps>`
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  color: #fff;
+  color: var(--tg-theme-button-text-color);
   outline: none;
   cursor: ${(props) => (props.disabled ? 'default' : 'pointer')};
   padding: 0 16px;

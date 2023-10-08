@@ -5,7 +5,7 @@ import { finalize, ignoreElements, switchMap, tap } from 'rxjs/operators';
 import { AnyAction } from 'typescript-fsa';
 
 import { ofAction } from '@/operators/ofAction';
-import { LoaderAction } from '@/store/Loader/LoaderActions';
+import { LoaderAction, LoadingType } from '@/store/Loader/LoaderActions';
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
 import {
   mapCountriesDtoToDictionary,
@@ -21,8 +21,10 @@ export const handleGetDictionary: Epic<
 > = (action$, state$, { apiService, dispatch }) =>
   action$.pipe(
     ofAction(DictionaryAction.getDictionaryByKey),
-    tap(() => {
-      dispatch(LoaderAction.setLoading({ type: 'dictionary', value: true }));
+    tap(({ payload: { key } }) => {
+      dispatch(
+        LoaderAction.setLoading({ type: key as LoadingType, value: true }),
+      );
     }),
     switchMap(({ payload: { key, payload } }) =>
       from(apiService.getDictionary(key, payload)).pipe(
@@ -44,7 +46,7 @@ export const handleGetDictionary: Epic<
         }),
         finalize(() => {
           dispatch(
-            LoaderAction.setLoading({ type: 'dictionary', value: false }),
+            LoaderAction.setLoading({ type: key as LoadingType, value: false }),
           );
         }),
       ),

@@ -15,9 +15,7 @@ const CompanyItem: FC<Props> = ({ company, onClick }) => {
     <CompanyWrapper onClick={onClick}>
       <Avatar src={company.photoUrl} />
       <Body>{company.name}</Body>
-      <Caption color="#FFFFFFB2">
-        {CompanyVolumeToLabel[company.volume]}
-      </Caption>
+      <Caption>{CompanyVolumeToLabel[company.volume]}</Caption>
     </CompanyWrapper>
   );
 };

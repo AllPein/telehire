@@ -25,7 +25,7 @@ const ResumeItem: FC<Props> = ({ resume, onClick }) => (
     </ItemWrapper>
 
     <ItemWrapper>
-      <Caption color="#ffffffb2">
+      <Caption>
         {resume.user.firstName} {resume.user.lastName}
       </Caption>
     </ItemWrapper>

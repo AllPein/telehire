@@ -81,7 +81,7 @@ const CreateCompanyPage = () => {
           <Body>Company avatar</Body>
           <LabelWrapper>
             <Avatar
-              labelStyle={{ color: '#fff' }}
+              labelStyle={{ color: 'var(--tg-theme-text-color)' }}
               width={200}
               height={100}
               imageWidth={200}
