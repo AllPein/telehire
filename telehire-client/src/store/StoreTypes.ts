@@ -8,7 +8,7 @@ import { VacancyStore } from '@/store/vacancy/VacancyActions';
 import { RouterState } from 'connected-react-router';
 import { History } from 'history';
 import { AnyAction, Dispatch } from 'redux';
-import { CompanyStore } from './company/CompanyActions';
+import { CompanyStore } from '@/store/company/CompanyActions';
 
 export interface RootState {
   user: UserStore;

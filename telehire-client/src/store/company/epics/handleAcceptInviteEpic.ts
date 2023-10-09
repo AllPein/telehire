@@ -6,8 +6,8 @@ import { AnyAction } from 'typescript-fsa';
 
 import { ofAction } from '@/operators/ofAction';
 import { RootState, StoreDependencies } from '@/store/StoreTypes';
-import { CompanyAction } from '@/store/company/CompanyActions';
 import { history } from '@/utils/history';
+import { CompanyAction } from '../CompanyActions';
 
 export const handleAcceptInvite: Epic<
   AnyAction,

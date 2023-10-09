@@ -9,7 +9,7 @@ import { FeedReducers } from '@/store/feed/FeedReducers';
 import { ResumeReducers } from '@/store/resume/ResumeReducers';
 import { VacancyReducers } from '@/store/vacancy/VacancyReducers';
 import { history } from '@/utils/history';
-import { CompanyReducers } from './company/CompanyReducers';
+import { CompanyReducers } from '@/store/company/CompanyReducers';
 
 export default combineReducers<RootState>({
   user: UserReducers,
