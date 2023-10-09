@@ -7,6 +7,7 @@ export type LoadingType =
   | 'companyList'
   | 'countries'
   | 'skills'
+  | 'applies'
   | 'createVacancy'
   | 'createResume'
   | 'profile'

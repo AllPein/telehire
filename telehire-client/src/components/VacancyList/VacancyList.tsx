@@ -1,5 +1,5 @@
 import { Search } from '@/components/Search/Search';
-import { Heading6 } from '@/components/Typography/Typography.styles';
+import { Caption, Heading6 } from '@/components/Typography/Typography.styles';
 import { VacancyItem } from '@/components/VacancyItem/VacancyItem';
 import { useTelegram } from '@/hooks/useTelegram';
 import { ShortVacancy } from '@/models/Vacancy';
@@ -11,25 +11,17 @@ import {
   InputWrapper,
   Wrapper,
 } from './VacancyList.styles';
+import { BigWrapper } from '../Layout/Layout.styles';
 
 type Props = {
   vacancies: ShortVacancy[];
 };
 
 const VacancyList: FC<Props> = ({ vacancies }) => {
-  const { tg } = useTelegram();
-
   const [searchValue, setSearchValue] = useState('');
 
   const handleSearch = (value: string) => {
     setSearchValue(value);
-  };
-
-  const handleFilterClick = () => {
-    tg.showPopup({
-      title: 'Filter',
-      message: 'AAAAAA',
-    });
   };
 
   const vacancyList = useMemo(() => {
@@ -51,13 +43,19 @@ const VacancyList: FC<Props> = ({ vacancies }) => {
         <HeadingWrapper>
           <Heading6>Vacancy list for you</Heading6>
         </HeadingWrapper>
-        {vacancyList.map((vacancy) => (
-          <VacancyItem
-            key={vacancy.id}
-            vacancy={vacancy}
-            onClick={handleOpenVacancy}
-          />
-        ))}
+        {vacancyList.length ? (
+          vacancyList.map((vacancy) => (
+            <VacancyItem
+              key={vacancy.id}
+              vacancy={vacancy}
+              onClick={handleOpenVacancy}
+            />
+          ))
+        ) : (
+          <BigWrapper center>
+            <Caption>No vacancies</Caption>
+          </BigWrapper>
+        )}
       </Wrapper>
     </AppContainer>
   );

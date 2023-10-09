@@ -15,7 +15,6 @@ import {
 
 const MainPage = () => {
   const dispatch = useDispatch();
-  const { tg } = useTelegram();
 
   useMount(() => {
     dispatch(UserAction.initLogin(null));

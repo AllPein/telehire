@@ -98,7 +98,7 @@ const Profile: FC<Props> = ({ user }) => {
             </SmallWrapper>
           </>
         ) : (
-          <BigWrapper>
+          <BigWrapper center>
             <Heading6>You don't have any resumes yet</Heading6>
           </BigWrapper>
         )}

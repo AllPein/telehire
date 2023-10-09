@@ -30,7 +30,6 @@ export const handleInitAuth: Epic<
       from(apiService.getToken(initData)).pipe(
         tap((token: Token) => {
           localStorage.setItem(TOKEN_NAME, JSON.stringify(token));
-          console.log(token);
           dispatch(
             UserAction.initInitialize({
               axiosClient,
