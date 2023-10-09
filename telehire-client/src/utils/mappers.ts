@@ -32,13 +32,15 @@ export function mapVacancyFormToVacancyDto(
         } else if (key === 'skills') {
           acc[key] = (value as Option[]).map((option) => option.value);
         } else {
-          acc[key as string] = (value as Option).value;
+        // @ts-ignore
+          acc[key as keyof CreateVacancyRequestDto] = (value as Option).value;
         }
       } else {
         if (key === 'salaryFrom' || key === 'salaryTo') {
           acc[key] = Number(value);
         } else {
-          acc[key as string] = value;
+            // @ts-ignore
+          acc[key as keyof CreateVacancyRequestDto] = value;
         }
       }
 
@@ -57,13 +59,15 @@ export function mapResumeFormToVacancyDto(formData: ResumeFormData) {
         if (key === 'skills') {
           acc[key] = (value as Option[]).map((option) => option.value);
         } else {
-          acc[key] = (value as Option).value;
+            //@ts-ignore
+          acc[key as keyof CreateResumeDto] = (value as Option).value;
         }
       } else {
         if (key === 'salary') {
           acc[key] = Number(value);
         } else {
-          acc[key as keyof CreateVacancyRequestDto] = value;
+            //@ts-ignore
+          acc[key as keyof CreateResumeDto] = value;
         }
       }
 
@@ -77,9 +81,11 @@ export function mapCompanyFormDataToVacancyDto(formData: CompanyFormData) {
   return Object.entries(formData).reduce(
     (acc: CreateCompanyDto, [key, value]) => {
       if (key === 'volume') {
-        acc[key] = (value as Option).value;
+        //@ts-ignore
+        acc[key as keyof CreateCompanyDto] = (value as Option).value;
       } else {
-        acc[key] = value;
+        //@ts-ignore
+        acc[key as keyof CreateCompanyDto] = value;
       }
 
       return acc;
