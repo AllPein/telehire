@@ -116,9 +116,9 @@ const Root = () => {
     <AuthenticatedLayout>
       <Switch>
         {routes.map((route) => (
-          <ErrorBoundRoute key={route.path} exact {...route}>
+          <Route key={route.path} exact {...route}>
             {route.children}
-          </ErrorBoundRoute>
+          </Route>
         ))}
       </Switch>
     </AuthenticatedLayout>
