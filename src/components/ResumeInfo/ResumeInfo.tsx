@@ -1,4 +1,9 @@
 import {
+  BigWrapper,
+  SmallWrapper,
+  Wrapper,
+} from '@/components/Layout/Layout.styles';
+import {
   Body2,
   Caption,
   Heading6,
@@ -12,13 +17,7 @@ import { CurrencyToSymbol } from '@/models/Vacancy';
 import { selectUser } from '@/store/auth/UserSelectors';
 import { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  BigWrapper,
-  InfoWrapper,
-  JobInfoWrapper,
-  SmallWrapper,
-  Wrapper,
-} from './ResumeInfo.styles';
+import { InfoWrapper, JobInfoWrapper } from './ResumeInfo.styles';
 
 type Props = {
   resume: Resume;

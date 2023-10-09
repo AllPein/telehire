@@ -17,7 +17,7 @@ import { ImgWrapper, Wrapper } from './BottomNavigation.styles';
 const locationToValue = {
   '/vacancies': 'job',
   '/candidates/': 'candidates',
-  '/company/': 'company',
+  '/companies/': 'company',
   '/profile': 'profile',
   '/applies': 'applies',
 };
@@ -66,7 +66,7 @@ const BottomNavigation = () => {
           active={activeItem === 'company'}
           onClick={() =>
             handleChangeLocation(
-              '/company/',
+              '/companies/',
               localStorage.getItem(CURRENT_COMPANY_ID),
             )
           }

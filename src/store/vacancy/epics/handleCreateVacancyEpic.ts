@@ -26,7 +26,7 @@ export const handleCreateVacancy: Epic<
       const vacancy = mapVacancyFormToVacancyDto(formData, companyId);
       return from(apiService.createVacancy(vacancy)).pipe(
         tap(() => {
-          history.push('/company/' + vacancy.companyId);
+          history.push('/companies/' + vacancy.companyId);
         }),
         finalize(() => {
           dispatch(

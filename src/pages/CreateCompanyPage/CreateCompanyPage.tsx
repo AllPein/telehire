@@ -1,9 +1,9 @@
-import { Button } from '@/components/Button/Button';
 import { Input } from '@/components/Input/Input';
 import { Select } from '@/components/Select/Select';
 import { TextArea } from '@/components/TextArea/TextArea';
 import { Body, Heading6 } from '@/components/Typography/Typography.styles';
 import { CompanyVolumeEnum, CompanyVolumeToLabel } from '@/enums/Company';
+import { useMainButton } from '@/hooks/useMainButton';
 import { selectCreateCompanyLoading } from '@/store/Loader/LoaderSelectors';
 import { CompanyAction } from '@/store/company/CompanyActions';
 import { CompanyFormData } from '@/types/FormData';
@@ -54,8 +54,8 @@ const CreateCompanyPage = () => {
     dispatch(CompanyAction.createCompany({ ...formData, photoUrl: preview! }));
   };
 
-  const disabled = useMemo(() => {
-    return !preview || Object.values(formData).some((value) => !value);
+  const buttonActive = useMemo(() => {
+    return Boolean(preview) && Object.values(formData).every((value) => value);
   }, [formData, preview]);
 
   const handleChange = (
@@ -73,71 +73,66 @@ const CreateCompanyPage = () => {
     setPreview(preview);
   };
 
+  useMainButton({
+    onClick: handleCreateClick,
+    text: 'Create',
+    loading,
+    condition: buttonActive,
+  });
+
   return (
     <AppContainer>
-      <div>
-        <HeadingWrapper>
-          <Heading6>Create a company</Heading6>
-          <Body>Company avatar</Body>
+      <HeadingWrapper>
+        <Heading6>Create a company</Heading6>
+        <Body>Company avatar</Body>
+        <LabelWrapper>
+          <Avatar
+            labelStyle={{ color: 'var(--tg-theme-text-color)' }}
+            width={200}
+            height={100}
+            imageWidth={200}
+            onCrop={onCrop}
+            onClose={onClose}
+          />
+        </LabelWrapper>
+        {preview && (
           <LabelWrapper>
-            <Avatar
-              labelStyle={{ color: 'var(--tg-theme-text-color)' }}
-              width={200}
-              height={100}
-              imageWidth={200}
-              onCrop={onCrop}
-              onClose={onClose}
-            />
+            <img src={preview!} />
           </LabelWrapper>
-          {preview && (
-            <LabelWrapper>
-              <img src={preview!} />
-            </LabelWrapper>
-          )}
-        </HeadingWrapper>
+        )}
+      </HeadingWrapper>
 
-        <Body>Company name</Body>
-        <InputWrapper>
-          <Input
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Company name"
-          />
-        </InputWrapper>
-        <LabelWrapper>
-          <Body>Description</Body>
-        </LabelWrapper>
-        <InputWrapper>
-          <TextArea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            placeholder="Description"
-          />
-        </InputWrapper>
-        <LabelWrapper>
-          <Body>Volume</Body>
-        </LabelWrapper>
-        <InputWrapper>
-          <Select
-            value={formData.volume}
-            name="volume"
-            options={options}
-            onChange={handleChange}
-          />
-        </InputWrapper>
-      </div>
+      <Body>Company name</Body>
+      <InputWrapper>
+        <Input
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="Company name"
+        />
+      </InputWrapper>
       <LabelWrapper>
-        <Button
-          disabled={disabled}
-          block
-          onClick={handleCreateClick}
-          loading={loading}
-        >
-          Create
-        </Button>
+        <Body>Description</Body>
       </LabelWrapper>
+      <InputWrapper>
+        <TextArea
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          placeholder="Description"
+        />
+      </InputWrapper>
+      <LabelWrapper>
+        <Body>Volume</Body>
+      </LabelWrapper>
+      <InputWrapper>
+        <Select
+          value={formData.volume}
+          name="volume"
+          options={options}
+          onChange={handleChange}
+        />
+      </InputWrapper>
     </AppContainer>
   );
 };

@@ -1,6 +1,11 @@
 import { Avatar } from '@/components/Avatar/Avatar';
 import { Button } from '@/components/Button/Button';
 import {
+  BigWrapper,
+  SmallWrapper,
+  Wrapper,
+} from '@/components/Layout/Layout.styles';
+import {
   Body2,
   Caption,
   Heading6,
@@ -13,21 +18,16 @@ import { Company } from '@/models/Company';
 import { selectUser } from '@/store/auth/UserSelectors';
 import { CompanyAction } from '@/store/company/CompanyActions';
 import { history } from '@/utils/history';
-import { FC, useMemo } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  BigWrapper,
-  JobInfoWrapper,
-  MemberWrapper,
-  SmallWrapper,
-  Wrapper,
-} from './CompanyInfo.styles';
+import { JobInfoWrapper, MemberWrapper } from './CompanyInfo.styles';
 
 type Props = {
   company: Company;
 };
 
 const CompanyInfo: FC<Props> = ({ company }) => {
+  const [copied, setCopied] = useState(false);
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const fromCompany = useMemo(
@@ -49,8 +49,16 @@ const CompanyInfo: FC<Props> = ({ company }) => {
     }
   };
 
+  const resetCopy = () => {
+    setCopied(false);
+  };
+
   const handleGenerateLink = () => {
     dispatch(CompanyAction.generateLink(company.id));
+    setCopied(true);
+    setTimeout(() => {
+      resetCopy();
+    }, 3000);
   };
 
   return (
@@ -88,9 +96,15 @@ const CompanyInfo: FC<Props> = ({ company }) => {
           ))}
           {user?.id === company.ownerId && (
             <BigWrapper>
-              <Button block onClick={handleGenerateLink}>
-                Generate invite link
-              </Button>
+              {!copied ? (
+                <Button block onClick={handleGenerateLink}>
+                  Generate invite link
+                </Button>
+              ) : (
+                <Button block disabled>
+                  Link was sent to you via bot
+                </Button>
+              )}
             </BigWrapper>
           )}
         </BigWrapper>

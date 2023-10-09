@@ -10,9 +10,10 @@ export type UserStore = {
 };
 
 export const UserAction = {
-  initAuth: factory<{ initData: string; axiosClient: AxiosClient }>(
-    'INIT_AUTH',
-  ),
+  initAuth: factory<{
+    initData: string;
+    axiosClient: AxiosClient;
+  }>('INIT_AUTH'),
   initLogin: factory<'company' | 'applicant' | null>('INIT_LOGIN'),
   initCompanyList: factory('INIT_COMPANY_LIST'),
   initInitialize: factory<{

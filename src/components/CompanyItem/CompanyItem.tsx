@@ -6,11 +6,15 @@ import { FC } from 'react';
 import { CompanyWrapper } from './CompanyItem.styles';
 
 type Props = {
-  company: Company;
+  company?: Company;
   onClick?: () => any;
 };
 
 const CompanyItem: FC<Props> = ({ company, onClick }) => {
+  if (!company) {
+    return null;
+  }
+
   return (
     <CompanyWrapper onClick={onClick}>
       <Avatar src={company.photoUrl} />

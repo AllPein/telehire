@@ -5,7 +5,6 @@ import { useMount } from '@/hooks/useMount';
 import { useTelegram } from '@/hooks/useTelegram';
 import { UserAction } from '@/store/auth/UserActions';
 import { history } from '@/utils/history';
-import { TonConnectButton } from '@tonconnect/ui-react';
 import { useDispatch } from 'react-redux';
 import {
   AppContainer,
@@ -48,7 +47,6 @@ const MainPage = () => {
             Applicant
           </Button>
         </ButtonWrapper>
-        <TonConnectButton />
       </ButtonsWrapper>
     </AppContainer>
   );

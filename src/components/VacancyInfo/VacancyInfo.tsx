@@ -1,4 +1,9 @@
 import {
+  BigWrapper,
+  SmallWrapper,
+  Wrapper,
+} from '@/components/Layout/Layout.styles';
+import {
   Body2,
   Caption,
   Heading6,
@@ -18,13 +23,10 @@ import Icon from '@mdi/react';
 import { FC, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  BigWrapper,
   CountryWrapper,
   Delimiter,
   InfoWrapper,
   JobInfoWrapper,
-  SmallWrapper,
-  Wrapper,
 } from './VacancyInfo.styles';
 
 type Props = {
@@ -90,7 +92,7 @@ const VacancyInfo: FC<Props> = ({ vacancy }) => {
         <Heading6>{vacancy.position}</Heading6>
       </BigWrapper>
       <SmallWrapper center>
-        <a href={'/company/' + vacancy.company.id}>
+        <a href={'/companies/' + vacancy.company.id}>
           <Caption>{vacancy.company.name}</Caption>
         </a>
       </SmallWrapper>

@@ -32,7 +32,11 @@ export const handleInitAuth: Epic<
           localStorage.setItem(TOKEN_NAME, JSON.stringify(token));
           console.log(token);
           dispatch(
-            UserAction.initInitialize({ axiosClient, withLoad: false, token }),
+            UserAction.initInitialize({
+              axiosClient,
+              withLoad: false,
+              token,
+            }),
           );
         }),
       ),

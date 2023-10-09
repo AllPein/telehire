@@ -1,22 +1,5 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
-  padding: 48px;
-  text-align: center;
-`;
-
-export const HeadingWrapper = styled.div`
-  margin: 36px 0;
-`;
-
-export const SmallWrapper = styled.div`
-  margin-top: 8px;
-`;
-
-export const BigWrapper = styled.div`
-  margin-top: 16px;
-`;
-
 export const InactiveWrapper = styled.div`
   display: grid;
   grid-template-columns: auto 1fr;

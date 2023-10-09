@@ -1,4 +1,5 @@
 import { AuthenticatedLayout } from '@/application/AuthenticatedLayout/AuthenticatedLayout';
+import { ErrorBoundRoute } from '@/components/ErrorBoundRoute/ErrorBoundRoute';
 import { Spinner } from '@/components/Spinner/Spinner';
 import { lazy } from '@/utils/lazy';
 import { Suspense } from 'react';
@@ -101,7 +102,7 @@ const routes = [
     children: <EmployerPage />,
   },
   {
-    path: '/company/:companyId',
+    path: '/companies/:companyId',
     children: <CompanyInfoPage />,
   },
   {
@@ -115,9 +116,9 @@ const Root = () => {
     <AuthenticatedLayout>
       <Switch>
         {routes.map((route) => (
-          <Route key={route.path} exact {...route}>
+          <ErrorBoundRoute key={route.path} exact {...route}>
             {route.children}
-          </Route>
+          </ErrorBoundRoute>
         ))}
       </Switch>
     </AuthenticatedLayout>

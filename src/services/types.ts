@@ -21,7 +21,7 @@ export interface IApiService {
   getCompanies: () => Promise<Company[]>;
   getCompany: (id: number) => Promise<Company>;
   generateLink: (id: number) => Promise<string>;
-  acceptInvite: (hash: string) => Promise<void>;
+  acceptInvite: (hash: string) => Promise<number | null>;
   getVacancies: (id: number | undefined) => Promise<ShortVacancy[]>;
   getCandidates: (id: number | undefined) => Promise<Resume[]>;
   getVacancy: (id: number) => Promise<Vacancy>;

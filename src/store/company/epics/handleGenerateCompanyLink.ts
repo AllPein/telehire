@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 import { Epic } from 'redux-observable';
 import { from } from 'rxjs';
-import { ignoreElements, switchMap, tap } from 'rxjs/operators';
+import { ignoreElements, switchMap } from 'rxjs/operators';
 import { AnyAction } from 'typescript-fsa';
 
 import { ofAction } from '@/operators/ofAction';
@@ -13,18 +13,11 @@ export const handleGenerateLink: Epic<
   AnyAction,
   RootState,
   StoreDependencies
-> = (action$, state$, { apiService, dispatch }) =>
+> = (action$, state$, { apiService }) =>
   action$.pipe(
     ofAction(CompanyAction.generateLink),
     switchMap(({ payload: companyId }) =>
-      from(apiService.generateLink(companyId)).pipe(
-        tap(async (link) => {
-          await navigator.clipboard.writeText(
-            `https://t.me/intouche_bot/telehire?startapp=company${link}`,
-          );
-          alert('The link was copied into clipboard!');
-        }),
-      ),
+      from(apiService.generateLink(companyId)),
     ),
 
     ignoreElements(),

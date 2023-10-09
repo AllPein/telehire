@@ -1,6 +1,5 @@
 import { Spinner } from '@/components/Spinner/Spinner';
-import { useMount } from '@/hooks/useMount';
-import { UserAction } from '@/store/auth/UserActions';
+import { APP_STARTED_FROM_COMMAND } from '@/constants/localStorage';
 import { selectUser } from '@/store/auth/UserSelectors';
 import { CompanyAction } from '@/store/company/CompanyActions';
 import { useEffect } from 'react';
@@ -13,12 +12,10 @@ const AcceptInvitePage = () => {
   const user = useSelector(selectUser);
 
   useEffect(() => {
-    if (user && !Boolean(localStorage.getItem('started'))) {
-      localStorage.setItem('started', 'true');
-      dispatch(UserAction.initLogin('company'));
+    if (user && !Boolean(localStorage.getItem(APP_STARTED_FROM_COMMAND))) {
+      localStorage.setItem(APP_STARTED_FROM_COMMAND, 'true');
       dispatch(CompanyAction.acceptInvite(hash));
     }
-
   }, [user]);
   return <Spinner />;
 };

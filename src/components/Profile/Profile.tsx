@@ -1,6 +1,11 @@
 import { Button } from '@/components/Button/Button';
 import { CompanyItem } from '@/components/CompanyItem/CompanyItem';
 import {
+  BigWrapper,
+  SmallWrapper,
+  Wrapper,
+} from '@/components/Layout/Layout.styles';
+import {
   Body,
   Caption,
   Heading6,
@@ -14,13 +19,7 @@ import { ResumeAction } from '@/store/resume/ResumeActions';
 import { history } from '@/utils/history';
 import { FC, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  BigWrapper,
-  CVWrapper,
-  InactiveWrapper,
-  SmallWrapper,
-  Wrapper,
-} from './Profile.styles';
+import { CVWrapper, InactiveWrapper } from './Profile.styles';
 
 type Props = {
   user: User;
@@ -56,13 +55,13 @@ const Profile: FC<Props> = ({ user }) => {
   };
 
   const profileContent = useMemo(() => {
-    if (user?.loggedInAs === 'company' && company) {
+    if (user?.loggedInAs === 'company') {
       return (
-        <BigWrapper>
+        <BigWrapper center>
           <Heading6>You are logged in as</Heading6>
           <SmallWrapper>
             <CompanyItem
-              onClick={() => history.push('/company/' + company.id)}
+              onClick={() => history.push('/companies/' + company?.id)}
               company={company}
             />
           </SmallWrapper>
@@ -74,7 +73,7 @@ const Profile: FC<Props> = ({ user }) => {
       <>
         {user.resumes!.length > 0 ? (
           <>
-            <BigWrapper>
+            <BigWrapper center>
               <Heading6>Your resumes</Heading6>
             </BigWrapper>
             <SmallWrapper>

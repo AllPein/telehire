@@ -225,13 +225,13 @@ class ApiService implements IApiService {
     }
   }
 
-  async acceptInvite(hash: string): Promise<void> {
+  async acceptInvite(hash: string): Promise<null | number> {
     try {
       const res = await this.#axiosClient.get<any>(
         `/companies/accept-invite/${hash}`,
       );
 
-      return res.data.hash;
+      return res.data.companyId;
     } catch (err: any) {
       return err;
     }

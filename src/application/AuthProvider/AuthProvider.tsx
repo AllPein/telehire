@@ -1,5 +1,5 @@
 import { Spinner } from '@/components/Spinner/Spinner';
-import { TOKEN_NAME } from '@/constants/localStorage';
+import { APP_STARTED_FROM_COMMAND } from '@/constants/localStorage';
 import { useBackButton } from '@/hooks/useBackButton';
 import { useMount } from '@/hooks/useMount';
 import { useTelegram } from '@/hooks/useTelegram';
@@ -24,6 +24,7 @@ const AuthProvider: FC<Props> = ({ children }) => {
   const authLoading = useSelector(selectAuthLoading);
   const companyListLoading = useSelector(selectCompanyListLoading);
   const { tg } = useTelegram();
+
   useBackButton({
     onClick: () => history.goBack(),
   });
@@ -34,13 +35,13 @@ const AuthProvider: FC<Props> = ({ children }) => {
   );
 
   useMount(() => {
-    if (tg.initDataUnsafe.start_param.includes('company') && !Boolean(localStorage.getItem('started'))) {
+    if (
+      tg.initDataUnsafe.start_param?.includes('company') &&
+      !Boolean(localStorage.getItem(APP_STARTED_FROM_COMMAND))
+    ) {
       const hash = tg.initDataUnsafe.start_param.split('company')[1];
       history.push('/accept-invite/' + hash);
     }
-
-    //const initData =
-    //  'user=%7B%22id%22%3A460186752%2C%22first_name%22%3A%22Aleksandr%22%2C%22last_name%22%3A%22Panin%22%2C%22username%22%3A%22allpein%22%2C%22language_code%22%3A%22en%22%2C%22is_premium%22%3Atrue%2C%22allows_write_to_pm%22%3Atrue%7D&chat_instance=5018211901422947381&chat_type=private&auth_date=1696696218&hash=4657beb2acf0adcc10e3ae5b1f38c3846ef2114412241035e180ef205ea6ba74';
     const axiosClient = new AxiosClient(import.meta.env.VITE_BASE_API_URL);
     apiService.init(axiosClient);
 

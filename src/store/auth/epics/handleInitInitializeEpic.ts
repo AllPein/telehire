@@ -38,6 +38,5 @@ export const handleInitInitialize: Epic<
       dispatch(UserAction.initCompanyList());
       dispatch(UserAction.getUser());
     }),
-
     ignoreElements(),
   );

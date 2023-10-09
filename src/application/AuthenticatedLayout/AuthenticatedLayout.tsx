@@ -11,7 +11,7 @@ type Props = {
 const AuthenticatedLayout: FC<Props> = ({ children }) => {
   const user = useSelector(selectUser);
 
-  if (!user?.loggedInAs) {
+  if (!user?.id || !user?.loggedInAs) {
     return <>{children}</>;
   }
 

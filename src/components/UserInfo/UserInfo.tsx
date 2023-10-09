@@ -1,10 +1,10 @@
+import { SmallWrapper } from '@/components/Layout/Layout.styles';
 import { Caption, Heading6 } from '@/components/Typography/Typography.styles';
 import { useTelegram } from '@/hooks/useTelegram';
 import { User } from '@/models/User';
 import { selectUser } from '@/store/auth/UserSelectors';
 import { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { SmallWrapper } from './UserInfo.styles';
 
 type Props = {
   user: User;
