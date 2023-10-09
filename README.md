@@ -29,11 +29,11 @@ Go to [roadmap](#roadmap) section to see a list of features we did not manage to
 
 ## Roadmap
 
-[ ] Boost resumes and vacancies in search (paid action - integration with TON Wallet)
-[ ] Improve recommendation system for candidates and vacancies feed
-[ ] Add filters to improve searching experience
-[ ] Minor improvements like pagination, smart search, etc..
-[ ] Managing company members
+[] Boost resumes and vacancies in search (paid action - integration with TON Wallet)
+[] Improve recommendation system for candidates and vacancies feed
+[] Add filters to improve searching experience
+[] Minor improvements like pagination, smart search, etc..
+[] Managing company members
 
 ## Contributing
 
