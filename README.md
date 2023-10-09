@@ -1,6 +1,6 @@
 # This is Telehire!
 
-Telehire is the brand new hiring app
+Telehire is new hiring app developed from scratch
 
 > This repository contains a source code for Telegram Mini App contest
 
