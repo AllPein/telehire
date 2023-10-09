@@ -116,9 +116,9 @@ const Root = () => {
     <AuthenticatedLayout>
       <Switch>
         {routes.map((route) => (
-          <Route key={route.path} exact {...route}>
+          <ErrorBoundRoute key={route.path} exact {...route}>
             {route.children}
-          </Route>
+          </ErrorBoundRoute>
         ))}
       </Switch>
     </AuthenticatedLayout>
@@ -126,7 +126,7 @@ const Root = () => {
 
   return (
     <Suspense fallback={<Spinner />}>
-      <Route path="/" render={renderRoot} />
+      <ErrorBoundRoute path="/" render={renderRoot} />
     </Suspense>
   );
 };
