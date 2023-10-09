@@ -1,6 +1,6 @@
 # Telehire client
 
-This repository conrains source code for client side of Telehire application
+This repository contains source code of Telehire client-side application
 
 ## Table of Contents
 
@@ -10,7 +10,7 @@ This repository conrains source code for client side of Telehire application
 
 ## Getting Started
 
-Follow these steps to set up Telehire locally and start using it for your hiring needs
+Follow these steps to set up client-side of Telehire locally and start developing
 
 ### Prerequisites
 
@@ -56,7 +56,7 @@ yarn dev
 6. Provide a link of your running application to your Telegram bot
 
 > **Important**
-> You need to provide a public accessable link to the Bot, you cannot use local network URL
+> You need to provide a publicly accessable link to the Bot, you cannot use local network URL
 > To do that, you can use [ngrok](https://ngrok.com/), [localtunnel](https://theboroer.github.io/localtunnel-www/) or any other tool for that
 
 You are all done! You can start developing the application.
