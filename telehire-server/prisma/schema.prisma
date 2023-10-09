@@ -1,0 +1,166 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum JobType {
+  Remote
+  Office
+  Hybrid
+}
+
+enum Experience {
+  No
+  Junior
+  Middle
+  Senior
+  Extra
+}
+
+model Vacancy {
+  id           Int        @id @default(autoincrement())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  position     String
+  salaryFrom   Float
+  salaryTo     Float?
+  currency     String     @default("usd")
+  jobType      JobType    @default(Office)
+  experience   Experience @default(No)
+  company      Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId    Int
+  requirements String?
+  description  String     @default("")
+  location     Location?  @relation(fields: [locationId], references: [id])
+  skills       Skill[]
+  locationId   Int?
+  applies      Applies[]
+  author       Profile    @relation(fields: [profileId], references: [id])
+  profileId    Int
+  Invites      Invites[]
+}
+
+model Location {
+  id        Int       @id @default(autoincrement())
+  country   String    @unique
+  city      String?
+  vacancies Vacancy[]
+
+  @@index([city, country])
+}
+
+model Company {
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  name        String
+  photoUrl    String?
+  description String
+  volume      Volume       @default(Low)
+  vacancies   Vacancy[]
+  ownerId     Int
+  members     Profile[]
+  link        CompanyLink?
+}
+
+model Profile {
+  id             Int       @id @default(autoincrement())
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  telegramId     Int       @unique
+  firstName      String    @default("")
+  isBot          Boolean?
+  isPremium      Boolean?
+  lastName       String?
+  languageCode   String?
+  photoUrl       String?
+  username       String?
+  location       String?
+  activeResumeId Int?
+  resumes        Resume[]
+  companies      Company[]
+  vacancies      Vacancy[]
+
+  @@index([telegramId])
+}
+
+model Resume {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  position    String
+  salary      Float?
+  currency    String    @default("usd")
+  description String
+  user        Profile   @relation(fields: [userId], references: [telegramId], onDelete: Cascade)
+  userId      Int
+  views       Int       @default(0)
+  skills      Skill[]
+  applies     Applies[]
+  Invites     Invites[]
+}
+
+model Skill {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  resumes   Resume[]
+  vacancies Vacancy[]
+
+  @@index([name])
+}
+
+model File {
+  id   Int    @id @default(autoincrement())
+  path String
+}
+
+// candidate applies for vacancy
+model Applies {
+  id        Int         @id @default(autoincrement())
+  resume    Resume      @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  resumeId  Int
+  vacancy   Vacancy     @relation(fields: [vacancyId], references: [id], onDelete: Cascade)
+  vacancyId Int
+  status    ApplyStatus
+
+  @@index([resumeId, vacancyId])
+}
+
+// company member invites user
+model Invites {
+  id        Int         @id @default(autoincrement())
+  resume    Resume      @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  resumeId  Int
+  vacancy   Vacancy     @relation(fields: [vacancyId], references: [id], onDelete: Cascade)
+  vacancyId Int
+  status    ApplyStatus @default(Pending)
+}
+
+model CompanyLink {
+  id        Int     @id @default(autoincrement())
+  hash      String  @unique
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId Int     @unique
+}
+
+enum ApplyStatus {
+  Pending
+  Denied
+  Accepted
+}
+
+enum Volume {
+  SelfEmployed
+  Low
+  Medium
+  High
+  Huge
+}

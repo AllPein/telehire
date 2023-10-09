@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  nest-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nest-api
+    restart: always
+    ports:
+      - '3000:3000'
+    depends_on:
+      - nest-postgres
+    env_file:
+      - .env
+
+  nest-postgres:
+    image: postgres:14
+    container_name: nest-postgres
+    restart: always
+    ports:
+      - '5432:5432'
+
+    environment:
+      POSTGRES_DB: 'telehire'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+
+    volumes:
+      - nest-postgres:/var/lib/postgresql/data
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - cache:/data
+
+volumes:
+  nest-postgres:
+    name: nest-postgres-db
+  cache:
+    driver: local

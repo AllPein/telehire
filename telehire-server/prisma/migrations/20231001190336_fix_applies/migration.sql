@@ -1,0 +1,5 @@
+-- AddForeignKey
+ALTER TABLE "Applies" ADD CONSTRAINT "Applies_cvId_fkey" FOREIGN KEY ("cvId") REFERENCES "Cv"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Applies" ADD CONSTRAINT "Applies_vacancyId_fkey" FOREIGN KEY ("vacancyId") REFERENCES "Vacancy"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
