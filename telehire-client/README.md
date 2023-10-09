@@ -57,6 +57,6 @@ yarn dev
 
 > **Important**
 > You need to provide a public accessable link to the Bot, you cannot use local network URL
-> To do that, you can use *ngrok, *localtunnel\* and any other tool for that
+> To do that, you can use [ngrok](https://ngrok.com/), [localtunnel](https://theboroer.github.io/localtunnel-www/) or any other tool for that
 
 You are all done! You can start developing the application.
