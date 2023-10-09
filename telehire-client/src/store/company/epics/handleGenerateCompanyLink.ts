@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { Epic } from 'redux-observable';
 import { from } from 'rxjs';
 import { ignoreElements, switchMap } from 'rxjs/operators';
