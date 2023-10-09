@@ -17,9 +17,12 @@ export const ResumeReducers = reducerWithInitialState<ResumeStore>(
       resumes,
     };
   })
-  .case(ResumeAction.setCurrentResume, (state: ResumeStore, resume: Resume) => {
-    return {
-      ...state,
-      currentResume: resume,
-    };
-  });
+  .case(
+    ResumeAction.setCurrentResume,
+    (state: ResumeStore, resume: Resume | null) => {
+      return {
+        ...state,
+        currentResume: resume,
+      };
+    },
+  );

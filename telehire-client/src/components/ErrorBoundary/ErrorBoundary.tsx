@@ -6,7 +6,6 @@ import { Wrapper } from './ErrorBoundary.styles';
 
 type Props = {
   children: JSX.Element;
-  localBoundary?: () => any;
 };
 
 type State = {
@@ -43,14 +42,12 @@ class ErrorBoundary extends PureComponent<Props, State> {
   render = () => {
     if (this.state.hasError) {
       return (
-        this.props.localBoundary?.() ?? (
-          <Wrapper>
-            <Heading1>Something went wrong</Heading1>
-            <Button block onClick={() => history.push('/')}>
-              Return home
-            </Button>
-          </Wrapper>
-        )
+        <Wrapper>
+          <Heading1>Something went wrong</Heading1>
+          <Button block onClick={() => history.push('/')}>
+            Return home
+          </Button>
+        </Wrapper>
       );
     }
 

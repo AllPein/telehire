@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 
 type Props = {
   exact?: boolean;
-  children: JSX.Element;
+  children?: JSX.Element;
   path: string;
   render?: () => any;
 };

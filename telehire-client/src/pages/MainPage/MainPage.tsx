@@ -2,7 +2,6 @@ import { Button } from '@/components/Button/Button';
 import { Heading1 } from '@/components/Typography/Typography.styles';
 import { CURRENT_COMPANY_ID } from '@/constants/localStorage';
 import { useMount } from '@/hooks/useMount';
-import { useTelegram } from '@/hooks/useTelegram';
 import { UserAction } from '@/store/auth/UserActions';
 import { history } from '@/utils/history';
 import { useDispatch } from 'react-redux';
@@ -15,7 +14,6 @@ import {
 
 const MainPage = () => {
   const dispatch = useDispatch();
-  const { tg } = useTelegram();
 
   useMount(() => {
     dispatch(UserAction.initLogin(null));

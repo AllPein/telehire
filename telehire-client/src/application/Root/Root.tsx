@@ -126,7 +126,7 @@ const Root = () => {
 
   return (
     <Suspense fallback={<Spinner />}>
-      <Route path="/" render={renderRoot} />
+      <ErrorBoundRoute path="/" render={renderRoot} />
     </Suspense>
   );
 };

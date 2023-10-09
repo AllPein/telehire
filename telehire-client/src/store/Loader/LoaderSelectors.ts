@@ -30,5 +30,6 @@ export const selectCreateCompanyLoading =
   createIsLoadingSelector('createCompany');
 export const selectCountriesLoading = createIsLoadingSelector('countries');
 export const selectSkillsLoading = createIsLoadingSelector('skills');
+export const selectAppliesLoading = createIsLoadingSelector('applies');
 export const selectCreateVacancyLoading =
   createIsLoadingSelector('createVacancy');
