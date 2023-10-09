@@ -37,7 +37,7 @@ const Profile: FC<Props> = ({ user }) => {
   const company = useMemo(() => {
     const currentCompanyId = localStorage.getItem(CURRENT_COMPANY_ID);
 
-    if (currentCompanyId && user?.loggedInAs === 'company') {
+    if (currentCompanyId && user.loggedInAs === 'company') {
       return user?.companyList?.find(
         (innerCompany: Company) => innerCompany.id === Number(currentCompanyId),
       );
@@ -55,7 +55,7 @@ const Profile: FC<Props> = ({ user }) => {
   };
 
   const profileContent = useMemo(() => {
-    if (user?.loggedInAs === 'company') {
+    if (user.loggedInAs === 'company') {
       return (
         <BigWrapper center>
           <Heading6>You are logged in as</Heading6>
