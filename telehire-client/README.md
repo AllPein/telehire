@@ -1,34 +1,62 @@
 # Telehire client
 
-> Client-side application for Telegram Mini app contest
+This repository conrains source code for client side of Telehire application
 
-# Install
+## Table of Contents
 
-## Prerequesities
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
 
-- Node.js v16 (other versions may work, needs more testing)
+## Getting Started
 
-## How to use
+Follow these steps to set up Telehire locally and start using it for your hiring needs
 
-1. Clone telehire repository and run `cd telehire-client && yarn`
+### Prerequisites
 
-2. To start a local
+Before you begin, make sure you have the following prerequisites:
 
-# What does this repo contain?
+- Node.js >=16.0.0
+- A Telegram account
+- A Telegram bot with created Mini app
 
-- A react-based TWA-ready app, interacting with TON
-- Github actions set to deploy app to github pages
-- A script to connect a telegram bot to the deployed app
+If you do not know how to create a bot with Mini app - please, follow the instructions listed here https://docs.ton.org/develop/dapps/telegram-apps/step-by-step-guide#setting-up-a-bot-for-the-app
 
-# Development
+### Installation
 
-1. Run `npm run dev` and edit the code as needed
-2. On push to the `main` branch, the app will be automatically deployed via github actions.
+When you have a Telegram bot and a Mini app created, follow these steps to install the application
 
-# Roadmap
+1. First, clone the repository by running
 
-- [ ] Jetton transfer support
+```shell
+git clone https://github.com/AllPein/telehire
+```
 
-# License
+2. Go to telehire-client folder
 
-MIT
+```shell
+cd telehire-client
+```
+
+3. Install dependencies
+
+```shell
+yarn
+```
+
+4. Create .env file and add the following variables:
+   VITE_BASE_API_URL=https://your-backend-url
+
+5. Start the development server by running
+
+```shell
+yarn dev
+```
+
+6. Provide a link of your running application to your Telegram bot
+
+> **Important**
+> You need to provide a public accessable link to the Bot, you cannot use local network URL
+> To do that, you can use *ngrok, *localtunnel\* and any other tool for that
+
+You are all done! You can start developing the application.
