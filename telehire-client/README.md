@@ -85,22 +85,22 @@ You are all done! You can start developing the application.
 ## Folder structure
 
 src/
-├── components/
-├── application/
-│ └── ...
-├── services/
-└── ApiService.ts
-├── store/
-│ ├── actions/
-│ ├── reducers/
-│ ├── epics/
-│ ├── selectors/
-│ └── ...
-├── utils/
-├── hooks/
-├── models/
-├── enums/
-└── pages/
+    ├── components/
+    ├── application/
+    │   └── ...
+    ├── services/
+    └── ApiService.ts
+    ├── store/
+    │   ├── actions/
+    │   ├── reducers/
+    │   ├── epics/
+    │   ├── selectors/
+    │   └── ...
+    ├── utils/
+    ├── hooks/
+    ├── models/
+    ├── enums/
+    └── pages/
 
 - _components:_ Reusable UI components
 - _application:_ Main application folder containing router and provider HOCs
