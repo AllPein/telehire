@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { FormInput } from './TextArea.styles';
+import { FormGroup, FormInput } from './TextArea.styles';
 
 type Props = {
   value: string;
@@ -10,12 +10,14 @@ type Props = {
 
 const TextArea: FC<Props> = ({ placeholder, value, onChange, name }) => {
   return (
-    <FormInput
-      value={value}
-      onChange={onChange}
-      name={name}
-      placeholder={placeholder}
-    />
+    <FormGroup>
+      <FormInput
+        value={value}
+        onChange={onChange}
+        name={name}
+        placeholder={placeholder}
+      />
+    </FormGroup>
   );
 };
 

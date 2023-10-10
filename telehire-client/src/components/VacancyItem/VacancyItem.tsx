@@ -10,7 +10,7 @@ import {
 } from '@/enums/Vacancy';
 import { CurrencyToSymbol, ShortVacancy } from '@/models/Vacancy';
 import { mdiDomain, mdiMapMarker } from '@mdi/js';
-import Icon from '@mdi/react';
+import { Icon } from '@mdi/react';
 import { FC } from 'react';
 import {
   FlexWrapper,

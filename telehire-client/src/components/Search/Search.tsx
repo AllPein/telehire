@@ -1,6 +1,6 @@
 import { Input } from '@/components/Input/Input';
 import { mdiMagnify } from '@mdi/js';
-import Icon from '@mdi/react';
+import { Icon } from '@mdi/react';
 import { debounce } from 'lodash';
 import { ChangeEvent, FC, useMemo, useState } from 'react';
 

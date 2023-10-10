@@ -19,7 +19,7 @@ import { CurrencyToSymbol, Vacancy } from '@/models/Vacancy';
 import { selectUser } from '@/store/auth/UserSelectors';
 import { VacancyAction } from '@/store/vacancy/VacancyActions';
 import { mdiMapMarker } from '@mdi/js';
-import Icon from '@mdi/react';
+import { Icon } from '@mdi/react';
 import { FC, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
