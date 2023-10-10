@@ -5,12 +5,13 @@ WORKDIR /app
 
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
-COPY yarn.lock ./
 COPY . ./
+COPY yarn.lock ./
 
 # Install app dependencies
 RUN yarn
+RUN yarn build
 
 EXPOSE 3000
 
-CMD [ "npm", "run", "dev" ]
+CMD [ "node", "server.js" ]
