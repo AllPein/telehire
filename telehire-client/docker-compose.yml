@@ -13,7 +13,7 @@ services:
       context: .
       dockerfile: Dockerfile
     expose:
-      - '8000'
+      - 3000
     environment:
       - VIRTUAL_HOST=telehire.dronicho.ru
-      - VIRTUAL_PORT=5173
+      - VIRTUAL_PORT=3000
