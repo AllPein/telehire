@@ -27,6 +27,11 @@ export class AuthService {
         validate(
           initDataString,
           this.configService.getOrThrow('telegram.token', { infer: true }),
+          {
+            expiresIn: this.configService.getOrThrow('auth.expires', {
+              infer: true,
+            }),
+          },
         );
     } catch (e) {
       throw new UnauthorizedException('init data can not be validated');
