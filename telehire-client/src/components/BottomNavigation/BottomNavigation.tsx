@@ -8,7 +8,7 @@ import {
   mdiDomain,
   mdiEmailNewsletter,
 } from '@mdi/js';
-import Icon from '@mdi/react';
+import { Icon } from '@mdi/react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';

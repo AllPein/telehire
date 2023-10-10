@@ -1,7 +1,6 @@
 import { Search } from '@/components/Search/Search';
 import { Caption, Heading6 } from '@/components/Typography/Typography.styles';
 import { VacancyItem } from '@/components/VacancyItem/VacancyItem';
-import { useTelegram } from '@/hooks/useTelegram';
 import { ShortVacancy } from '@/models/Vacancy';
 import { history } from '@/utils/history';
 import { FC, useMemo, useState } from 'react';
