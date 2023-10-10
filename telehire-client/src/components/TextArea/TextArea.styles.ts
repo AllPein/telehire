@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
 export const FormGroup = styled.div`
-  position: relative;
-  padding: 15px 0 0;
-  margin-top: 10px;
+  display: flex;
+  background: var(--tg-theme-secondary-bg-color);
+  border-radius: 12px;
+  padding-left: 10px;
+  width: 100%;
 `;
 
 export const FormInput = styled.textarea`
