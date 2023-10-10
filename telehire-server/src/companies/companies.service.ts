@@ -136,15 +136,15 @@ export class CompaniesService {
     }
     this.client.emit<string, TelegramMessage>(SEND_MESSAGE, {
       to: this.cls.get('user.telegramId'),
-      text: `Ваша ссылка для приглашения в компанию ${company?.name}`,
+      text: `Your invitation link for company ${company?.name}`,
       options: {
         parse_mode: 'Markdown',
         reply_markup: {
           inline_keyboard: [
             [
               {
-                text: 'Пригласить',
-                switch_inline_query: `Групповая мастурбация начинается через *5 минут*, Участвовать? https://t.me/intouche_bot/telehire?startapp=company${link.hash}`,
+                text: 'Invite',
+                switch_inline_query: `Join ${company?.name} at https://t.me/intouche_bot/telehire?startapp=company${link.hash}`,
               },
             ],
           ],
