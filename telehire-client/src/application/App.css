@@ -67,6 +67,7 @@ a {
 
 :root {
   --tg-theme-accepted-color: rgb(97, 179, 82);
+  --tg-theme-denied-color: rgb(208, 87, 85);
   background-color: var(--tg-theme-bg-color);
   color: var(--tg-theme-text-color);
   min-height: 100vh;

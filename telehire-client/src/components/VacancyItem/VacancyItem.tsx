@@ -28,7 +28,7 @@ type Props = {
 
 const mapStatusToColor = {
   [VacancyStatusEnum.Accepted]: 'var(--tg-theme-accepted-color)',
-  [VacancyStatusEnum.Denied]: 'rgb(208, 87, 85)',
+  [VacancyStatusEnum.Denied]: 'var(--tg-theme-denied-color)',
   [VacancyStatusEnum.Pending]: undefined,
 };
 

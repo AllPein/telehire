@@ -7,6 +7,7 @@ This repository contains source code of Telehire client-side application
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
+- [Architecture overview](#architecture-overview)
 
 ## Getting Started
 
@@ -63,3 +64,56 @@ You are all done! You can start developing the application.
 
 > **Note**
 > If you want to develop in browser, you also need to provide a [list of theme variables](https://core.telegram.org/bots/webapps#themeparams) in root css file and mock initData field, because they do not exist in browser environment
+
+## Key Technologies
+
+- _React:_ A JavaScript library for building user interfaces.
+- _RxJS:_ A reactive programming library for managing asynchronous data streams.
+- _React Router:_ A popular library for handling routing in React applications.
+- _Redux:_ A predictable state container for managing application state.
+- _Styled components:_ An approach to write css-in-js styles for the application.
+- _Telegram SDK:_ SDK for accessing and managing data in Telegram application.
+
+## Architecture overview
+
+- _Components:_ Reusable UI components for building the user interface.
+- _State Management:_ Centralized state management for maintaining application data.
+- _RxJS Epics:_ Handling side effects and asynchronous operations.
+- _Routing:_ Navigation and routing within the application.
+- _Styling:_ CSS styles and styling methodologies.
+
+## Folder structure
+
+src/
+├── components/
+├── application/
+│ └── ...
+├── services/
+└── ApiService.ts
+├── store/
+│ ├── actions/
+│ ├── reducers/
+│ ├── epics/
+│ ├── selectors/
+│ └── ...
+├── utils/
+├── hooks/
+├── models/
+├── enums/
+└── pages/
+
+- _components:_ Reusable UI components
+- _application:_ Main application folder containing router and provider HOCs
+- _services:_ API services and data fetching logic
+- _store:_ Redux store, which consists of:
+
+1. actions - objects that are sent
+2. reducers - functions that mutate the state
+3. epics - effects that represent a logic that triggers when a provided actions is called
+4. selectors - functions that return the state object
+
+- _utils:_ Useful utilites
+- _hooks:_ Custom react hooks
+- _models:_ Data models
+- _enums:_ Enums
+- _pages:_ Pages that are provided to the router component

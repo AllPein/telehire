@@ -6,10 +6,16 @@ Telehire is a hiring application developed for the Telegram Mini App Contest. Th
 
 ## Table of Contents
 
+- [Wiki](#wiki)
 - [Usage](#usage)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [License](#license)
+
+## Wiki
+
+Follow [telehire-client](https://github.com/AllPein/telehire/tree/master/telehire-client) for frontend documentation
+Follow [telehire-server](https://github.com/AllPein/telehire/tree/master/telehire-server) for backend documentation
 
 ## Usage
 

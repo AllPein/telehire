@@ -62,7 +62,7 @@ const VacancyInfo: FC<Props> = ({ vacancy }) => {
           onClick: () =>
             tg.openTelegramLink(`https://t.me/${vacancy.authorId}`),
           params: {
-            color: 'rgb(97, 179, 82)',
+            color: 'var(--tg-theme-accepted-color)',
           },
         };
       }
