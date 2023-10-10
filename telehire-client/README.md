@@ -60,3 +60,6 @@ yarn dev
 > To do that, you can use [ngrok](https://ngrok.com/), [localtunnel](https://theboroer.github.io/localtunnel-www/) or any other tool for that
 
 You are all done! You can start developing the application.
+
+> **Note**
+> If you want to develop in browser, you also need to provide a [list of theme variables](https://core.telegram.org/bots/webapps#themeparams) in root css file and mock initData field, because they do not exist in browser environment
