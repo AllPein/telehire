@@ -82,25 +82,7 @@ You are all done! You can start developing the application.
 - _Routing:_ Navigation and routing within the application.
 - _Styling:_ CSS styles and styling methodologies.
 
-## Folder structure
-
-src/
-    ├── components/
-    ├── application/
-    │   └── ...
-    ├── services/
-    └── ApiService.ts
-    ├── store/
-    │   ├── actions/
-    │   ├── reducers/
-    │   ├── epics/
-    │   ├── selectors/
-    │   └── ...
-    ├── utils/
-    ├── hooks/
-    ├── models/
-    ├── enums/
-    └── pages/
+## Source folder structure
 
 - _components:_ Reusable UI components
 - _application:_ Main application folder containing router and provider HOCs
