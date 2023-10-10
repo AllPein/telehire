@@ -1,5 +1,5 @@
 import { Button } from '@/components/Button/Button';
-import { Heading1 } from '@/components/Typography/Typography.styles';
+import { Heading6 } from '@/components/Typography/Typography.styles';
 import { history } from '@/utils/history';
 import { ErrorInfo, PureComponent } from 'react';
 import { Wrapper } from './ErrorBoundary.styles';
@@ -43,7 +43,7 @@ class ErrorBoundary extends PureComponent<Props, State> {
     if (this.state.hasError) {
       return (
         <Wrapper>
-          <Heading1>Something went wrong</Heading1>
+          <Heading6>Something went wrong</Heading6>
           <Button block onClick={() => history.push('/')}>
             Return home
           </Button>
