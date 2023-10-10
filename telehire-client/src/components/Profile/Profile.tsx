@@ -18,8 +18,9 @@ import { User } from '@/models/User';
 import { ResumeAction } from '@/store/resume/ResumeActions';
 import { history } from '@/utils/history';
 import { FC, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CVWrapper, InactiveWrapper } from './Profile.styles';
+import { selectCurrentCompany } from '@/store/company/CompanySelectors';
 
 type Props = {
   user: User;
@@ -27,22 +28,13 @@ type Props = {
 
 const Profile: FC<Props> = ({ user }) => {
   const dispatch = useDispatch();
+  const company = useSelector(selectCurrentCompany);
 
   useMainButton({
     onClick: () => history.push('/create-resume'),
-    text: 'Create new',
+    text: 'Create new resume',
     condition: user.loggedInAs === 'applicant',
   });
-
-  const company = useMemo(() => {
-    const currentCompanyId = localStorage.getItem(CURRENT_COMPANY_ID);
-
-    if (currentCompanyId && user.loggedInAs === 'company') {
-      return user?.companyList?.find(
-        (innerCompany: Company) => innerCompany.id === Number(currentCompanyId),
-      );
-    }
-  }, [user]);
 
   const activeResume = useMemo(() => {
     return user.resumes!.find(
@@ -62,7 +54,7 @@ const Profile: FC<Props> = ({ user }) => {
           <SmallWrapper>
             <CompanyItem
               onClick={() => history.push('/companies/' + company?.id)}
-              company={company}
+              company={company ?? undefined}
             />
           </SmallWrapper>
         </BigWrapper>
